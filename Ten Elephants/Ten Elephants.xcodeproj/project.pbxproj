@@ -9,21 +9,25 @@
 /* Begin PBXBuildFile section */
 		1FC26AD0276117B0003B8162 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC26ACF276117B0003B8162 /* AppDelegate.swift */; };
 		1FC26AD2276117B0003B8162 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC26AD1276117B0003B8162 /* SceneDelegate.swift */; };
-		1FC26AD4276117B0003B8162 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC26AD3276117B0003B8162 /* ViewController.swift */; };
-		1FC26AD7276117B0003B8162 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FC26AD5276117B0003B8162 /* Main.storyboard */; };
 		1FC26AD9276117B2003B8162 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1FC26AD8276117B2003B8162 /* Assets.xcassets */; };
 		1FC26ADC276117B2003B8162 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FC26ADA276117B2003B8162 /* LaunchScreen.storyboard */; };
+		1FDE4AB1276216CF002879F8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE4AB0276216CF002879F8 /* TabBarController.swift */; };
+		1FDE4AB3276216DF002879F8 /* SearchPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE4AB2276216DF002879F8 /* SearchPageController.swift */; };
+		1FDE4AB5276216F2002879F8 /* TrendPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE4AB4276216F2002879F8 /* TrendPageController.swift */; };
+		1FDE4AB727621782002879F8 /* MealPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDE4AB627621782002879F8 /* MealPageController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1FC26ACC276117B0003B8162 /* Ten Elephants.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ten Elephants.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FC26ACF276117B0003B8162 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FC26AD1276117B0003B8162 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		1FC26AD3276117B0003B8162 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		1FC26AD6276117B0003B8162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		1FC26AD8276117B2003B8162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1FC26ADB276117B2003B8162 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1FC26ADD276117B2003B8162 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1FDE4AB0276216CF002879F8 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		1FDE4AB2276216DF002879F8 /* SearchPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPageController.swift; sourceTree = "<group>"; };
+		1FDE4AB4276216F2002879F8 /* TrendPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrendPageController.swift; sourceTree = "<group>"; };
+		1FDE4AB627621782002879F8 /* MealPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealPageController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +60,33 @@
 		1FC26ACE276117B0003B8162 /* Ten Elephants */ = {
 			isa = PBXGroup;
 			children = (
-				1FC26ACF276117B0003B8162 /* AppDelegate.swift */,
 				1FC26AD1276117B0003B8162 /* SceneDelegate.swift */,
-				1FC26AD3276117B0003B8162 /* ViewController.swift */,
-				1FC26AD5276117B0003B8162 /* Main.storyboard */,
+				1FC26ACF276117B0003B8162 /* AppDelegate.swift */,
+				1FDE4AB827621798002879F8 /* Views */,
+				1FDE4AAF2762166A002879F8 /* Controllers */,
 				1FC26AD8276117B2003B8162 /* Assets.xcassets */,
 				1FC26ADA276117B2003B8162 /* LaunchScreen.storyboard */,
 				1FC26ADD276117B2003B8162 /* Info.plist */,
 			);
 			path = "Ten Elephants";
+			sourceTree = "<group>";
+		};
+		1FDE4AAF2762166A002879F8 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				1FDE4AB0276216CF002879F8 /* TabBarController.swift */,
+				1FDE4AB4276216F2002879F8 /* TrendPageController.swift */,
+				1FDE4AB2276216DF002879F8 /* SearchPageController.swift */,
+				1FDE4AB627621782002879F8 /* MealPageController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		1FDE4AB827621798002879F8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +149,6 @@
 			files = (
 				1FC26ADC276117B2003B8162 /* LaunchScreen.storyboard in Resources */,
 				1FC26AD9276117B2003B8162 /* Assets.xcassets in Resources */,
-				1FC26AD7276117B0003B8162 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +159,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1FC26AD4276117B0003B8162 /* ViewController.swift in Sources */,
+				1FDE4AB1276216CF002879F8 /* TabBarController.swift in Sources */,
+				1FDE4AB3276216DF002879F8 /* SearchPageController.swift in Sources */,
 				1FC26AD0276117B0003B8162 /* AppDelegate.swift in Sources */,
+				1FDE4AB5276216F2002879F8 /* TrendPageController.swift in Sources */,
 				1FC26AD2276117B0003B8162 /* SceneDelegate.swift in Sources */,
+				1FDE4AB727621782002879F8 /* MealPageController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		1FC26AD5276117B0003B8162 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				1FC26AD6276117B0003B8162 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		1FC26ADA276117B2003B8162 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -294,7 +310,6 @@
 				INFOPLIST_FILE = "Ten Elephants/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -324,7 +339,6 @@
 				INFOPLIST_FILE = "Ten Elephants/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
