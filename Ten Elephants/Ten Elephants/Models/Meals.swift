@@ -96,22 +96,25 @@ extension Meal: Decodable {
             if let ingredientKey = GenericCodingKeys(stringValue: ingredientKeyName),
                let measureKey = GenericCodingKeys(stringValue: measureKeyName) {
                 guard let ingrName = try? otherContainer.decode(
-                        String.self, forKey: ingredientKey
+                    String.self, forKey: ingredientKey
                 ).trimmingCharacters(in: .whitespaces) else {
                     break // found end of ingredient list
                 }
                 guard let measure = try? otherContainer.decode(
-                        String.self, forKey: measureKey
-                ).trimmingCharacters(in: .whitespaces) else {
+                    String.self, forKey: measureKey
+                ) else {
                     assert(false, "Missing required JSON property: \(measureKeyName)")
                     break
                 }
-                if ingrName.isEmpty && measure.isEmpty {
+                
+                // Measure able to be empty (or whitespace) while corresponding ingredient not. id for testing: 53000
+                if ingrName.isEmpty && measure.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     break // found end of ingredient list
                 }
-                assert(!ingrName.isEmpty && !measure.isEmpty,
-                        "Inconsistency in data: \(ingredientKeyName) and \(measureKeyName)")
-                let ingredient = Ingredient(name: ingrName, measure: measure)
+                
+                assert(!ingrName.isEmpty,
+                       "Inconsistency in data: \(ingredientKeyName) and \(measureKeyName)")
+                let ingredient = Ingredient(name: ingrName, measure: measure.isEmpty ? nil : measure)
                 localIngredients.append(ingredient)
             }
         }
