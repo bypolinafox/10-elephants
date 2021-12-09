@@ -25,7 +25,7 @@ class TabBarController: UITabBarController {
         SearchC.tabBarItem = searchItem
 
         
-        let MealC = MealPageController()
+        let MealC = MealPageController(mealData: createFakeData().meals[0])
         let mealItem = UITabBarItem()
         mealItem.title = "Meal"
         mealItem.image = UIImage(systemName: "heart.text.square")
@@ -36,8 +36,5 @@ class TabBarController: UITabBarController {
             SearchC,
             MealC
         ]
-        
     }
-
-    
 }
