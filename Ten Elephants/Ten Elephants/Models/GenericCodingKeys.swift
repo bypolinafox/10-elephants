@@ -7,15 +7,15 @@
 
 import Foundation
 
-public class GenericCodingKeys: CodingKey {
-    public var stringValue: String
-    public var intValue: Int?
+class GenericCodingKeys: CodingKey {
+    var stringValue: String
+    var intValue: Int?
 
-    required public init?(stringValue: String) {
+    required init?(stringValue: String) {
         self.stringValue = stringValue
     }
 
-    required public init?(intValue: Int) {
+    required init?(intValue: Int) {
         self.intValue = intValue
         stringValue = "\(intValue)"
     }

@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct  Meals: Decodable {
+struct Meals: Decodable {
     enum CodingKeys: String, CodingKey {
         case meals
     }
-    let meals: [MealModel]
+    let meals: [Meal]
 }
 
-struct MealModel: Decodable {
+struct Meal{
     // always present
     let name: String               // strMeal
     let id: String                 // idMeal
@@ -28,19 +28,21 @@ struct MealModel: Decodable {
     let tags: [String]?            // strTags
 
     let ingredients: [Ingredient]? // Ingredient(strIngredient, strMeasure)
+}
 
-    enum RequiredCodingKeys: String, CodingKey, CaseIterable {
-        case strMeal,
-             idMeal,
-             strMealThumb
+extension Meal: Decodable {
+    private enum RequiredCodingKeys: String, CodingKey, CaseIterable {
+        case strMeal
+        case idMeal
+        case strMealThumb
     }
 
-    enum OptionalCodingKeys: String, CodingKey, CaseIterable {
-        case strCategory,
-             strArea,
-             strInstructions,
-             strYoutube,
-             strTags
+    private enum OptionalCodingKeys: String, CodingKey, CaseIterable {
+        case strCategory
+        case strArea
+        case strInstructions
+        case strYoutube
+        case strTags
     }
 
     init(from decoder: Decoder) throws {
@@ -59,21 +61,19 @@ struct MealModel: Decodable {
         self.instructions   = try customContainer.decodeIfPresent(String.self, forKey: .strInstructions)
         self.youTubeLink    = try customContainer.decodeIfPresent(String.self, forKey: .strYoutube)
 
-        if let nonSplitTags = try customContainer.decode(String?.self, forKey: .strTags) {
-            self.tags = nonSplitTags.components(separatedBy: ",")
-        } else {
-            self.tags = nil
+        self.tags = try customContainer.decodeIfPresent(String.self, forKey: .strTags).flatMap {
+            $0.components(separatedBy: ",")
         }
 
         var localIngredients: [Ingredient] = []
 
         let otherContainer = try decoder.container(keyedBy: GenericCodingKeys.self)
-        let decodedKeysCommon = RequiredCodingKeys.allCases.map({ $0.rawValue })
-        let decodedKeysCustom = OptionalCodingKeys.allCases.map({ $0.rawValue })
+        let decodedKeysCommon = RequiredCodingKeys.allCases.map(\.rawValue)
+        let decodedKeysCustom = OptionalCodingKeys.allCases.map(\.rawValue)
 
-        let filteredKeys = otherContainer.allKeys.filter({
+        let filteredKeys = otherContainer.allKeys.filter {
             !decodedKeysCommon.contains($0.stringValue) && !decodedKeysCustom.contains($0.stringValue)
-        })
+        }
 
         // assuming return when having only RequiredCodingKeys
         guard !filteredKeys.isEmpty else {
@@ -81,7 +81,7 @@ struct MealModel: Decodable {
             return
         }
 
-        let filteredKeysNames = filteredKeys.map({ $0.stringValue })
+        let filteredKeysNames = filteredKeys.map(\.stringValue)
 
         for num in 1...20 {
             let ingredientKeyName = "strIndgredient\(num)"
@@ -92,23 +92,22 @@ struct MealModel: Decodable {
                 assertionFailure("Unexpected data format")
                 return
             }
-            if let ingredientKey = GenericCodingKeys(stringValue: ingredientKeyName) {
-                if let measureKey = GenericCodingKeys(stringValue: measureKeyName) {
-                    guard let ingrName = try? otherContainer.decode(String.self, forKey: ingredientKey) else {
-                        break // found end of ingredient list
-                    }
-                    guard let measure = try? otherContainer.decode(String.self, forKey: measureKey) else {
-                        assert(false, "Missing required JSON property: \(measureKeyName)")
-                        break
-                    }
-                    if ingrName.isEmpty && measure.isEmpty {
-                        break // found end of ingredient list
-                    }
-                    assert(!ingrName.isEmpty && !measure.isEmpty,
-                           "Inconsistency in data: \(ingredientKeyName) and \(measureKeyName)")
-                    let ingredient = Ingredient(name: ingrName, measure: measure)
-                    localIngredients.append(ingredient)
+            if let ingredientKey = GenericCodingKeys(stringValue: ingredientKeyName),
+               let measureKey = GenericCodingKeys(stringValue: measureKeyName) {
+                guard let ingrName = try? otherContainer.decode(String.self, forKey: ingredientKey) else {
+                    break // found end of ingredient list
                 }
+                guard let measure = try? otherContainer.decode(String.self, forKey: measureKey) else {
+                    assert(false, "Missing required JSON property: \(measureKeyName)")
+                    break
+                }
+                if ingrName.isEmpty && measure.isEmpty {
+                    break // found end of ingredient list
+                }
+                assert(!ingrName.isEmpty && !measure.isEmpty,
+                       "Inconsistency in data: \(ingredientKeyName) and \(measureKeyName)")
+                let ingredient = Ingredient(name: ingrName, measure: measure)
+                localIngredients.append(ingredient)
             }
         }
         self.ingredients = localIngredients.isEmpty ? nil : localIngredients
