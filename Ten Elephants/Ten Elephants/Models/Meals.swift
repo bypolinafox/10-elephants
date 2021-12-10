@@ -16,11 +16,13 @@ struct Meals: Decodable {
 
 struct Meal{
     // always present
-    let name: String               // strMeal
     let id: String                 // idMeal
-    let thumbnailLink: String      // strMealThumb
+    
+    // can be absent in some cases
+    let name: String?              // strMeal
+    let thumbnailLink: String?     // strMealThumb
 
-    // might be present in full model
+    // might be present only in full model
     let category: String?          // strCategory
     let area: String?              // strArea
     let instructions: String?      // strInstructions
@@ -48,10 +50,12 @@ extension Meal: Decodable {
     init(from decoder: Decoder) throws {
         let commonContainer = try decoder.container(keyedBy: RequiredCodingKeys.self)
 
-        // these values should always be present:
-        self.name           = try commonContainer.decode(String.self, forKey: .strMeal)
+        // this value should always be present:
         self.id             = try commonContainer.decode(String.self, forKey: .idMeal)
-        self.thumbnailLink  = try commonContainer.decode(String.self, forKey: .strMealThumb)
+        
+        // try to get these values, they can be used for preview
+        self.name           = try commonContainer.decodeIfPresent(String.self, forKey: .strMeal)
+        self.thumbnailLink  = try commonContainer.decodeIfPresent(String.self, forKey: .strMealThumb)
 
         let customContainer = try decoder.container(keyedBy: OptionalCodingKeys.self)
 
