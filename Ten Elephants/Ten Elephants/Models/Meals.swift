@@ -84,7 +84,7 @@ extension Meal: Decodable {
         let filteredKeysNames = filteredKeys.map(\.stringValue)
 
         for num in 1...20 {
-            let ingredientKeyName = "strIndgredient\(num)"
+            let ingredientKeyName = "strIngredient\(num)"
             let measureKeyName    = "strMeasure\(num)"
             guard filteredKeysNames.contains(ingredientKeyName) &&
                   filteredKeysNames.contains(measureKeyName) else {
