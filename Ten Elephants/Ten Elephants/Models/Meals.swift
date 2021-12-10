@@ -98,10 +98,14 @@ extension Meal: Decodable {
             }
             if let ingredientKey = GenericCodingKeys(stringValue: ingredientKeyName),
                let measureKey = GenericCodingKeys(stringValue: measureKeyName) {
-                guard let ingrName = try? otherContainer.decode(String.self, forKey: ingredientKey) else {
+                guard let ingrName = try? otherContainer.decode(
+                    String.self, forKey: ingredientKey
+                ).trimmingCharacters(in: .whitespaces) else {
                     break // found end of ingredient list
                 }
-                guard let measure = try? otherContainer.decode(String.self, forKey: measureKey) else {
+                guard let measure = try? otherContainer.decode(
+                    String.self, forKey: measureKey
+                ).trimmingCharacters(in: .whitespaces) else {
                     assert(false, "Missing required JSON property: \(measureKeyName)")
                     break
                 }
