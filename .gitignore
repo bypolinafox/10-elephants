@@ -1,6 +1,9 @@
 # Mac OS
 .DS_Store
 
+# JetBrains
+.idea/
+
 # Xcode
 #
 # gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore

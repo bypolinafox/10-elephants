@@ -4,7 +4,6 @@
 //
 //  Created by Дарья Домрачева on 09.12.2021.
 //
-
 import Foundation
 
 struct Meals: Decodable {
@@ -17,18 +16,16 @@ struct Meals: Decodable {
 struct Meal{
     // always present
     let id: String                 // idMeal
-    
+
     // can be absent in some cases
     let name: String?              // strMeal
     let thumbnailLink: String?     // strMealThumb
-
     // might be present only in full model
     let category: String?          // strCategory
     let area: String?              // strArea
     let instructions: String?      // strInstructions
     let youTubeLink: String?       // strYoutube
     let tags: [String]?            // strTags
-
     let ingredients: [Ingredient]? // Ingredient(strIngredient, strMeasure)
 }
 
@@ -52,7 +49,7 @@ extension Meal: Decodable {
 
         // this value should always be present:
         self.id             = try commonContainer.decode(String.self, forKey: .idMeal)
-        
+
         // try to get these values, they can be used for preview
         self.name           = try commonContainer.decodeIfPresent(String.self, forKey: .strMeal)
         self.thumbnailLink  = try commonContainer.decodeIfPresent(String.self, forKey: .strMealThumb)
@@ -91,7 +88,7 @@ extension Meal: Decodable {
             let ingredientKeyName = "strIngredient\(num)"
             let measureKeyName    = "strMeasure\(num)"
             guard filteredKeysNames.contains(ingredientKeyName) &&
-                  filteredKeysNames.contains(measureKeyName) else {
+                          filteredKeysNames.contains(measureKeyName) else {
                 self.ingredients = nil
                 assertionFailure("Unexpected data format")
                 return
@@ -99,12 +96,12 @@ extension Meal: Decodable {
             if let ingredientKey = GenericCodingKeys(stringValue: ingredientKeyName),
                let measureKey = GenericCodingKeys(stringValue: measureKeyName) {
                 guard let ingrName = try? otherContainer.decode(
-                    String.self, forKey: ingredientKey
+                        String.self, forKey: ingredientKey
                 ).trimmingCharacters(in: .whitespaces) else {
                     break // found end of ingredient list
                 }
                 guard let measure = try? otherContainer.decode(
-                    String.self, forKey: measureKey
+                        String.self, forKey: measureKey
                 ).trimmingCharacters(in: .whitespaces) else {
                     assert(false, "Missing required JSON property: \(measureKeyName)")
                     break
@@ -113,7 +110,7 @@ extension Meal: Decodable {
                     break // found end of ingredient list
                 }
                 assert(!ingrName.isEmpty && !measure.isEmpty,
-                       "Inconsistency in data: \(ingredientKeyName) and \(measureKeyName)")
+                        "Inconsistency in data: \(ingredientKeyName) and \(measureKeyName)")
                 let ingredient = Ingredient(name: ingrName, measure: measure)
                 localIngredients.append(ingredient)
             }
