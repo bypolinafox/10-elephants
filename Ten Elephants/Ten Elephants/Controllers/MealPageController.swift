@@ -60,6 +60,7 @@ final class MealPageController: UIViewController {
         configureImageContainer()
         configureMealImage()
         configureTitleView()
+        configureLikeButton()
         configureIngridientStack()
         configureRecipeStack()
         configureCloseButton()
@@ -74,6 +75,17 @@ final class MealPageController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
+    }
+    
+    //MARK: - setLiked()
+    //executes when like button is pressed
+    @objc private func updateLike(_ sender: LikeButton){
+        sender.isLiked = !sender.isLiked
+    }
+    
+    //executes when close button is pressed
+    @objc private func close(_ sender: CloseButton){
+        //does nothing for now
     }
     
     private func fillMealData() {
@@ -168,6 +180,10 @@ final class MealPageController: UIViewController {
         ])
     }
     
+    private func configureLikeButton(){
+        likeButton.addTarget(self, action: #selector(updateLike), for: .touchUpInside)
+    }
+    
     private func configureIngridientStack(){
         NSLayoutConstraint.activate([
             ingridientStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
@@ -191,6 +207,7 @@ final class MealPageController: UIViewController {
     }
     
     private func configureCloseButton(){
+        closeButton.addTarget(self, action: #selector(close), for: .touchUpInside)
         NSLayoutConstraint.activate([
             closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Constants.closeButtonRightMargin),
             closeButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: Constants.closeButtonTopMargin),
