@@ -102,7 +102,7 @@ final class MealPageController: UIViewController {
             return
         }
         for ingridient in ingridients {
-            let ingridientCell = factory.makeIngridientCell(name: ingridient.name, measure: ingridient.measure, emoji: "😋")
+            let ingridientCell = factory.makeIngridientCell(name: ingridient.name, measure: ingridient.measure ?? "", emoji: "😋")
             ingridientStack.addArrangedSubview(ingridientCell)
         }
     }
