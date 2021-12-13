@@ -51,17 +51,7 @@ class MealViewFactory {
     }
     
     func makeCloseButton() -> UIButton {
-        let button = UIButton()
-        button.setTitle(nil, for: .normal)
-        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
-        let icon = UIImage(systemName: Constants.crossIconName, withConfiguration: config)
-        button.setImage(icon, for: .normal)
-        button.tintColor = .label
-        button.frame = CGRect(origin: .zero, size: Constants.closeButtonSize)
-        let cornerRadius = button.frame.height / 2
-        button.layer.cornerRadius = cornerRadius
-        button.addBlurEffect(cornerRadius: cornerRadius)
-        return button
+        return CloseButton()
     }
     
     func makeMealImageView() -> UIImageView {
@@ -102,22 +92,10 @@ class MealViewFactory {
     }
     
     func makeLikeButton(isLiked: Bool) -> UIButton {
-        let button = UIButton()
-        button.setTitle(nil, for: .normal)
-        
-        button.contentMode = .right
-        button.imageView?.contentMode = .scaleAspectFit
-        
-        let iconName = isLiked ? Constants.heartFillSystemName : Constants.heartSystemName
-        button.tintColor = isLiked ? .red : .label
-        
-        let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .medium)
-        let icon = UIImage(systemName: iconName, withConfiguration: config)
-        button.setImage(icon, for: .normal)
-        
-        button.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        
-        return button
+        let likeButton = LikeButton(isLiked: isLiked)
+        likeButton.contentMode = .right
+        likeButton.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        return likeButton
     }
     
     

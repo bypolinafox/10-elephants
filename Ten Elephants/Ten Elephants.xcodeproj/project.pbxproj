@@ -21,9 +21,10 @@
 		43BEF2842761F68700E42C33 /* Meals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEF2832761F68700E42C33 /* Meals.swift */; };
 		43BEF286276215C700E42C33 /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEF285276215C700E42C33 /* Ingredient.swift */; };
 		43BEF28B27628A5200E42C33 /* GenericCodingKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEF28A27628A5200E42C33 /* GenericCodingKeys.swift */; };
+		DF30420B2766814C0066DBEF /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF30420A2766814C0066DBEF /* CloseButton.swift */; };
+		DF30420D276687990066DBEF /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF30420C276687990066DBEF /* LikeButton.swift */; };
 		DFAA85CC2764BB4A0032DC85 /* Fake.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAA85CB2764BB490032DC85 /* Fake.swift */; };
 		E9E710752766773600C49F48 /* MealViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E710732766773600C49F48 /* MealViewFactory.swift */; };
-		E9E710762766773600C49F48 /* AddBlurEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E710742766773600C49F48 /* AddBlurEffect.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,9 +55,10 @@
 		43BEF2832761F68700E42C33 /* Meals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meals.swift; sourceTree = "<group>"; };
 		43BEF285276215C700E42C33 /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		43BEF28A27628A5200E42C33 /* GenericCodingKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericCodingKeys.swift; sourceTree = "<group>"; };
+		DF30420A2766814C0066DBEF /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
+		DF30420C276687990066DBEF /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
 		DFAA85CB2764BB490032DC85 /* Fake.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fake.swift; sourceTree = "<group>"; };
 		E9E710732766773600C49F48 /* MealViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealViewFactory.swift; sourceTree = "<group>"; };
-		E9E710742766773600C49F48 /* AddBlurEffect.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddBlurEffect.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,8 +127,9 @@
 		1FDE4AB827621798002879F8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E9E710742766773600C49F48 /* AddBlurEffect.swift */,
 				E9E710732766773600C49F48 /* MealViewFactory.swift */,
+				DF30420A2766814C0066DBEF /* CloseButton.swift */,
+				DF30420C276687990066DBEF /* LikeButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				1FDE4AB1276216CF002879F8 /* TabBarController.swift in Sources */,
 				430F422F2764BF75001DE6BB /* MealsDataProvider.swift in Sources */,
 				1FDE4AB3276216DF002879F8 /* SearchPageController.swift in Sources */,
+				DF30420B2766814C0066DBEF /* CloseButton.swift in Sources */,
 				430F42312764BFE3001DE6BB /* MealsDataProviderStub.swift in Sources */,
 				43BEF2842761F68700E42C33 /* Meals.swift in Sources */,
 				43BEF28B27628A5200E42C33 /* GenericCodingKeys.swift in Sources */,
@@ -271,8 +275,8 @@
 				1FC26AD0276117B0003B8162 /* AppDelegate.swift in Sources */,
 				1FDE4AB5276216F2002879F8 /* TrendPageController.swift in Sources */,
 				1FC26AD2276117B0003B8162 /* SceneDelegate.swift in Sources */,
+				DF30420D276687990066DBEF /* LikeButton.swift in Sources */,
 				1FDE4AB727621782002879F8 /* MealPageController.swift in Sources */,
-				E9E710762766773600C49F48 /* AddBlurEffect.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
