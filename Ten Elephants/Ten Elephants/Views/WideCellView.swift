@@ -18,7 +18,7 @@ final class WideCellView: UICollectionViewCell {
         static let imageBottomGap: CGFloat = -60
         static let shadowOpacity: Float = 0.2
         static let shadowRadius: CGFloat = 3
-        static let shadowColor = UIColor.black.cgColor
+        static let shadowColor = UIColor.label.cgColor
         static let shadowOffset = CGSize(width: 0.0, height: 1.0)
     }
 
@@ -100,7 +100,6 @@ extension WideCellView {
     private func makeImageView() -> UIImageView {
         let image = UIImageView()
         image.backgroundColor = .systemFill
-        image.image = UIImage(named: "sampleImage")
         image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
