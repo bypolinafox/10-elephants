@@ -7,7 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14FD71FBD7FA3C2AFDA7DAB6 /* UIMeals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7E61068FFFD13D2EEF04 /* UIMeals.swift */; };
+		14FD761E55C129216DBA8BF5 /* DBDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD704149414CDA8D77FB65 /* DBDataProvider.swift */; };
 		14FD76823CBB2F9664A153F7 /* WideCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD74DF6B0FA3921D7E066E /* WideCellView.swift */; };
+		14FD7E1D0C8CE63093E664E8 /* UIMeals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD703B7696CC9277B935DD /* UIMeals.swift */; };
 		14FD7F4FED201791E182456E /* MealViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7C53EE8DFD1416FABAEB /* MealViewFactory.swift */; };
 		1F746E292767779A00BF0EC1 /* CachedImageFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F746E282767779A00BF0EC1 /* CachedImageFetcher.swift */; };
 		1FC26AD0276117B0003B8162 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FC26ACF276117B0003B8162 /* AppDelegate.swift */; };
@@ -45,8 +48,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		14FD703B7696CC9277B935DD /* UIMeals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIMeals.swift; path = UIModels/UIMeals.swift; sourceTree = "<group>"; };
+		14FD704149414CDA8D77FB65 /* DBDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBDataProvider.swift; sourceTree = "<group>"; };
 		14FD74DF6B0FA3921D7E066E /* WideCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WideCellView.swift; sourceTree = "<group>"; };
 		14FD7C53EE8DFD1416FABAEB /* MealViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealViewFactory.swift; sourceTree = "<group>"; };
+		14FD7E61068FFFD13D2EEF04 /* UIMeals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIMeals.swift; sourceTree = "<group>"; };
 		1F746E282767779A00BF0EC1 /* CachedImageFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachedImageFetcher.swift; sourceTree = "<group>"; };
 		1FC26ACC276117B0003B8162 /* Ten Elephants.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ten Elephants.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FC26ACF276117B0003B8162 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -102,6 +108,15 @@
 			path = Cache;
 			sourceTree = "<group>";
 		};
+		14FD7C1FDD6910F86AF78C99 /* UIModels */ = {
+			isa = PBXGroup;
+			children = (
+				14FD7E61068FFFD13D2EEF04 /* UIMeals.swift */,
+				14FD704149414CDA8D77FB65 /* DBDataProvider.swift */,
+			);
+			path = UIModels;
+			sourceTree = "<group>";
+		};
 		1FC26AC3276117B0003B8162 = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +150,8 @@
 				1FC26ADA276117B2003B8162 /* LaunchScreen.storyboard */,
 				4266C20027676411009E9BCD /* Main.storyboard */,
 				1FC26ADD276117B2003B8162 /* Info.plist */,
+				14FD703B7696CC9277B935DD /* UIMeals.swift */,
+				14FD7C1FDD6910F86AF78C99 /* UIModels */,
 			);
 			path = "Ten Elephants";
 			sourceTree = "<group>";
@@ -331,6 +348,9 @@
 				14FD76823CBB2F9664A153F7 /* WideCellView.swift in Sources */,
 				14FD7F4FED201791E182456E /* MealViewFactory.swift in Sources */,
 				430F423927672C45001DE6BB /* PreviewCellView.swift in Sources */,
+				14FD7E1D0C8CE63093E664E8 /* UIMeals.swift in Sources */,
+				14FD71FBD7FA3C2AFDA7DAB6 /* UIMeals.swift in Sources */,
+				14FD761E55C129216DBA8BF5 /* DBDataProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

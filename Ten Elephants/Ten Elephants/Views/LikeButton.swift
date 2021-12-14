@@ -35,8 +35,8 @@ class LikeButton: UIButton {
         }
     }
     
-    init(isLiked: Bool){
-        self.isLiked = isLiked
+    init(){
+        self.isLiked = false
         super.init(frame: .zero)
         
         updateImage()
