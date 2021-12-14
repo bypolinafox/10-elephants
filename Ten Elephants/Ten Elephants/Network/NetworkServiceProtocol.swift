@@ -15,8 +15,7 @@ protocol NetworkServiceProtocol {
     
     func getRandomMeals(completion: @escaping mealsCompletion)
     
-//   TODO: Uncomment when fix Ingredients
-//   func getFullIngredientsList(completion: @escaping (Result<[Ingredient], NetworkFetchingError>) -> Void)
+   func getFullIngredientsList(completion: @escaping (Result<FullIngredients, NetworkFetchingError>) -> Void)
     
     func getFilteredMealList(ingredient: String, completion: @escaping mealsCompletion)
     

@@ -16,10 +16,10 @@ final class NetworkService: NetworkServiceProtocol {
     func getRandomMeals(completion: @escaping mealsCompletion) {
         request(type: .randomMeals, completion: completion)
     }
-//    TODO: Uncomment when fix Ingredients
-//    func getFullIngredientsList(completion: @escaping (Result<[Ingredient], NetworkFetchingError>) -> Void) {
-//        request(type: .ingrediendsList, completion: completion)
-//    }
+
+    func getFullIngredientsList(completion: @escaping (Result<FullIngredients, NetworkFetchingError>) -> Void) {
+        request(type: .ingrediendsList, completion: completion)
+    }
     
     func getFilteredMealList(ingredient: String, completion: @escaping mealsCompletion) {
         request(
