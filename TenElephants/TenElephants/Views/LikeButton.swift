@@ -22,7 +22,7 @@ final class LikeButton: UIButton {
     }
 
     // достаточно просто выставить isLiked, и кнопка поменяет внешний вид
-    var isLiked: Bool = false {
+    var isLiked: Bool {
         didSet {
             updateImage()
         }
@@ -40,6 +40,7 @@ final class LikeButton: UIButton {
     }
 
     init() {
+        self.isLiked = false
         super.init(frame: .zero)
         updateImage()
     }

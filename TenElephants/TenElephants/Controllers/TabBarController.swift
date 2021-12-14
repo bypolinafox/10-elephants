@@ -26,13 +26,23 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let TrendC = TrendPageController()
+        let likeC = LikePageController(
+                dataProvider: dataProvider,
+                imageFetcher: imageFetcher,
+                networkService: networkService
+        )
+        let likeItem = UITabBarItem()
+        likeItem.title = "Like"
+        likeItem.image = UIImage(systemName: "heart")
+        likeC.tabBarItem = likeItem
+
+        let trendC = TrendPageController()
         let trendItem = UITabBarItem()
         trendItem.title = "Trend"
         trendItem.image = UIImage(systemName: "chart.line.uptrend.xyaxis")
-        TrendC.tabBarItem = trendItem
+        trendC.tabBarItem = trendItem
 
-        let SearchC = SearchPageController(
+        let searchC = SearchPageController(
             networkService: networkService,
             recentProvider: recentsProvider,
             imageFetcher: imageFetcher,
@@ -40,38 +50,16 @@ final class TabBarController: UITabBarController {
                 self?.openSingleMeal(meal: meal)
             }
         )
+
         let searchItem = UITabBarItem()
         searchItem.title = "Search"
         searchItem.image = UIImage(systemName: "magnifyingglass")
-        SearchC.tabBarItem = searchItem
-
-        let MealC = MealPageController(
-            mealData:
-            UIMeal(
-                mealObj: Meal(
-                    id: "testID",
-                    name: "potato",
-                    thumbnailLink: "https://www.themealdb.com/images/media/meals/uttupv1511815050.jpg",
-                    category: "Category",
-                    area: "Area",
-                    instructions: "instructions instructions instructions instructions instructions instructions",
-                    youTubeLink: nil,
-                    tags: ["tag1", "tag2", "tag3", "tag4"],
-                    ingredients: nil
-                ),
-                dataProvider: dataProvider
-            ),
-            imageFetcher: imageFetcher
-        )
-        let mealItem = UITabBarItem()
-        mealItem.title = "Meal"
-        mealItem.image = UIImage(systemName: "heart.text.square")
-        MealC.tabBarItem = mealItem
+        searchC.tabBarItem = searchItem
 
         self.viewControllers = [
-            TrendC,
-            SearchC,
-            MealC,
+            trendC,
+            searchC,
+            likeC
         ]
     }
 }
