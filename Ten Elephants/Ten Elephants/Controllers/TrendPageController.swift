@@ -24,7 +24,10 @@ class TrendPageController: UIViewController {
         static let reuseIdH:  String = "hCell"
         static let reuseIdV:  String = "vCell"
         static let reuseHead: String = "headerView"
-        
+
+        static let cellsToShowV: Int = 2
+        static let cellsToShowH: Int = 5
+
         static let interGroupSpacing: CGFloat = 20
         static let itemContentInsets = NSDirectionalEdgeInsets(
             top: 0.0, leading: 8.0, bottom: 0.0, trailing: 8.0
@@ -175,7 +178,13 @@ extension TrendPageController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.meals.count
+        guard let s = Section(rawValue: section) else { fatalError("No section provided") }
+        switch s {
+        case .horizontal:
+            return viewModel.meals.isEmpty ? Constants.cellsToShowH : viewModel.meals.count
+        case .vertical:
+            return viewModel.meals.isEmpty ? Constants.cellsToShowV : viewModel.meals.count
+        }
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
