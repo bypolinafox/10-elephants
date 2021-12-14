@@ -33,6 +33,7 @@
 		43BEF2842761F68700E42C33 /* Meals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEF2832761F68700E42C33 /* Meals.swift */; };
 		43BEF286276215C700E42C33 /* Ingredient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEF285276215C700E42C33 /* Ingredient.swift */; };
 		43BEF28B27628A5200E42C33 /* GenericCodingKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEF28A27628A5200E42C33 /* GenericCodingKeys.swift */; };
+		43E8CED92768A54100C3F357 /* MealsDataProviderNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E8CED82768A54100C3F357 /* MealsDataProviderNetwork.swift */; };
 		DF30420B2766814C0066DBEF /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF30420A2766814C0066DBEF /* CloseButton.swift */; };
 		DF30420D276687990066DBEF /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF30420C276687990066DBEF /* LikeButton.swift */; };
 /* End PBXBuildFile section */
@@ -77,6 +78,7 @@
 		43BEF2832761F68700E42C33 /* Meals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meals.swift; sourceTree = "<group>"; };
 		43BEF285276215C700E42C33 /* Ingredient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ingredient.swift; sourceTree = "<group>"; };
 		43BEF28A27628A5200E42C33 /* GenericCodingKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericCodingKeys.swift; sourceTree = "<group>"; };
+		43E8CED82768A54100C3F357 /* MealsDataProviderNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsDataProviderNetwork.swift; sourceTree = "<group>"; };
 		DF30420A2766814C0066DBEF /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		DF30420C276687990066DBEF /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
 		E9E710732766773600C49F48 /* MealViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealViewFactory.swift; sourceTree = "<group>"; };
@@ -212,6 +214,7 @@
 			children = (
 				430F42302764BFE3001DE6BB /* MealsDataProviderStub.swift */,
 				430F422E2764BF75001DE6BB /* MealsDataProvider.swift */,
+				43E8CED82768A54100C3F357 /* MealsDataProviderNetwork.swift */,
 			);
 			path = DataProvider;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				14FD7E1D0C8CE63093E664E8 /* UIMeals.swift in Sources */,
 				14FD71FBD7FA3C2AFDA7DAB6 /* UIMeals.swift in Sources */,
 				14FD761E55C129216DBA8BF5 /* DBDataProvider.swift in Sources */,
+				43E8CED92768A54100C3F357 /* MealsDataProviderNetwork.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

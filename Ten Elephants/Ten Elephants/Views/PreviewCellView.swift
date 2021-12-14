@@ -14,6 +14,7 @@ final class PreviewCellView: UICollectionViewCell {
     lazy var imageView     = makeImageView()
     lazy var containerView = makeContainerView()
     lazy var shadowLayer   = makeShadowLayer()
+    lazy var indicator     = makeActivityIndicator()
     
     private enum Constants {
         static let titleFontSize: CGFloat = 18
@@ -33,6 +34,7 @@ final class PreviewCellView: UICollectionViewCell {
         contentView.layer.cornerRadius = Constants.cornerRadius
         containerView.addSubview(titleLabel)
         containerView.addSubview(imageView)
+        containerView.addSubview(indicator)
         contentView.clipsToBounds = true
         contentView.addSubview(containerView)
     }
@@ -72,7 +74,6 @@ extension PreviewCellView {
             )
         )
         image.backgroundColor = .systemFill
-        image.image = UIImage(named: "sampleImage")
         image.layer.cornerRadius = Constants.imCornRadius
         image.layer.masksToBounds = true
         image.contentMode = .scaleAspectFill
@@ -96,5 +97,12 @@ extension PreviewCellView {
         shadowLayer.shadowRadius = Constants.shadowRadius
 
         return shadowLayer
+    }
+
+    func makeActivityIndicator() -> UIActivityIndicatorView {
+        let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        indicator.style = UIActivityIndicatorView.Style.medium
+        indicator.center = CGPoint(x: 0.75 * self.contentView.frame.width, y: self.contentView.center.y)
+        return indicator
     }
 }

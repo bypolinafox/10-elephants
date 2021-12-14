@@ -11,7 +11,8 @@ class TrendPageController: UIViewController {
 
     var viewModelH = Meals(meals: [])
     var viewModelV = Meals(meals: [])
-    let provider = MealsDataProviderStub()
+    // TODO: receive networkService from TabBar
+    let provider = MealsDataProviderNetwork(networkService: NetworkService())
     let imageFetcher = CachedImageFetcher()
 
     enum Section: Int {
@@ -37,7 +38,7 @@ class TrendPageController: UIViewController {
             top: 16.0, leading: 0.0, bottom: 16.0, trailing: 0.0
         )
     }
-    
+
     private lazy var compositionalLayout: UICollectionViewCompositionalLayout = {
             let layout = UICollectionViewCompositionalLayout { [weak self]
                 (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
@@ -105,7 +106,7 @@ class TrendPageController: UIViewController {
         // group properties
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(180)
+            heightDimension: .absolute(150)
         )
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize,
@@ -157,8 +158,8 @@ class TrendPageController: UIViewController {
                     }
                     self.collectionView.reloadData()
                 }
-            case let .failure(error):
-                fatalError(error.localizedDescription)
+            case let .failure(error): // TODO: proper error handling
+                print(error.localizedDescription)
             }
         }
     }
@@ -205,19 +206,23 @@ extension TrendPageController: UICollectionViewDataSource {
                 return reusableCell
             }
 
-            guard !viewModelH.meals.isEmpty else {return reusableCell}
-            let item = viewModelH.meals[indexPath.row]
-            cell.titleLabel.text = item.name
-            cell.subtitleLabel.text = item.id
-
-            guard let link = item.thumbnailLink,
-                  let url = NSURL(string: link) else {
-                return cell
+            cell.isLoading = false
+            if viewModelH.meals.isEmpty {
+                cell.isLoading = true
+                cell.titleLabel.text = "Loading..."
+                cell.subtitleLabel.text = ""
+            } else {
+                let item = viewModelH.meals[indexPath.row]
+                cell.titleLabel.text = item.name
+                cell.subtitleLabel.text = item.id
+                guard let link = item.thumbnailLink,
+                      let url = NSURL(string: link) else {
+                    return cell
+                }
+                imageFetcher.fetch(url: url) { image in
+                        cell.imageView.image = image
+                }
             }
-            imageFetcher.fetch(url: url) { image in
-                    cell.imageView.image = image
-            }
-
             return cell
         case .vertical:
             let reusableCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.reuseIdV, for: indexPath)
@@ -225,18 +230,21 @@ extension TrendPageController: UICollectionViewDataSource {
                 return reusableCell
             }
 
-            guard !viewModelV.meals.isEmpty else {return reusableCell}
-            let item = viewModelV.meals[indexPath.row]
-            cell.titleLabel.text = item.name
-
-            guard let link = item.thumbnailLink,
-                  let url = NSURL(string: link) else {
-                return cell
+            if viewModelV.meals.isEmpty {
+                cell.indicator.startAnimating()
+            } else {
+                cell.indicator.stopAnimating()
+                cell.indicator.hidesWhenStopped = true
+                let item = viewModelV.meals[indexPath.row]
+                cell.titleLabel.text = item.name
+                guard let link = item.thumbnailLink,
+                      let url = NSURL(string: link) else {
+                    return cell
+                }
+                imageFetcher.fetch(url: url) { image in
+                        cell.imageView.image = image
+                }
             }
-            imageFetcher.fetch(url: url) { image in
-                    cell.imageView.image = image
-            }
-
             return cell
         }
     }
