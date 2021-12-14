@@ -5,6 +5,9 @@ enum RequestType {
     case randomMeals
     case ingrediendsList
     case mealsByIngredient(ingredient: String)
+    case mealsByMultipleIngredients(ingredients: [String])
+    case mealsByName(name: String)
+    case latestMeals
 }
 
 extension RequestType {
@@ -19,6 +22,12 @@ extension RequestType {
           return ["i": "list"]
       case let .mealsByIngredient(ingredient: ingredient):
           return ["i": ingredient]
+      case let .mealsByMultipleIngredients(ingredients: ingredients):
+          return ["i": ingredients.joined(separator: ",")]
+      case let .mealsByName(name: name):
+          return ["s": name]
+      case .latestMeals:
+          return [:]
       }
     }
     
@@ -36,6 +45,12 @@ extension RequestType {
             return "list"
         case .mealsByIngredient:
             return "filter"
+        case .mealsByMultipleIngredients:
+            return "filter"
+        case .mealsByName:
+            return "search"
+        case .latestMeals:
+            return "latest"
         }
     }
     

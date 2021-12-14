@@ -8,19 +8,40 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-
+    
+    private var networkService = NetworkService()
+    private var imageFetcher = CachedImageFetcher()
+    private lazy var recentsProvider = RecentsProvider(networkService: networkService)
+    private let dataProvider = UserDefaultsDataProvider()
+    
+    func openSingleMeal (meal:Meal) {
+        let uiMeal = UIMeal(mealObj: meal, dataProvider: dataProvider)
+        let singleMealController = MealPageController(mealData: uiMeal, imageFetcher: imageFetcher)
+        
+        singleMealController.modalPresentationStyle = .fullScreen
+        singleMealController.modalTransitionStyle = .coverVertical
+        
+        self.present(singleMealController, animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let dataProvider = UserDefaultsDataProvider()
+        
 
         let TrendC = TrendPageController()
         let trendItem = UITabBarItem()
         trendItem.title = "Trend"
         trendItem.image = UIImage(systemName: "chart.line.uptrend.xyaxis")
         TrendC.tabBarItem = trendItem
-
-        let SearchC = SearchPageController()
+        
+        let SearchC = SearchPageController(
+            networkService: networkService,
+            recentProvider: recentsProvider,
+            imageFetcher: imageFetcher,
+            openSingleMeal: { [weak self] meal in
+                self?.openSingleMeal(meal: meal) }
+        )
         let searchItem = UITabBarItem()
         searchItem.title = "Search"
         searchItem.image = UIImage(systemName: "magnifyingglass")
@@ -39,9 +60,8 @@ class TabBarController: UITabBarController {
                 tags: ["tag1", "tag2", "tag3", "tag4"],
                 ingredients: nil),
                 dataProvider: dataProvider
+        ), imageFetcher: imageFetcher
         )
-        )
-
         let mealItem = UITabBarItem()
         mealItem.title = "Meal"
         mealItem.image = UIImage(systemName: "heart.text.square")

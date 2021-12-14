@@ -26,8 +26,8 @@ class MealViewFactory {
 
         static let titleFontSize: CGFloat = 30
         static let secondaryTitleFontSize: CGFloat = 20
-        static let recipeTitle = "Рецепт"
-        static let ingridientsTitle = "Ингридиенты"
+        static let recipeTitle = "Recipe"
+        static let ingridientsTitle = "Ingredients"
         static let crossIconName = "xmark"
         static let closeButtonTopMargin: CGFloat = 50
         static let closeButtonRightMargin: CGFloat = 25
@@ -144,7 +144,7 @@ class MealViewFactory {
         cellStack.distribution = .fill
         cellStack.alignment = .center
         cellStack.axis = .horizontal
-        cellStack.layoutMargins = UIEdgeInsets(top: 7, left: 10, bottom: 7, right: 10)
+        cellStack.layoutMargins = UIEdgeInsets(top: 2, left: 10, bottom: 2, right: 10)
         cellStack.isLayoutMarginsRelativeArrangement = true
         cellStack.backgroundColor = .secondarySystemBackground
         cellStack.layer.cornerRadius = 10
@@ -157,6 +157,7 @@ class MealViewFactory {
     // is used to make ingridient labels and recipe labels
     func makeRecipeLabel() -> UILabel {
         let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20)
         label.numberOfLines = 0
         return label
     }

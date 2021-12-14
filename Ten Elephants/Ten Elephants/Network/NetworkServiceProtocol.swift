@@ -19,6 +19,11 @@ protocol NetworkServiceProtocol {
     
     func getFilteredMealList(ingredient: String, completion: @escaping mealsCompletion)
     
+    func getMealListFiltered(by ingridients: [String], completion: @escaping mealsCompletion)
+    
+    func searchMealByName(name: String, completion: @escaping mealsCompletion)
+    
+    func getLatestMeals(completion: @escaping mealsCompletion)
 }
 
 enum NetworkFetchingError: Error {

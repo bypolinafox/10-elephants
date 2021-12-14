@@ -11,13 +11,14 @@ final class MealPageController: UIViewController {
     private struct Constants {
         static let heartSize = CGSize(width: 40, height: 40)
         static let closeButtonSize = CGSize(width: 40, height: 40)
-        static let closeButtonTopMargin: CGFloat = 5
+        static let closeButtonTopMargin: CGFloat = 16
         static let closeButtonRightMargin: CGFloat = -16
         static let defaultEmoji: String = "😋"
     }
 
     private let factory = MealViewFactory()
-
+    private let imageFetcher: CachedImageFetcher
+    
     private lazy var scrollView = factory.makeScrollView()
     private lazy var contentStackView = factory.makeContentStackView()
     private lazy var closeButton = factory.makeCloseButton()
@@ -37,9 +38,9 @@ final class MealPageController: UIViewController {
 
     var mealData: UIMeal
 
-    init(mealData: UIMeal) {
+    init(mealData: UIMeal, imageFetcher: CachedImageFetcher) {
         self.mealData = mealData
-
+        self.imageFetcher = imageFetcher
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -82,14 +83,23 @@ final class MealPageController: UIViewController {
         sender.isLiked = !sender.isLiked
         mealData.isLiked = sender.isLiked
     }
-
-    // executes when close button is pressed
-    @objc private func close(_ sender: CloseButton) {
-        // does nothing for now
+    
+    //executes when close button is pressed
+    @objc private func close(_ sender: CloseButton){
+        self.dismiss(animated: true, completion: nil)
+    }
+    
+    private func loadImage(url: NSURL){
+        imageFetcher.fetch(url: url, completion: { [weak self] image in
+            guard let self = self else {return}
+            self.mealImageView.image = image
+        })
     }
 
     private func fillMealData() {
-        mealImageView.image = UIImage(named: "coolPotato") // нужно будет поменять на реальную загрузку картинок
+        if let url = mealData.thumbnailLink.flatMap({ NSURL(string: $0) }){
+            loadImage(url: url)
+        }
         titleLabel.text = mealData.name
         fillIngridients(mealData.ingredients)
         recipeLabel.text = mealData.instructions
@@ -132,9 +142,8 @@ final class MealPageController: UIViewController {
         scrollView.addSubview(ingridientStack)
         scrollView.addSubview(recipeStack)
     }
-
-    private func setScrollView() {
-        scrollView.contentInsetAdjustmentBehavior = .never
+    
+    private func setScrollView(){
         scrollView.delegate = self
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),

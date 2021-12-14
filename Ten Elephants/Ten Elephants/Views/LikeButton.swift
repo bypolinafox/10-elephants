@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class LikeButton: UIButton {
+final class LikeButton: UIButton {
     private enum Constants {
         static let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .bold, scale: .medium)
         static let fillIcon = UIImage(systemName: "heart.fill", withConfiguration: config)
