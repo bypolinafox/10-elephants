@@ -13,46 +13,48 @@ final class MealPageController: UIViewController {
         static let closeButtonSize = CGSize(width: 40, height: 40)
         static let closeButtonTopMargin: CGFloat = 5
         static let closeButtonRightMargin: CGFloat = -16
+        static let defaultEmoji: String = "😋"
     }
-    
+
     private let factory = MealViewFactory()
-    
+
     private lazy var scrollView = factory.makeScrollView()
     private lazy var contentStackView = factory.makeContentStackView()
     private lazy var closeButton = factory.makeCloseButton()
     private lazy var mealImageView = factory.makeMealImageView()
     private lazy var titleView = factory.makeTitleView()
     private lazy var titleLabel = factory.makeTitleLabel()
-    private lazy var likeButton = factory.makeLikeButton(isLiked: true) //нужно будет поменять
+    private lazy var likeButton = factory.makeLikeButton()
     private lazy var ingridientStack = factory.makeIngridientsStack()
     private lazy var ingridientsLabel = factory.makeRecipeLabel()
     private lazy var recipeStack = factory.makeRecipeStack()
     private lazy var recipeLabel = factory.makeRecipeLabel()
-    
-    //используется в extension UIScrollViewDelegate
+
+    // используется в extension UIScrollViewDelegate
     private var previousStatusBarHidden = false
-    
+
     let imageContainerView = UIView()
-    
-    var mealData: Meal
-    
-    init(mealData: Meal){
+
+    var mealData: UIMeal
+
+    init(mealData: UIMeal) {
         self.mealData = mealData
+
         super.init(nibName: nil, bundle: nil)
+
+        self.likeButton.isLiked = mealData.isLiked
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("Init from coder is not avaible")
     }
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //putting data
+        // putting data
         fillMealData()
-        
-        
-        //configuring views
+
+        // configuring views
         view.backgroundColor = .systemBackground
         setTranslatingToConstraints()
         addSubviews()
@@ -65,36 +67,37 @@ final class MealPageController: UIViewController {
         configureRecipeStack()
         configureCloseButton()
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.scrollIndicatorInsets = view.safeAreaInsets
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: view.safeAreaInsets.bottom, right: 0)
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.setNeedsStatusBarAppearanceUpdate()
     }
-    
-    //MARK: - setLiked()
-    //executes when like button is pressed
-    @objc private func updateLike(_ sender: LikeButton){
+
+    // MARK: - setLiked()
+    // executes when like button is pressed
+    @objc private func updateLike(_ sender: LikeButton) {
         sender.isLiked = !sender.isLiked
+        mealData.isLiked = sender.isLiked
     }
-    
-    //executes when close button is pressed
-    @objc private func close(_ sender: CloseButton){
-        //does nothing for now
+
+    // executes when close button is pressed
+    @objc private func close(_ sender: CloseButton) {
+        // does nothing for now
     }
-    
+
     private func fillMealData() {
-        mealImageView.image = UIImage(named: "coolPotato") //нужно будет поменять на реальную загрузку картинок
+        mealImageView.image = UIImage(named: "coolPotato") // нужно будет поменять на реальную загрузку картинок
         titleLabel.text = mealData.name
         fillIngridients(mealData.ingredients)
         recipeLabel.text = mealData.instructions
     }
-    
+
     private func fillIngridients(_ ingridients: [Ingredient]?) {
         guard let ingridients = ingridients else {
             ingridientStack.heightAnchor.constraint(equalToConstant: 0).isActive = true
@@ -102,14 +105,13 @@ final class MealPageController: UIViewController {
             return
         }
         for ingridient in ingridients {
-            let ingridientCell = factory.makeIngridientCell(name: ingridient.name, measure: ingridient.measure ?? "", emoji: "😋")
+            let ingridientCell = factory.makeIngridientCell(name: ingridient.name, measure: ingridient.measure ?? "", emoji: Constants.defaultEmoji)
             ingridientStack.addArrangedSubview(ingridientCell)
         }
     }
-    
-    
-    //MARK: - configuring funcs
-    private func setTranslatingToConstraints(){
+
+    // MARK: - configuring funcs
+    private func setTranslatingToConstraints() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         imageContainerView.translatesAutoresizingMaskIntoConstraints = false
         mealImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -118,8 +120,8 @@ final class MealPageController: UIViewController {
         recipeStack.translatesAutoresizingMaskIntoConstraints = false
         closeButton.translatesAutoresizingMaskIntoConstraints = false
     }
-    
-    private func addSubviews(){
+
+    private func addSubviews() {
         view.addSubview(scrollView)
         view.addSubview(closeButton)
         titleView.addArrangedSubview(titleLabel)
@@ -132,8 +134,8 @@ final class MealPageController: UIViewController {
         scrollView.addSubview(ingridientStack)
         scrollView.addSubview(recipeStack)
     }
-    
-    private func setScrollView(){
+
+    private func setScrollView() {
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.delegate = self
         NSLayoutConstraint.activate([
@@ -143,8 +145,8 @@ final class MealPageController: UIViewController {
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
-    
-    private func configureImageContainer(){
+
+    private func configureImageContainer() {
         let imageRatio: CGFloat = 0.75
         NSLayoutConstraint.activate([
             imageContainerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
@@ -153,17 +155,17 @@ final class MealPageController: UIViewController {
             imageContainerView.heightAnchor.constraint(equalTo: imageContainerView.widthAnchor, multiplier: imageRatio)
         ])
     }
-    
-    private func configureMealImage(){
+
+    private func configureMealImage() {
         mealImageView.contentMode = .scaleAspectFill
         mealImageView.clipsToBounds = true
-        
+
         let mealImageTopConstraint = mealImageView.topAnchor.constraint(equalTo: view.topAnchor)
         mealImageTopConstraint.priority = .defaultHigh
 
         let mealImageHeightConstraint = mealImageView.heightAnchor.constraint(greaterThanOrEqualTo: imageContainerView.heightAnchor)
         mealImageHeightConstraint.priority = .required
-        
+
         NSLayoutConstraint.activate([
             mealImageView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor),
             mealImageView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor),
@@ -171,28 +173,28 @@ final class MealPageController: UIViewController {
             mealImageTopConstraint, mealImageHeightConstraint
         ])
     }
-    
-    private func configureTitleView(){
+
+    private func configureTitleView() {
         NSLayoutConstraint.activate([
             titleView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             titleView.topAnchor.constraint(equalTo: mealImageView.bottomAnchor),
             titleView.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
     }
-    
-    private func configureLikeButton(){
+
+    private func configureLikeButton() {
         likeButton.addTarget(self, action: #selector(updateLike), for: .touchUpInside)
     }
-    
-    private func configureIngridientStack(){
+
+    private func configureIngridientStack() {
         NSLayoutConstraint.activate([
             ingridientStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             ingridientStack.topAnchor.constraint(equalTo: titleView.bottomAnchor),
             ingridientStack.widthAnchor.constraint(equalTo: view.widthAnchor)
         ])
     }
-    
-    private func configureRecipeStack(){
+
+    private func configureRecipeStack() {
         guard let instructions = mealData.instructions, !instructions.isEmpty else {
             recipeStack.heightAnchor.constraint(equalToConstant: 0).isActive = true
             recipeStack.isHidden = false
@@ -205,8 +207,8 @@ final class MealPageController: UIViewController {
             recipeStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }
-    
-    private func configureCloseButton(){
+
+    private func configureCloseButton() {
         closeButton.addTarget(self, action: #selector(close), for: .touchUpInside)
         NSLayoutConstraint.activate([
             closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Constants.closeButtonRightMargin),
@@ -221,8 +223,8 @@ extension MealPageController: UIScrollViewDelegate {
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
-    
-    private var shouldHideStatusBar : Bool {
+
+    private var shouldHideStatusBar: Bool {
         let frame = titleLabel.convert(titleView.bounds, to: view)
         return frame.minY < view.safeAreaInsets.top
     }
