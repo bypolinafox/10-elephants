@@ -11,6 +11,7 @@ class TrendPageController: UIViewController {
 
     var viewModel = Meals(meals: [])
     let provider = MealsDataProviderStub()
+    let imageFetcher = CachedImageFetcher()
 
     private enum Constants {
         static let reuseId: String = "Cell"
@@ -75,7 +76,15 @@ extension TrendPageController: UICollectionViewDataSource {
 
         let item = viewModel.meals[indexPath.row]
         cell.titleLabel.text = item.name
-        cell.subtitleLabel.text = item.id
+        cell.subtitleLabel.text = item.category
+
+        guard let link = item.thumbnailLink,
+              let url = NSURL(string: link) else {
+            return cell
+        }
+        imageFetcher.fetch(url: url) { image in
+                cell.imageView.image = image
+        }
 
         return cell
     }
