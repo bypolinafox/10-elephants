@@ -84,7 +84,6 @@ class TrendPageController: UIViewController {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top
         )
-        headerView.pinToVisibleBounds = true
         section.boundarySupplementaryItems = [headerView]
         
         section.contentInsets = Constants.sectionContentInsets
@@ -121,7 +120,6 @@ class TrendPageController: UIViewController {
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top
         )
-        headerView.pinToVisibleBounds = true
         section.boundarySupplementaryItems = [headerView]
         
         section.contentInsets = Constants.sectionContentInsets
@@ -195,6 +193,8 @@ extension TrendPageController: UICollectionViewDataSource {
             guard let cell = reusableCell as? WideCellView else {
                 return reusableCell
             }
+
+            guard !viewModel.meals.isEmpty else {return reusableCell}
             let item = viewModel.meals[indexPath.row]
             cell.titleLabel.text = item.name
             cell.subtitleLabel.text = item.id
@@ -213,6 +213,8 @@ extension TrendPageController: UICollectionViewDataSource {
             guard let cell = reusableCell as? PreviewCellView else {
                 return reusableCell
             }
+
+            guard !viewModel.meals.isEmpty else {return reusableCell}
             let item = viewModel.meals[indexPath.row]
             cell.titleLabel.text = item.name
 
