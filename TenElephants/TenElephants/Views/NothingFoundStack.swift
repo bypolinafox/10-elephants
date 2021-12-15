@@ -14,6 +14,7 @@ final class NothingFoundStack: UIStackView {
         static let nothingFoundTitleLabelFont = UIFont.systemFont(ofSize: 30, weight: .bold)
         static let nothingFoundDesriptionLabelFont = UIFont.systemFont(ofSize: 15)
         static let nothingFoundSpacing: CGFloat = 5
+        static let maxWidth: CGFloat = 300
     }
 
     init(
@@ -30,15 +31,28 @@ final class NothingFoundStack: UIStackView {
 
         let emojiLabel = UILabel()
         emojiLabel.font = Constants.nothingFoundEmojiLabelFont
+        emojiLabel.translatesAutoresizingMaskIntoConstraints = false
         emojiLabel.text = emoji
 
         let titleLabel = UILabel()
         titleLabel.font = Constants.nothingFoundTitleLabelFont
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.textAlignment = .center
+        titleLabel.numberOfLines = 0
         titleLabel.text = title
 
         let descLabel = UILabel()
         descLabel.font = Constants.nothingFoundDesriptionLabelFont
+        descLabel.translatesAutoresizingMaskIntoConstraints = false
+        descLabel.textAlignment = .center
+        descLabel.numberOfLines = 0
         descLabel.text = description
+
+        NSLayoutConstraint.activate([
+            emojiLabel.widthAnchor.constraint(lessThanOrEqualToConstant: Constants.maxWidth),
+            titleLabel.widthAnchor.constraint(lessThanOrEqualToConstant: Constants.maxWidth),
+            descLabel.widthAnchor.constraint(lessThanOrEqualToConstant: Constants.maxWidth),
+        ])
 
         addArrangedSubview(emojiLabel)
         addArrangedSubview(titleLabel)

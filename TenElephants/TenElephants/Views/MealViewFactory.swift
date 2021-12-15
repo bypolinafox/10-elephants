@@ -32,12 +32,13 @@ final class MealViewFactory {
         static let titleFontSize: CGFloat = 30
         static let secondaryTitleFontSize: CGFloat = 20
         static let recipeTitle = "Recipe"
-        static let ingridientsTitle = "Ingredients"
+        static let ingredientsTitle = "Ingredients"
         static let crossIconName = "xmark"
         static let closeButtonTopMargin: CGFloat = 50
         static let closeButtonRightMargin: CGFloat = 25
         static let titleTopMargin: CGFloat = 15
         static let spacing: CGFloat = 10
+        static let defaultEmojis: [String] = ["😋", "🤤", "🥣", "🥢", "🍴", "🍽", "🥡"]
     }
 
     func makeScrollView() -> UIScrollView {
@@ -55,8 +56,8 @@ final class MealViewFactory {
         return stackView
     }
 
-    func makeCloseButton() -> UIButton {
-        CloseButton()
+    func makeRoundButtonWithBlur(type: RoundButtonWithBlur.buttonType) -> UIButton {
+        RoundButtonWithBlur(type: type)
     }
 
     func makeMealImageView() -> UIImageView {
@@ -103,10 +104,10 @@ final class MealViewFactory {
         return likeButton
     }
 
-    func makeIngridientsStack() -> UIStackView {
-        let ingridientsTitle = UILabel()
-        ingridientsTitle.text = Constants.ingridientsTitle
-        ingridientsTitle.font = UIFont.systemFont(
+    func makeIngredientsStack() -> UIStackView {
+        let ingredientsTitle = UILabel()
+        ingredientsTitle.text = Constants.ingredientsTitle
+        ingredientsTitle.font = UIFont.systemFont(
             ofSize: Constants.secondaryTitleFontSize,
             weight: .bold
         )
@@ -119,33 +120,34 @@ final class MealViewFactory {
         stackView.alignment = .fill
         stackView.spacing = Constants.spacing
 
-        stackView.addArrangedSubview(ingridientsTitle)
+        stackView.addArrangedSubview(ingredientsTitle)
 
         return stackView
     }
 
-    func makeIngridientCell(name: String, measure: String, emoji: String?) -> UIStackView {
-        let ingridientName = UILabel()
-        ingridientName.text = name
-        ingridientName.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+    func makeIngredientCell(name: String, measure: String) -> UIStackView {
+        let ingredientName = UILabel()
+        ingredientName.text = name
+        ingredientName.font = UIFont.systemFont(ofSize: 17, weight: .bold)
 
         let quantityName = UILabel()
         quantityName.text = measure
         quantityName.font = UIFont.systemFont(ofSize: 15)
 
         let emojiLabel = UILabel()
-        emojiLabel.text = emoji
+        if let emoji = getEmoji(ingredientName: name) {
+            emojiLabel.text = emoji
+        } else { emojiLabel.text = Constants.defaultEmojis.randomElement() }
         emojiLabel.font = UIFont.systemFont(ofSize: 30)
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false
         emojiLabel.textAlignment = .right
         emojiLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        if emoji == nil { emojiLabel.isHidden = true }
 
         let textStack = UIStackView()
         textStack.axis = .vertical
         textStack.alignment = .leading
         textStack.distribution = .fill
-        textStack.addArrangedSubview(ingridientName)
+        textStack.addArrangedSubview(ingredientName)
         textStack.addArrangedSubview(quantityName)
 
         let cellStack = UIStackView()
@@ -162,7 +164,7 @@ final class MealViewFactory {
         return cellStack
     }
 
-    // is used to make ingridient labels and recipe labels
+    // is used to make ingredient labels and recipe labels
     func makeRecipeLabel() -> UILabel {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 20)
@@ -194,5 +196,18 @@ final class MealViewFactory {
         stackView.addArrangedSubview(recipeLabel)
 
         return stackView
+    }
+
+    func makeTextStackView() -> UIStackView {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        return stackView
+    }
+
+    func makeLoadingScreen(isHidden: Bool) -> LoadingSplashScreen {
+        LoadingSplashScreen(isHidden: isHidden)
     }
 }

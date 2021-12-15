@@ -13,33 +13,48 @@ final class MealPageController: UIViewController {
         static let closeButtonTopMargin: CGFloat = 16
         static let closeButtonRightMargin: CGFloat = -16
         static let defaultEmoji: String = "😋"
+        static let loadingScreenAppearanceDuration: TimeInterval = 0.5
     }
 
     private let factory = MealViewFactory()
     private let imageFetcher: CachedImageFetcher
+    private var preloadedMeal: UIMeal? // is received from init
+    private var randomMeal: UIMeal? // loads from dataProvider
+    private let dataProvider: MealsDataProvider
+    private let likeProvider: DBDataProvider
 
     private lazy var scrollView = factory.makeScrollView()
     private lazy var contentStackView = factory.makeContentStackView()
-    private lazy var closeButton = factory.makeCloseButton()
+    private lazy var roundCornerButton = factory.makeRoundButtonWithBlur(
+        type: preloadedMeal == nil ? .refresh : .close
+    )
     private lazy var mealImageView = factory.makeMealImageView()
     private lazy var titleView = factory.makeTitleView()
     private lazy var titleLabel = factory.makeTitleLabel()
     private lazy var likeButton = factory.makeLikeButton()
-    private lazy var ingridientStack = factory.makeIngridientsStack()
-    private lazy var ingridientsLabel = factory.makeRecipeLabel()
+    private lazy var ingredientStack = factory.makeIngredientsStack()
+    private lazy var ingredientsLabel = factory.makeRecipeLabel()
     private lazy var recipeStack = factory.makeRecipeStack()
     private lazy var recipeLabel = factory.makeRecipeLabel()
+    private lazy var textStackView = factory.makeTextStackView()
+    private lazy var loadingScreen = factory.makeLoadingScreen(isHidden: true)
+    private let imageContainerView = UIView()
+
+    let refreshControl = UIRefreshControl()
 
     // используется в extension UIScrollViewDelegate
     private var previousStatusBarHidden = false
 
-    let imageContainerView = UIView()
-
-    var mealData: UIMeal
-
-    init(mealData: UIMeal, imageFetcher: CachedImageFetcher) {
-        self.mealData = mealData
+    init(
+        meal: UIMeal?,
+        imageFetcher: CachedImageFetcher,
+        dataProvider: MealsDataProvider,
+        likeProvider: DBDataProvider
+    ) {
+        self.preloadedMeal = meal
         self.imageFetcher = imageFetcher
+        self.dataProvider = dataProvider
+        self.likeProvider = likeProvider
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -51,19 +66,24 @@ final class MealPageController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // putting data
-        fillMealData()
+        loadMealData()
+
         // configuring views
+        if preloadedMeal == nil {
+            setLoadingScreenAppearance(shouldHide: false, animated: false)
+            refreshControl.addTarget(self, action: #selector(reload), for: .valueChanged)
+            scrollView.refreshControl = refreshControl
+        }
         view.backgroundColor = .systemBackground
         setTranslatingToConstraints()
         addSubviews()
         setScrollView()
         configureImageContainer()
         configureMealImage()
-        configureTitleView()
         configureLikeButton()
-        configureIngridientStack()
-        configureRecipeStack()
         configureCloseButton()
+        configureTextStackView()
+        configureLoadingScreen()
     }
 
     override func viewDidLayoutSubviews() {
@@ -82,76 +102,137 @@ final class MealPageController: UIViewController {
         self.setNeedsStatusBarAppearanceUpdate()
     }
 
-    // MARK: - setLiked()
+    override func motionBegan(_: UIEvent.EventSubtype, with _: UIEvent?) {
+        loadCocktail()
+    }
+
+    // MARK: - setLiked, close, reload
 
     // executes when like button is pressed
     @objc private func updateLike(_ sender: LikeButton) {
         sender.isLiked = !sender.isLiked
-        mealData.isLiked = sender.isLiked
+        if preloadedMeal != nil {
+            preloadedMeal!.isLiked = sender.isLiked
+        } else if randomMeal != nil {
+            randomMeal!.isLiked = sender.isLiked
+        }
     }
 
     // executes when close button is pressed
-    @objc private func close(_: CloseButton) {
+    @objc private func close() {
         self.dismiss(animated: true, completion: nil)
     }
 
+    @objc private func reload() {
+        self.loadMealData()
+    }
+
+    private func loadCocktail() {
+        // just reloads for now
+        self.loadMealData()
+    }
+
+    // MARK: - working with data
+
+    private func loadMealData() {
+        if let preloadedMeal = preloadedMeal {
+            fillMealData(meal: preloadedMeal)
+            return
+        }
+
+        setLoadingScreenAppearance(shouldHide: false, animated: true)
+        // it loads several meals for now, should load just one
+        dataProvider.fetchRandomPreviewMeals { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(items):
+                guard !items.meals.isEmpty else { return }
+                self.randomMeal = UIMeal(mealObj: items.meals[0], dataProvider: self.likeProvider)
+                DispatchQueue.main.async {
+                    self.refreshControl.endRefreshing()
+                    self.setLoadingScreenAppearance(shouldHide: true, animated: true)
+                    self.fillMealData(meal: self.randomMeal!)
+                }
+            case let .failure(error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    private func fillMealData(meal: UIMeal) {
+        if let url = meal.thumbnailLink.flatMap({ NSURL(string: $0) }) {
+            loadImage(url: url)
+        }
+        titleLabel.text = meal.name
+        if let ingredients = meal.ingredients, !ingredients.isEmpty {
+            ingredientStack.isHidden = false
+            fillIngredients(meal.ingredients)
+        } else { ingredientStack.isHidden = true }
+        if let recipe = meal.instructions, !recipe.isEmpty {
+            recipeStack.isHidden = false
+            recipeLabel.text = recipe
+        } else { recipeStack.isHidden = true }
+        likeButton.isLiked = meal.isLiked
+    }
+
+    // MARK: - changing appearance
+
+    private func setLoadingScreenAppearance(shouldHide: Bool, animated: Bool) {
+        loadingScreen.setAppearance(shouldHide: shouldHide, animated: animated)
+    }
+
     private func loadImage(url: NSURL) {
-        imageFetcher.fetch(url: url, completion: { [weak self] image in
+        _ = imageFetcher.fetch(url: url, completion: { [weak self] image in
             guard let self = self else { return }
             self.mealImageView.image = image
         })
     }
 
-    private func fillMealData() {
-        if let url = mealData.thumbnailLink.flatMap({ NSURL(string: $0) }) {
-            loadImage(url: url)
-        }
-        titleLabel.text = mealData.name
-        fillIngridients(mealData.ingredients)
-        recipeLabel.text = mealData.instructions
-        likeButton.isLiked = mealData.isLiked
-    }
-
-    private func fillIngridients(_ ingridients: [Ingredient]?) {
-        guard let ingridients = ingridients else {
-            ingridientStack.heightAnchor.constraint(equalToConstant: 0).isActive = true
-            ingridientStack.isHidden = true
-            return
-        }
-        for ingridient in ingridients {
-            let ingridientCell = factory.makeIngridientCell(
-                name: ingridient.name,
-                measure: ingridient.measure ?? "",
-                emoji: Constants.defaultEmoji
+    private func fillIngredients(_ ingredients: [Ingredient]?) {
+        guard let ingredients = ingredients else { return }
+        clearIngredientsStack()
+        for ingredient in ingredients {
+            let ingredientCell = factory.makeIngredientCell(
+                name: ingredient.name,
+                measure: ingredient.measure ?? ""
             )
-            ingridientStack.addArrangedSubview(ingridientCell)
+            ingredientStack.addArrangedSubview(ingredientCell)
         }
     }
 
-    // MARK: - configuring funcs
+    private func clearIngredientsStack() {
+        for subview in ingredientStack.arrangedSubviews where !(subview is UILabel) {
+            ingredientStack.removeArrangedSubview(subview)
+            subview.removeFromSuperview()
+        }
+    }
+
+    // MARK: - configuring view funcs
 
     private func setTranslatingToConstraints() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         imageContainerView.translatesAutoresizingMaskIntoConstraints = false
         mealImageView.translatesAutoresizingMaskIntoConstraints = false
         titleView.translatesAutoresizingMaskIntoConstraints = false
-        ingridientStack.translatesAutoresizingMaskIntoConstraints = false
+        ingredientStack.translatesAutoresizingMaskIntoConstraints = false
         recipeStack.translatesAutoresizingMaskIntoConstraints = false
-        closeButton.translatesAutoresizingMaskIntoConstraints = false
+        roundCornerButton.translatesAutoresizingMaskIntoConstraints = false
     }
 
     private func addSubviews() {
         view.addSubview(scrollView)
-        view.addSubview(closeButton)
+        view.addSubview(roundCornerButton)
+        view.addSubview(loadingScreen)
         titleView.addArrangedSubview(titleLabel)
         titleView.addArrangedSubview(likeButton)
-        ingridientStack.addArrangedSubview(ingridientsLabel)
+        ingredientStack.addArrangedSubview(ingredientsLabel)
         recipeStack.addArrangedSubview(recipeLabel)
         scrollView.addSubview(imageContainerView)
         scrollView.addSubview(mealImageView)
-        scrollView.addSubview(titleView)
-        scrollView.addSubview(ingridientStack)
-        scrollView.addSubview(recipeStack)
+        scrollView.addSubview(textStackView)
+        textStackView.addArrangedSubview(titleView)
+        textStackView.addArrangedSubview(ingredientStack)
+        textStackView.addArrangedSubview(recipeStack)
     }
 
     private func setScrollView() {
@@ -196,11 +277,12 @@ final class MealPageController: UIViewController {
         ])
     }
 
-    private func configureTitleView() {
+    private func configureTextStackView() {
         NSLayoutConstraint.activate([
-            titleView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            titleView.topAnchor.constraint(equalTo: mealImageView.bottomAnchor),
-            titleView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            textStackView.topAnchor.constraint(equalTo: mealImageView.bottomAnchor),
+            textStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            textStackView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            textStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
     }
 
@@ -208,50 +290,39 @@ final class MealPageController: UIViewController {
         likeButton.addTarget(self, action: #selector(updateLike), for: .touchUpInside)
     }
 
-    private func configureIngridientStack() {
-        NSLayoutConstraint.activate([
-            ingridientStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            ingridientStack.topAnchor.constraint(equalTo: titleView.bottomAnchor),
-            ingridientStack.widthAnchor.constraint(equalTo: view.widthAnchor),
-        ])
-    }
-
-    private func configureRecipeStack() {
-        guard let instructions = mealData.instructions, !instructions.isEmpty else {
-            recipeStack.heightAnchor.constraint(equalToConstant: 0).isActive = true
-            recipeStack.isHidden = false
-            return
+    private func configureCloseButton() {
+        if preloadedMeal == nil {
+            roundCornerButton.addTarget(self, action: #selector(reload), for: .touchUpInside)
+        } else {
+            roundCornerButton.addTarget(self, action: #selector(close), for: .touchUpInside)
         }
         NSLayoutConstraint.activate([
-            recipeStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            recipeStack.topAnchor.constraint(equalTo: ingridientStack.bottomAnchor),
-            recipeStack.widthAnchor.constraint(equalTo: view.widthAnchor),
-            recipeStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-        ])
-    }
-
-    private func configureCloseButton() {
-        closeButton.addTarget(self, action: #selector(close), for: .touchUpInside)
-        NSLayoutConstraint.activate([
-            closeButton.trailingAnchor.constraint(
+            roundCornerButton.trailingAnchor.constraint(
                 equalTo: view.trailingAnchor,
                 constant: Constants.closeButtonRightMargin
             ),
-            closeButton.topAnchor.constraint(
+            roundCornerButton.topAnchor.constraint(
                 equalTo: view.layoutMarginsGuide.topAnchor,
                 constant: Constants.closeButtonTopMargin
             ),
-            closeButton.heightAnchor.constraint(equalToConstant: Constants.closeButtonSize.height),
-            closeButton.widthAnchor.constraint(equalToConstant: Constants.closeButtonSize.width),
+            roundCornerButton.heightAnchor
+                .constraint(equalToConstant: Constants.closeButtonSize.height),
+            roundCornerButton.widthAnchor
+                .constraint(equalToConstant: Constants.closeButtonSize.width),
+        ])
+    }
+
+    private func configureLoadingScreen() {
+        NSLayoutConstraint.activate([
+            loadingScreen.topAnchor.constraint(equalTo: view.topAnchor),
+            loadingScreen.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            loadingScreen.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            loadingScreen.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
 }
 
 extension MealPageController: UIScrollViewDelegate {
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .lightContent
-    }
-
     private var shouldHideStatusBar: Bool {
         let frame = titleLabel.convert(titleView.bounds, to: view)
         return frame.minY < view.safeAreaInsets.top

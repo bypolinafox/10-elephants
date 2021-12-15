@@ -16,7 +16,7 @@ final class LikePageController: UIViewController {
     }()
 
     var viewModel: UIMeals
-    let provider: DBDataProvider
+    let likeProvider: DBDataProvider
     var imageFetcher: CachedImageFetcher
     let netDataProvider: MealsDataProviderNetwork
 
@@ -39,7 +39,7 @@ final class LikePageController: UIViewController {
     ) {
         netDataProvider = networkDataProvider
         viewModel = UIMeals(meals: [])
-        provider = dataProvider
+        likeProvider = dataProvider
         self.imageFetcher = imageFetcher
         super.init(nibName: nil, bundle: nil)
     }
@@ -50,7 +50,12 @@ final class LikePageController: UIViewController {
     }
 
     func openSingleMeal(meal: UIMeal) {
-        let singleMealController = MealPageController(mealData: meal, imageFetcher: imageFetcher)
+        let singleMealController = MealPageController(
+            meal: meal,
+            imageFetcher: imageFetcher,
+            dataProvider: netDataProvider,
+            likeProvider: likeProvider
+        )
 
         singleMealController.modalPresentationStyle = .fullScreen
         singleMealController.modalTransitionStyle = .coverVertical
@@ -59,7 +64,7 @@ final class LikePageController: UIViewController {
     }
 
     func getData(completion: @escaping ([UIMeal]) -> Void) {
-        let likeList = provider.likeList()
+        let likeList = likeProvider.likeList()
         let resultArray = NSMutableArray(capacity: likeList.count)
         resultArray.fillWithEmpty(likeList.count)
 
@@ -71,7 +76,7 @@ final class LikePageController: UIViewController {
                 defer {
                     group.leave()
                 }
-                guard let provider = self?.provider else { return }
+                guard let provider = self?.likeProvider else { return }
 
                 switch result {
                 case let .success(meals):
