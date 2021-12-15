@@ -26,6 +26,7 @@
 		4266C1FB27673D18009E9BCD /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4266C1F727673D18009E9BCD /* NetworkService.swift */; };
 		4266C1FC27673D18009E9BCD /* RequestUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4266C1F927673D18009E9BCD /* RequestUtils.swift */; };
 		4266C20227676411009E9BCD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4266C20027676411009E9BCD /* Main.storyboard */; };
+		4266C204276A0FD7009E9BCD /* ExponentialBackoffDelayCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4266C203276A0FD7009E9BCD /* ExponentialBackoffDelayCalculator.swift */; };
 		430F422F2764BF75001DE6BB /* MealsDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430F422E2764BF75001DE6BB /* MealsDataProvider.swift */; };
 		430F42312764BFE3001DE6BB /* MealsDataProviderStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430F42302764BFE3001DE6BB /* MealsDataProviderStub.swift */; };
 		430F423927672C45001DE6BB /* PreviewCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 430F423827672C45001DE6BB /* PreviewCellView.swift */; };
@@ -71,6 +72,7 @@
 		4266C1F727673D18009E9BCD /* NetworkService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		4266C1F927673D18009E9BCD /* RequestUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestUtils.swift; sourceTree = "<group>"; };
 		4266C20127676411009E9BCD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		4266C203276A0FD7009E9BCD /* ExponentialBackoffDelayCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExponentialBackoffDelayCalculator.swift; sourceTree = "<group>"; };
 		430F422E2764BF75001DE6BB /* MealsDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealsDataProvider.swift; sourceTree = "<group>"; };
 		430F42302764BFE3001DE6BB /* MealsDataProviderStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealsDataProviderStub.swift; sourceTree = "<group>"; };
 		430F423827672C45001DE6BB /* PreviewCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewCellView.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 				4266C1F627673D18009E9BCD /* NetworkServiceProtocol.swift */,
 				4266C1F727673D18009E9BCD /* NetworkService.swift */,
 				4266C1F827673D18009E9BCD /* Requests */,
+				4266C203276A0FD7009E9BCD /* ExponentialBackoffDelayCalculator.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				43BEF2842761F68700E42C33 /* Meals.swift in Sources */,
 				43BEF28B27628A5200E42C33 /* GenericCodingKeys.swift in Sources */,
 				43BEF286276215C700E42C33 /* Ingredient.swift in Sources */,
+				4266C204276A0FD7009E9BCD /* ExponentialBackoffDelayCalculator.swift in Sources */,
 				1FC26AD0276117B0003B8162 /* AppDelegate.swift in Sources */,
 				1FDE4AB5276216F2002879F8 /* TrendPageController.swift in Sources */,
 				430F423B27676FD4001DE6BB /* HeaderCollectionView.swift in Sources */,
