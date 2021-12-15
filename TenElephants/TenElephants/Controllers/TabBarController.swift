@@ -11,10 +11,11 @@ final class TabBarController: UITabBarController {
     private var networkService = NetworkService()
     private var imageFetcher = CachedImageFetcher()
     private lazy var recentsProvider = RecentsProvider(networkService: networkService)
-    private let dataProvider = UserDefaultsDataProvider()
+    private lazy var dataProvider = MealsDataProviderNetwork(networkService: networkService)
+    private let likeProvider = UserDefaultsDataProvider()
 
     func openSingleMeal(meal: Meal) {
-        let uiMeal = UIMeal(mealObj: meal, dataProvider: dataProvider)
+        let uiMeal = UIMeal(mealObj: meal, dataProvider: likeProvider)
         let singleMealController = MealPageController(mealData: uiMeal, imageFetcher: imageFetcher)
 
         singleMealController.modalPresentationStyle = .fullScreen
@@ -26,7 +27,13 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        let TrendC = TrendPageController()
+        let TrendC = TrendPageController(
+            provider: dataProvider,
+            imageFetcher: imageFetcher,
+            openSingleMeal: { [weak self] meal in
+                self?.openSingleMeal(meal: meal)
+            }
+        )
         let trendItem = UITabBarItem()
         trendItem.title = "Trend"
         trendItem.image = UIImage(systemName: "chart.line.uptrend.xyaxis")
@@ -59,9 +66,8 @@ final class TabBarController: UITabBarController {
                     tags: ["tag1", "tag2", "tag3", "tag4"],
                     ingredients: nil
                 ),
-                dataProvider: dataProvider
-            ),
-            imageFetcher: imageFetcher
+                dataProvider: likeProvider
+            ), imageFetcher: imageFetcher
         )
         let mealItem = UITabBarItem()
         mealItem.title = "Meal"

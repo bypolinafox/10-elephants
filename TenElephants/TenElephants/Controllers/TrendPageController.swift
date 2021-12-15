@@ -10,9 +10,25 @@ import UIKit
 final class TrendPageController: UIViewController {
     var viewModelH = Meals(meals: [])
     var viewModelV = Meals(meals: [])
-    // TODO: receive networkService from TabBar
-    let provider = MealsDataProviderNetwork(networkService: NetworkService())
-    let imageFetcher = CachedImageFetcher()
+    let provider: MealsDataProvider
+    let imageFetcher: CachedImageFetcher
+    let openSingleMeal: (Meal) -> Void
+
+    init(
+        provider: MealsDataProvider,
+        imageFetcher: CachedImageFetcher,
+        openSingleMeal: @escaping (Meal) -> Void
+    ) {
+        self.provider = provider
+        self.imageFetcher = imageFetcher
+        self.openSingleMeal = openSingleMeal
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     enum Section: Int {
         case horizontal
@@ -44,14 +60,14 @@ final class TrendPageController: UIViewController {
                 sectionIndex: Int,
                 _: NSCollectionLayoutEnvironment
             ) -> NSCollectionLayoutSection? in
-            guard let section = Section(rawValue: sectionIndex)
-            else { fatalError("No section provided") }
-            switch section {
-            case .horizontal:
-                return self?.setupHorizontalSection()
-            case .vertical:
-                return self?.setupVerticalSection()
-            }
+                guard let section = Section(rawValue: sectionIndex)
+                else { fatalError("No section provided") }
+                switch section {
+                case .horizontal:
+                    return self?.setupHorizontalSection()
+                case .vertical:
+                    return self?.setupVerticalSection()
+                }
         }
         return layout
     }()
@@ -151,6 +167,7 @@ final class TrendPageController: UIViewController {
             withReuseIdentifier: Constants.reuseHead
         )
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.contentInsetAdjustmentBehavior = .scrollableAxes
         collectionView.reloadData()
     }
@@ -295,6 +312,27 @@ extension TrendPageController: UICollectionViewDataSource {
             return headerView
         } else {
             return UICollectionReusableView()
+        }
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension TrendPageController: UICollectionViewDelegate {
+    func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let section = Section(rawValue: indexPath.section) else {
+            assertionFailure("No section provided")
+            return
+        }
+        switch section {
+        case .horizontal:
+            guard !viewModelH.meals.isEmpty else { return }
+            let item = viewModelH.meals[indexPath.row]
+            openSingleMeal(item)
+        case .vertical:
+            guard !viewModelV.meals.isEmpty else { return }
+            let item = viewModelV.meals[indexPath.row]
+            openSingleMeal(item)
         }
     }
 }
