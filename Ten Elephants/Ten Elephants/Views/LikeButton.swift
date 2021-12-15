@@ -16,9 +16,9 @@ class LikeButton: UIButton {
         static let activeTint: UIColor = .red
         static let notActiveTint: UIColor = .label
     }
-    
+
     //достаточно просто выставить isLiked, и кнопка поменяет внешний вид
-    var isLiked: Bool {
+    var isLiked: Bool = false{
         didSet {
             updateImage()
         }
@@ -36,9 +36,7 @@ class LikeButton: UIButton {
     }
     
     init(){
-        self.isLiked = false
         super.init(frame: .zero)
-        
         updateImage()
     }
     

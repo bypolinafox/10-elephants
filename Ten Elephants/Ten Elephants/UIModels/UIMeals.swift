@@ -19,10 +19,7 @@ struct UIMeal {
     let thumbnailLink: String?     // strMealThumb
     let instructions: String?      // strInstructions
     let ingredients: [Ingredient]? // Ingredient(strIngredient, strMeasure)
-    //    let category: String?          // strCategory
-    //    let area: String?              // strArea
-    //    let youTubeLink: String?       // strYoutube
-    //    let tags: [String]?            // strTags
+    let category: String?          // strCategory
 
     var isLiked: Bool {
         get {
@@ -41,9 +38,6 @@ struct UIMeal {
         thumbnailLink = mealObj.thumbnailLink
         instructions = mealObj.instructions
         ingredients = mealObj.ingredients
-        //        category = mealObj.category
-        //        area = mealObj.area
-        //        youTubeLink = mealObj.youTubeLink
-        //        tags = mealObj.tags
+        category = mealObj.category
     }
 }
