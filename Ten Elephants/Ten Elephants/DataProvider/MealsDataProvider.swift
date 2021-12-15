@@ -8,12 +8,14 @@
 import Foundation
 
 enum MealsDataProviderErrors: Error {
+    case unableToMakeURL
+    case noResponseData
     case unparsableData
+    case serverError(error: Error)
 }
 
 protocol MealsDataProvider {
     typealias MealsFetchCompletion = (Result<Meals, MealsDataProviderErrors>) -> Void
 
-    func fetchRandomMeals(completionHandler: @escaping MealsFetchCompletion)
     func fetchRandomPreviewMeals(completionHandler: @escaping MealsFetchCompletion)
 }

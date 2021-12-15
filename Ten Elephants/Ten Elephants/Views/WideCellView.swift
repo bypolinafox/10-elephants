@@ -28,6 +28,12 @@ final class WideCellView: UICollectionViewCell {
     lazy var containerView = makeContainerView()
     lazy var shadowLayer = makeShadowLayer()
 
+    var isLoading: Bool = false {
+        didSet {
+            self.isLoading ? self.titleLabel.startBlink() : self.titleLabel.stopBlink()
+        }
+    }
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -123,5 +129,20 @@ extension WideCellView {
         shadowLayer.shadowRadius = Constants.shadowRadius
 
         return shadowLayer
+    }
+}
+
+extension UILabel {
+
+    func startBlink() {
+        UIView.animate(withDuration: 1,
+              delay:0.0,
+              options:[.curveEaseOut, .autoreverse, .repeat],
+              animations: { self.alpha = 0 })
+    }
+
+    func stopBlink() {
+        layer.removeAllAnimations()
+        alpha = 1
     }
 }
