@@ -63,14 +63,14 @@ final class WideCellView: UICollectionViewCell {
 
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Constants.labelGap),
-            titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor),
+            titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Constants.labelGap),
             titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Constants.cornerRadius)
         ])
 
         NSLayoutConstraint.activate([
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             subtitleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Constants.labelGap),
-            subtitleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor),
+            subtitleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Constants.labelGap),
             subtitleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Constants.cornerRadius)
         ])
     }

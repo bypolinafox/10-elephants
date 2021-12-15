@@ -68,6 +68,26 @@ final class NetworkService: NetworkServiceProtocol {
         }
     }
     
+    func getMealListFiltered(by ingridients: [String], completion: @escaping mealsCompletion){
+        request(
+            type: .mealsByMultipleIngredients(ingredients: ingridients),
+            completion: completion
+        )
+    }
+    
+    func searchMealByName(name: String, completion: @escaping mealsCompletion) {
+        request(
+            type: .mealsByName(name: name),
+            completion: completion
+        )
+    }
+    
+    func getLatestMeals(completion: @escaping mealsCompletion){
+        request(
+            type: .latestMeals,
+            completion: completion
+        )
+    }
 }
 
 extension NetworkService {

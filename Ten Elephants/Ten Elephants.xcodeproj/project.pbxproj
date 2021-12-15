@@ -37,6 +37,14 @@
 		43E8CED92768A54100C3F357 /* MealsDataProviderNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E8CED82768A54100C3F357 /* MealsDataProviderNetwork.swift */; };
 		DF30420B2766814C0066DBEF /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF30420A2766814C0066DBEF /* CloseButton.swift */; };
 		DF30420D276687990066DBEF /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF30420C276687990066DBEF /* LikeButton.swift */; };
+		DF3589192767AA5A002C6221 /* MealSuggestionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3589162767AA5A002C6221 /* MealSuggestionDataSource.swift */; };
+		DF35891A2767AA5A002C6221 /* ResultMealDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3589172767AA5A002C6221 /* ResultMealDataSource.swift */; };
+		DF35891B2767AA5A002C6221 /* ingredientDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3589182767AA5A002C6221 /* ingredientDataSource.swift */; };
+		DF35891D2767AAA7002C6221 /* SearchPageViewFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF35891C2767AAA7002C6221 /* SearchPageViewFactory.swift */; };
+		DFB4C1082767B6C2002CE4A0 /* IngredientSuggestionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4C1072767B6C2002CE4A0 /* IngredientSuggestionCell.swift */; };
+		DFB4C10C2768BEDE002CE4A0 /* RecentsProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4C10B2768BEDD002CE4A0 /* RecentsProviderProtocol.swift */; };
+		DFB4C10E2768BF71002CE4A0 /* RecentsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4C10D2768BF71002CE4A0 /* RecentsProvider.swift */; };
+		DFB4C1102768E68F002CE4A0 /* ingredientSuggestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4C10F2768E68F002CE4A0 /* ingredientSuggestions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +91,14 @@
 		43E8CED82768A54100C3F357 /* MealsDataProviderNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsDataProviderNetwork.swift; sourceTree = "<group>"; };
 		DF30420A2766814C0066DBEF /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		DF30420C276687990066DBEF /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
+		DF3589162767AA5A002C6221 /* MealSuggestionDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealSuggestionDataSource.swift; sourceTree = "<group>"; };
+		DF3589172767AA5A002C6221 /* ResultMealDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResultMealDataSource.swift; sourceTree = "<group>"; };
+		DF3589182767AA5A002C6221 /* ingredientDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ingredientDataSource.swift; sourceTree = "<group>"; };
+		DF35891C2767AAA7002C6221 /* SearchPageViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchPageViewFactory.swift; sourceTree = "<group>"; };
+		DFB4C1072767B6C2002CE4A0 /* IngredientSuggestionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientSuggestionCell.swift; sourceTree = "<group>"; };
+		DFB4C10B2768BEDD002CE4A0 /* RecentsProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsProviderProtocol.swift; sourceTree = "<group>"; };
+		DFB4C10D2768BF71002CE4A0 /* RecentsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsProvider.swift; sourceTree = "<group>"; };
+		DFB4C10F2768E68F002CE4A0 /* ingredientSuggestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ingredientSuggestions.swift; sourceTree = "<group>"; };
 		E9E710732766773600C49F48 /* MealViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealViewFactory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -142,6 +158,7 @@
 		1FC26ACE276117B0003B8162 /* Ten Elephants */ = {
 			isa = PBXGroup;
 			children = (
+				DFB4C10A2768BEB7002CE4A0 /* RecentsProvider */,
 				4266C1F527673D18009E9BCD /* Network */,
 				1F746E272767779A00BF0EC1 /* Cache */,
 				430F4228276399AA001DE6BB /* DataProvider */,
@@ -165,7 +182,7 @@
 			children = (
 				1FDE4AB0276216CF002879F8 /* TabBarController.swift */,
 				1FDE4AB4276216F2002879F8 /* TrendPageController.swift */,
-				1FDE4AB2276216DF002879F8 /* SearchPageController.swift */,
+				DF3589152767AA4A002C6221 /* SearchPage */,
 				1FDE4AB627621782002879F8 /* MealPageController.swift */,
 			);
 			path = Controllers;
@@ -174,6 +191,7 @@
 		1FDE4AB827621798002879F8 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				DF35891C2767AAA7002C6221 /* SearchPageViewFactory.swift */,
 				E9E710732766773600C49F48 /* MealViewFactory.swift */,
 				DF30420A2766814C0066DBEF /* CloseButton.swift */,
 				DF30420C276687990066DBEF /* LikeButton.swift */,
@@ -181,6 +199,7 @@
 				14FD7C53EE8DFD1416FABAEB /* MealViewFactory.swift */,
 				430F423827672C45001DE6BB /* PreviewCellView.swift */,
 				430F423A27676FD4001DE6BB /* HeaderCollectionView.swift */,
+				DFB4C1072767B6C2002CE4A0 /* IngredientSuggestionCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -228,8 +247,29 @@
 				43BEF28A27628A5200E42C33 /* GenericCodingKeys.swift */,
 				43BEF2832761F68700E42C33 /* Meals.swift */,
 				43BEF285276215C700E42C33 /* Ingredient.swift */,
+				DFB4C10F2768E68F002CE4A0 /* ingredientSuggestions.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		DF3589152767AA4A002C6221 /* SearchPage */ = {
+			isa = PBXGroup;
+			children = (
+				1FDE4AB2276216DF002879F8 /* SearchPageController.swift */,
+				DF3589182767AA5A002C6221 /* ingredientDataSource.swift */,
+				DF3589162767AA5A002C6221 /* MealSuggestionDataSource.swift */,
+				DF3589172767AA5A002C6221 /* ResultMealDataSource.swift */,
+			);
+			path = SearchPage;
+			sourceTree = "<group>";
+		};
+		DFB4C10A2768BEB7002CE4A0 /* RecentsProvider */ = {
+			isa = PBXGroup;
+			children = (
+				DFB4C10B2768BEDD002CE4A0 /* RecentsProviderProtocol.swift */,
+				DFB4C10D2768BF71002CE4A0 /* RecentsProvider.swift */,
+			);
+			path = RecentsProvider;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -337,22 +377,30 @@
 				1FDE4AB1276216CF002879F8 /* TabBarController.swift in Sources */,
 				430F422F2764BF75001DE6BB /* MealsDataProvider.swift in Sources */,
 				1FDE4AB3276216DF002879F8 /* SearchPageController.swift in Sources */,
+				DF3589192767AA5A002C6221 /* MealSuggestionDataSource.swift in Sources */,
+				DF35891D2767AAA7002C6221 /* SearchPageViewFactory.swift in Sources */,
 				4266C1FA27673D18009E9BCD /* NetworkServiceProtocol.swift in Sources */,
 				4266C1FB27673D18009E9BCD /* NetworkService.swift in Sources */,
 				DF30420B2766814C0066DBEF /* CloseButton.swift in Sources */,
+				DFB4C1102768E68F002CE4A0 /* ingredientSuggestions.swift in Sources */,
 				430F42312764BFE3001DE6BB /* MealsDataProviderStub.swift in Sources */,
 				43BEF2842761F68700E42C33 /* Meals.swift in Sources */,
+				DF35891B2767AA5A002C6221 /* ingredientDataSource.swift in Sources */,
+				DFB4C1082767B6C2002CE4A0 /* IngredientSuggestionCell.swift in Sources */,
 				43BEF28B27628A5200E42C33 /* GenericCodingKeys.swift in Sources */,
+				DFB4C10E2768BF71002CE4A0 /* RecentsProvider.swift in Sources */,
 				43BEF286276215C700E42C33 /* Ingredient.swift in Sources */,
 				4266C204276A0FD7009E9BCD /* ExponentialBackoffDelayCalculator.swift in Sources */,
 				1FC26AD0276117B0003B8162 /* AppDelegate.swift in Sources */,
 				1FDE4AB5276216F2002879F8 /* TrendPageController.swift in Sources */,
 				430F423B27676FD4001DE6BB /* HeaderCollectionView.swift in Sources */,
 				1FC26AD2276117B0003B8162 /* SceneDelegate.swift in Sources */,
+				DFB4C10C2768BEDE002CE4A0 /* RecentsProviderProtocol.swift in Sources */,
 				4266C1FC27673D18009E9BCD /* RequestUtils.swift in Sources */,
 				DF30420D276687990066DBEF /* LikeButton.swift in Sources */,
 				1FDE4AB727621782002879F8 /* MealPageController.swift in Sources */,
 				14FD76823CBB2F9664A153F7 /* WideCellView.swift in Sources */,
+				DF35891A2767AA5A002C6221 /* ResultMealDataSource.swift in Sources */,
 				14FD7F4FED201791E182456E /* MealViewFactory.swift in Sources */,
 				430F423927672C45001DE6BB /* PreviewCellView.swift in Sources */,
 				14FD7E1D0C8CE63093E664E8 /* UIMeals.swift in Sources */,

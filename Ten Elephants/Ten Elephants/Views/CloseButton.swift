@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class CloseButton: UIButton {
+final class CloseButton: UIButton {
     private enum Constants {
         static let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
         static let icon = UIImage(systemName: "xmark", withConfiguration: config)
