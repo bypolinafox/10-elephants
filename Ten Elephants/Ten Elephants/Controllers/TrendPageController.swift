@@ -25,8 +25,8 @@ class TrendPageController: UIViewController {
         static let reuseIdV:  String = "vCell"
         static let reuseHead: String = "headerView"
 
-        static let cellsToShowV: Int = 2
-        static let cellsToShowH: Int = 5
+        static let cellsToShowV: Int = 5
+        static let cellsToShowH: Int = 2
 
         static let interGroupSpacing: CGFloat = 20
         static let itemContentInsets = NSDirectionalEdgeInsets(
