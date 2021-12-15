@@ -9,7 +9,8 @@ import UIKit
 
 class TrendPageController: UIViewController {
 
-    var viewModel = Meals(meals: [])
+    var viewModelH = Meals(meals: [])
+    var viewModelV = Meals(meals: [])
     let provider = MealsDataProviderStub()
     let imageFetcher = CachedImageFetcher()
 
@@ -142,22 +143,32 @@ class TrendPageController: UIViewController {
         collectionView.contentInsetAdjustmentBehavior = .scrollableAxes
         collectionView.reloadData()
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
-        self.configureLayout()
+
+    func fetchData(for section: Section) {
         provider.fetchRandomPreviewMeals {
             switch $0 {
             case let .success(items):
                 DispatchQueue.main.async {
-                    self.viewModel = items
+                    switch section {
+                    case .horizontal:
+                        self.viewModelH = items
+                    case .vertical:
+                        self.viewModelV = items
+                    }
                     self.collectionView.reloadData()
                 }
             case let .failure(error):
                 fatalError(error.localizedDescription)
             }
         }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .systemBackground
+        self.configureLayout()
+        self.fetchData(for: .horizontal)
+        self.fetchData(for: .vertical)
         
         self.view.addSubview(collectionView)
     }
@@ -170,7 +181,7 @@ class TrendPageController: UIViewController {
 
 // MARK: - UICollectionViewDataSource
 
-extension TrendPageController: UICollectionViewDataSource {
+extension TrendPageController: UICollectionViewDataSource { 
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
@@ -179,9 +190,9 @@ extension TrendPageController: UICollectionViewDataSource {
         guard let s = Section(rawValue: section) else { fatalError("No section provided") }
         switch s {
         case .horizontal:
-            return viewModel.meals.isEmpty ? Constants.cellsToShowH : viewModel.meals.count
+            return viewModelH.meals.isEmpty ? Constants.cellsToShowH : viewModelH.meals.count
         case .vertical:
-            return viewModel.meals.isEmpty ? Constants.cellsToShowV : viewModel.meals.count
+            return viewModelV.meals.isEmpty ? Constants.cellsToShowV : viewModelV.meals.count
         }
     }
 
@@ -194,8 +205,8 @@ extension TrendPageController: UICollectionViewDataSource {
                 return reusableCell
             }
 
-            guard !viewModel.meals.isEmpty else {return reusableCell}
-            let item = viewModel.meals[indexPath.row]
+            guard !viewModelH.meals.isEmpty else {return reusableCell}
+            let item = viewModelH.meals[indexPath.row]
             cell.titleLabel.text = item.name
             cell.subtitleLabel.text = item.id
 
@@ -214,8 +225,8 @@ extension TrendPageController: UICollectionViewDataSource {
                 return reusableCell
             }
 
-            guard !viewModel.meals.isEmpty else {return reusableCell}
-            let item = viewModel.meals[indexPath.row]
+            guard !viewModelV.meals.isEmpty else {return reusableCell}
+            let item = viewModelV.meals[indexPath.row]
             cell.titleLabel.text = item.name
 
             guard let link = item.thumbnailLink,
