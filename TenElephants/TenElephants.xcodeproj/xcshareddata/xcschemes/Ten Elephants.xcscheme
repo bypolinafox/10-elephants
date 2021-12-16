@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1FC26ACB276117B0003B8162"
                BuildableName = "Ten Elephants.app"
-               BlueprintName = "Ten Elephants"
-               ReferencedContainer = "container:Ten Elephants.xcodeproj">
+               BlueprintName = "TenElephants"
+               ReferencedContainer = "container:TenElephants.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -35,7 +35,7 @@
                BlueprintIdentifier = "1FDE4ABC27623D98002879F8"
                BuildableName = "Unit Tests.xctest"
                BlueprintName = "Unit Tests"
-               ReferencedContainer = "container:Ten Elephants.xcodeproj">
+               ReferencedContainer = "container:TenElephants.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -56,8 +56,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1FC26ACB276117B0003B8162"
             BuildableName = "Ten Elephants.app"
-            BlueprintName = "Ten Elephants"
-            ReferencedContainer = "container:Ten Elephants.xcodeproj">
+            BlueprintName = "TenElephants"
+            ReferencedContainer = "container:TenElephants.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -73,8 +73,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1FC26ACB276117B0003B8162"
             BuildableName = "Ten Elephants.app"
-            BlueprintName = "Ten Elephants"
-            ReferencedContainer = "container:Ten Elephants.xcodeproj">
+            BlueprintName = "TenElephants"
+            ReferencedContainer = "container:TenElephants.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

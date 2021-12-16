@@ -64,7 +64,7 @@
 		14FD7C53EE8DFD1416FABAEB /* MealViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealViewFactory.swift; sourceTree = "<group>"; };
 		14FD7E61068FFFD13D2EEF04 /* UIMeals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIMeals.swift; sourceTree = "<group>"; };
 		1F746E282767779A00BF0EC1 /* CachedImageFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachedImageFetcher.swift; sourceTree = "<group>"; };
-		1FC26ACC276117B0003B8162 /* Ten Elephants.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Ten Elephants.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FC26ACC276117B0003B8162 /* TenElephants.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TenElephants.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FC26ACF276117B0003B8162 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1FC26AD1276117B0003B8162 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		1FC26AD8276117B2003B8162 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -120,14 +120,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1F746E272767779A00BF0EC1 /* Cache */ = {
-			isa = PBXGroup;
-			children = (
-				1F746E282767779A00BF0EC1 /* CachedImageFetcher.swift */,
-			);
-			path = Cache;
-			sourceTree = "<group>";
-		};
 		14FD7C1FDD6910F86AF78C99 /* UIModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -137,10 +129,18 @@
 			path = UIModels;
 			sourceTree = "<group>";
 		};
+		1F746E272767779A00BF0EC1 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				1F746E282767779A00BF0EC1 /* CachedImageFetcher.swift */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
 		1FC26AC3276117B0003B8162 = {
 			isa = PBXGroup;
 			children = (
-				1FC26ACE276117B0003B8162 /* Ten Elephants */,
+				1FC26ACE276117B0003B8162 /* TenElephants */,
 				1FDE4ABE27623D98002879F8 /* Unit Tests */,
 				1FC26ACD276117B0003B8162 /* Products */,
 			);
@@ -149,13 +149,13 @@
 		1FC26ACD276117B0003B8162 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1FC26ACC276117B0003B8162 /* Ten Elephants.app */,
+				1FC26ACC276117B0003B8162 /* TenElephants.app */,
 				1FDE4ABD27623D98002879F8 /* Unit Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		1FC26ACE276117B0003B8162 /* Ten Elephants */ = {
+		1FC26ACE276117B0003B8162 /* TenElephants */ = {
 			isa = PBXGroup;
 			children = (
 				DFB4C10A2768BEB7002CE4A0 /* RecentsProvider */,
@@ -174,7 +174,7 @@
 				14FD703B7696CC9277B935DD /* UIMeals.swift */,
 				14FD7C1FDD6910F86AF78C99 /* UIModels */,
 			);
-			path = "Ten Elephants";
+			path = TenElephants;
 			sourceTree = "<group>";
 		};
 		1FDE4AAF2762166A002879F8 /* Controllers */ = {
@@ -275,9 +275,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1FC26ACB276117B0003B8162 /* Ten Elephants */ = {
+		1FC26ACB276117B0003B8162 /* TenElephants */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1FC26AE0276117B2003B8162 /* Build configuration list for PBXNativeTarget "Ten Elephants" */;
+			buildConfigurationList = 1FC26AE0276117B2003B8162 /* Build configuration list for PBXNativeTarget "TenElephants" */;
 			buildPhases = (
 				1FC26AC8276117B0003B8162 /* Sources */,
 				1FC26AC9276117B0003B8162 /* Frameworks */,
@@ -287,9 +287,9 @@
 			);
 			dependencies = (
 			);
-			name = "Ten Elephants";
+			name = TenElephants;
 			productName = "Ten Elephants";
-			productReference = 1FC26ACC276117B0003B8162 /* Ten Elephants.app */;
+			productReference = 1FC26ACC276117B0003B8162 /* TenElephants.app */;
 			productType = "com.apple.product-type.application";
 		};
 		1FDE4ABC27623D98002879F8 /* Unit Tests */ = {
@@ -329,7 +329,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 1FC26AC7276117B0003B8162 /* Build configuration list for PBXProject "Ten Elephants" */;
+			buildConfigurationList = 1FC26AC7276117B0003B8162 /* Build configuration list for PBXProject "TenElephants" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -342,7 +342,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1FC26ACB276117B0003B8162 /* Ten Elephants */,
+				1FC26ACB276117B0003B8162 /* TenElephants */,
 				1FDE4ABC27623D98002879F8 /* Unit Tests */,
 			);
 		};
@@ -423,7 +423,7 @@
 /* Begin PBXTargetDependency section */
 		1FDE4AC227623D98002879F8 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 1FC26ACB276117B0003B8162 /* Ten Elephants */;
+			target = 1FC26ACB276117B0003B8162 /* TenElephants */;
 			targetProxy = 1FDE4AC127623D98002879F8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -573,7 +573,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PZG97Y5PWY;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Ten Elephants/Info.plist";
+				INFOPLIST_FILE = TenElephants/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -602,7 +602,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = PZG97Y5PWY;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Ten Elephants/Info.plist";
+				INFOPLIST_FILE = TenElephants/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -641,7 +641,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ten Elephants.app/Ten Elephants";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TenElephants.app/TenElephants";
 			};
 			name = Debug;
 		};
@@ -664,14 +664,14 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Ten Elephants.app/Ten Elephants";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TenElephants.app/TenElephants";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1FC26AC7276117B0003B8162 /* Build configuration list for PBXProject "Ten Elephants" */ = {
+		1FC26AC7276117B0003B8162 /* Build configuration list for PBXProject "TenElephants" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1FC26ADE276117B2003B8162 /* Debug */,
@@ -680,7 +680,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1FC26AE0276117B2003B8162 /* Build configuration list for PBXNativeTarget "Ten Elephants" */ = {
+		1FC26AE0276117B2003B8162 /* Build configuration list for PBXNativeTarget "TenElephants" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1FC26AE1276117B2003B8162 /* Debug */,
