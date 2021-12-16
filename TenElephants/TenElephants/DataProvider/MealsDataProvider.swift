@@ -16,6 +16,8 @@ enum MealsDataProviderErrors: Error {
 
 protocol MealsDataProvider {
     typealias MealsFetchCompletion = (Result<Meals, MealsDataProviderErrors>) -> Void
+    typealias CocktailFetchCompletion = (Result<Drinks, MealsDataProviderErrors>) -> Void
 
     func fetchRandomPreviewMeals(completionHandler: @escaping MealsFetchCompletion)
+    func fetchRandomCocktail(completionHandler: @escaping CocktailFetchCompletion)
 }
