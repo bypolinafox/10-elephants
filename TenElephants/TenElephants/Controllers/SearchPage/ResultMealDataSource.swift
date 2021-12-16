@@ -43,14 +43,13 @@ final class ResultMealDataSource: NSObject, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath)
         guard let mealCell = cell as? WideCellView else { return cell }
         let meal = meals[indexPath.row]
-        mealCell.titleLabel.text = meal.name
-        mealCell.subtitleLabel.text = meal.id
-
-        guard let url = meal.thumbnailLink.flatMap({ NSURL(string: $0) }) else { return mealCell }
-
-        imageFetcher.fetch(url: url, completion: { image in
-            mealCell.imageView.image = image
-        })
+        mealCell.configure(
+            titleText: meal.name,
+            area: meal.area,
+            category: meal.category,
+            thumbnailLink: meal.thumbnailLink,
+            imageFetcher: imageFetcher
+        )
         return mealCell
     }
 

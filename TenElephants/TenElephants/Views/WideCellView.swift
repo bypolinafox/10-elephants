@@ -173,14 +173,29 @@ extension UILabel {
 }
 
 extension WideCellView {
+    private func makeSubtitleText(
+        area: String? = nil,
+        category: String? = nil
+    ) -> String {
+        var subtitle: String = ""
+        if let area = area, area != "Unknown" {
+            subtitle = "\(area)"
+        }
+        if let category = category {
+            subtitle = subtitle.isEmpty ? "\(category)" : "\(subtitle), \(category)"
+        }
+        return subtitle
+    }
+
     func configure(
         titleText: String?,
-        subtitleText: String = "",
+        area: String? = nil,
+        category: String? = nil,
         thumbnailLink: String? = nil,
         imageFetcher: CachedImageFetcher? = nil
     ) {
         self.titleLabel.text = titleText
-        self.subtitleLabel.text = subtitleText
+        self.subtitleLabel.text = makeSubtitleText(area: area, category: category)
         guard let link = thumbnailLink,
               let url = NSURL(string: link) else {
                   return

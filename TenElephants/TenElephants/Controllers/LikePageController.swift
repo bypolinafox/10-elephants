@@ -151,14 +151,11 @@ extension LikePageController: UICollectionViewDataSource {
             cell.indicator.stopAnimating()
             cell.indicator.hidesWhenStopped = true
             let item = viewModel.meals[indexPath.row]
-            cell.titleLabel.text = item.name
-            guard let link = item.thumbnailLink,
-                  let url = NSURL(string: link) else {
-                return cell
-            }
-            imageFetcher.fetch(url: url) { image in
-                cell.imageView.image = image
-            }
+            cell.configure(
+                titleText: item.name,
+                thumbnailLink: item.thumbnailLink,
+                imageFetcher: imageFetcher
+            )
         }
         return cell
     }
