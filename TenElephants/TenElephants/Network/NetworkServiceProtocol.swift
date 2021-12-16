@@ -10,7 +10,7 @@ import Foundation
 protocol NetworkServiceProtocol {
     typealias mealsCompletion = (Result<Meals, NetworkFetchingError>) -> Void
 
-    func getMealDetails(id: Int, completion: @escaping mealsCompletion)
+    func getMealDetails(id: String, completion: @escaping mealsCompletion)
 
     func getRandomMeals(completion: @escaping mealsCompletion)
 

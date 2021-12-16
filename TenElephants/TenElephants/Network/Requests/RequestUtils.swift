@@ -1,7 +1,7 @@
 import Foundation
 
 enum RequestType {
-    case detailsById(id: Int)
+    case detailsById(id: String)
     case randomMeals
     case ingrediendsList
     case mealsByIngredient(ingredient: String)
@@ -14,7 +14,7 @@ extension RequestType {
     private var params: [String: String] {
         switch self {
         case let .detailsById(id):
-            return ["i": "\(id)"]
+            return ["i": id]
         case .randomMeals:
             return [:]
         case .ingrediendsList:

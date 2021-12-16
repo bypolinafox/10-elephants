@@ -18,7 +18,7 @@ final class LikePageController: UIViewController {
     var viewModel: UIMeals
     let provider: DBDataProvider
     var imageFetcher: CachedImageFetcher
-    let netService: NetworkService
+    let netDataProvider: MealsDataProviderNetwork
 
     private enum Constants {
         static let reuseId: String = "FavCell"
@@ -32,8 +32,12 @@ final class LikePageController: UIViewController {
         return view
     }()
 
-    init(dataProvider: DBDataProvider, imageFetcher: CachedImageFetcher, networkService: NetworkService) {
-        netService = networkService
+    init(
+        dataProvider: DBDataProvider,
+        imageFetcher: CachedImageFetcher,
+        networkDataProvider: MealsDataProviderNetwork
+    ) {
+        netDataProvider = networkDataProvider
         viewModel = UIMeals(meals: [])
         provider = dataProvider
         self.imageFetcher = imageFetcher
@@ -61,9 +65,9 @@ final class LikePageController: UIViewController {
 
         let group = DispatchGroup()
         for (index, element) in likeList.enumerated() {
-            let id = Int(element) ?? 0
+            let id = element
             group.enter()
-            netService.getMealDetails(id: id) { [weak self] result in
+            netDataProvider.fetchMealDetails(by: id) { [weak self] result in
                 defer {
                     group.leave()
                 }

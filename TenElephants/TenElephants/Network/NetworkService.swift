@@ -10,7 +10,7 @@ import Foundation
 final class NetworkService: NetworkServiceProtocol {
     private lazy var delayCounter = ExponentialBackoffDelayCalculator()
 
-    func getMealDetails(id: Int, completion: @escaping mealsCompletion) {
+    func getMealDetails(id: String, completion: @escaping mealsCompletion) {
         request(type: .detailsById(id: id)) { [weak self] (result: Result<
             Meals,
             NetworkFetchingError

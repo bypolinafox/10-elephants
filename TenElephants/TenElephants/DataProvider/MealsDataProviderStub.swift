@@ -8,14 +8,6 @@
 import Foundation
 
 final class MealsDataProviderStub: MealsDataProvider {
-    func fetchRandomMeals(completionHandler: @escaping MealsFetchCompletion) {
-        do {
-            let meals = try JSONDecoder().decode(Meals.self, from: stubDataMeal)
-            completionHandler(.success(meals))
-        } catch {
-            completionHandler(.failure(.unparsableData))
-        }
-    }
 
     func fetchRandomPreviewMeals(completionHandler: @escaping MealsFetchCompletion) {
         do {
@@ -35,6 +27,13 @@ final class MealsDataProviderStub: MealsDataProvider {
             completionHandler(.failure(.unparsableData))
         }
     }
+
+// TODO: finish stub implementation
+    func fetchMealDetails(by id: String, completionHandler: @escaping MealsFetchCompletion) {}
+    func fetchMealListFiltered(by ingredient: String, completionHandler: @escaping MealsFetchCompletion) {}
+    func fetchMealListFiltered(by ingridients: [String], completionHandler: @escaping MealsFetchCompletion) {}
+    func fetchLatestMeals(completionHandler: @escaping MealsFetchCompletion) {}
+    func searchMealByName(name: String, completionHandler: @escaping MealsFetchCompletion) {}
 }
 
 fileprivate let stubDataCocktail = """
