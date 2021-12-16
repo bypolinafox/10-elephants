@@ -10,7 +10,6 @@ import UIKit
 
 final class PreviewCellView: UICollectionViewCell {
     private var imageRequest: Cancellable?
-    private var curURL: NSURL?
 
     lazy var titleLabel    = makeTitleLabel()
     lazy var imageView     = makeImageView()
@@ -124,13 +123,8 @@ extension PreviewCellView {
               let url = NSURL(string: link) else {
                   return
         }
-        guard curURL != url else {
-            return
-        }
-        curURL = url
-        if let imageRequest = imageRequest {
-            imageRequest.cancel()
-        }
+        imageView.image = nil
+
         imageRequest = imageFetcher?.fetch(url: url) { image in
             self.imageView.image = image
         }

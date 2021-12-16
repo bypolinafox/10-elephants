@@ -8,8 +8,16 @@
 import UIKit
 
 final class TrendPageController: UIViewController {
-    var viewModelH = Meals(meals: [])
-    var viewModelV = Meals(meals: [])
+    var viewModelH = Meals(meals: []) {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    var viewModelV = Meals(meals: []) {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
 
     let provider: MealsDataProviderNetwork
     let imageFetcher: CachedImageFetcher
@@ -183,7 +191,6 @@ final class TrendPageController: UIViewController {
                     case .vertical:
                         self.viewModelV = items
                     }
-                    self.collectionView.reloadData()
                 }
             case let .failure(error): // TODO: proper error handling
                 print(error.localizedDescription)
