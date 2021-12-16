@@ -9,6 +9,10 @@ import Foundation
 import UIKit
 
 final class MealSuggestionDataSource: NSObject, UICollectionViewDataSource {
+    private enum Constants {
+        static let bottomInset: CGFloat = 10
+    }
+
     private let cellWidth: CGFloat
     private let cellID: String
     private let imageFetcher: CachedImageFetcher
@@ -68,6 +72,6 @@ extension MealSuggestionDataSource: UICollectionViewDelegateFlowLayout {
         layout _: UICollectionViewLayout,
         sizeForItemAt _: IndexPath
     ) -> CGSize {
-        CGSize(width: cellWidth, height: collectionView.bounds.height)
+        CGSize(width: cellWidth, height: collectionView.bounds.height - Constants.bottomInset)
     }
 }

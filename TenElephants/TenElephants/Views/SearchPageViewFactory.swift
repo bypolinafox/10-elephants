@@ -13,6 +13,7 @@ final class SearchPageViewFactory {
         static let ingredientSuggestTitle = "Search by ingredient"
         static let searchBarPlaceHolder = "Meal, ingredient..."
         static let sideInsetValue: CGFloat = 16
+        static let bottomInsetValue: CGFloat = 10
         static let mealSuggestionBottomInsetValue: CGFloat = 10
         static let sideInsets = UIEdgeInsets(
             top: 0,
@@ -59,6 +60,7 @@ final class SearchPageViewFactory {
         layout.scrollDirection = .horizontal
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.contentInset = Constants.sideInsets
+        cv.contentInset.bottom = Constants.bottomInsetValue
         cv.showsHorizontalScrollIndicator = false
         cv.showsVerticalScrollIndicator = false
         return cv
