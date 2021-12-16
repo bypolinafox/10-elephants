@@ -10,9 +10,9 @@ import UIKit
 final class TrendPageController: UIViewController {
     var viewModelH = Meals(meals: [])
     var viewModelV = Meals(meals: [])
-    // TODO: receive networkService from TabBar
-    let provider = MealsDataProviderNetwork(networkService: NetworkService())
-    let imageFetcher = CachedImageFetcher()
+
+    let provider: MealsDataProviderNetwork
+    let imageFetcher: CachedImageFetcher
 
     enum Section: Int {
         case horizontal
@@ -39,6 +39,20 @@ final class TrendPageController: UIViewController {
         static let sectionContentInsets = NSDirectionalEdgeInsets(
             top: 16.0, leading: 0.0, bottom: 16.0, trailing: 0.0
         )
+    }
+
+    init(
+        networkDataProvider: MealsDataProviderNetwork,
+        imageFetcher: CachedImageFetcher
+    ) {
+        self.provider = networkDataProvider
+        self.imageFetcher = imageFetcher
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     private lazy var compositionalLayout: UICollectionViewCompositionalLayout = {

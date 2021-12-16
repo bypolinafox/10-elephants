@@ -61,7 +61,7 @@ final class SearchPageController: UIViewController {
     )
 
     private let factory = SearchPageViewFactory()
-    private var networkService: NetworkService
+    private var netDataProvider: MealsDataProviderNetwork
     private var recentsProvider: RecentsProviderProtocol
     private var imageFetcher: CachedImageFetcher
 
@@ -102,12 +102,12 @@ final class SearchPageController: UIViewController {
     )
 
     init(
-        networkService: NetworkService,
+        networkDataProvider: MealsDataProviderNetwork,
         recentProvider: RecentsProviderProtocol,
         imageFetcher: CachedImageFetcher,
         openSingleMeal: @escaping (Meal) -> Void
     ) {
-        self.networkService = networkService
+        self.netDataProvider = networkDataProvider
         self.recentsProvider = recentProvider
         self.imageFetcher = imageFetcher
         self.openSingleMeal = openSingleMeal
@@ -207,7 +207,7 @@ final class SearchPageController: UIViewController {
             showRecentMeals()
             return
         }
-        networkService.searchMealByName(name: searchText) { [weak self] result in
+        netDataProvider.searchMealByName(name: searchText) { [weak self] result in
             guard let self = self else { return }
             guard self.filters.isEmpty else {
                 self.searchByIngredients(filters: self.filters, searchText: searchText)
@@ -230,7 +230,7 @@ final class SearchPageController: UIViewController {
     }
 
     private func searchByIngredients(filters: [String], searchText: String) {
-        networkService.getMealListFiltered(by: filters) { [weak self] result in
+        netDataProvider.fetchMealListFiltered(by: filters) { [weak self] result in
             guard let self = self else { return }
             DispatchQueue.main.async {
                 switch result {
