@@ -8,8 +8,8 @@
 import Foundation
 import UIKit
 
-class MealViewFactory {
-    private struct Constants {
+final class MealViewFactory {
+    private enum Constants {
         static let sampleIsLiked = true
         static let sampleImageName = "sampleImage"
         static let closeButtonSize = CGSize(width: 40, height: 40)
@@ -20,7 +20,12 @@ class MealViewFactory {
 
         // Edge insets, которые используются для view внутри scrollView
         // Делаю так, чтобы CollectionView с ингридиентами не прятался по краям из-за границ ScrollView
-        static let childrenEdgeInsets = UIEdgeInsets(top: spacingValue, left: edgeInsetValue, bottom: spacingValue, right: edgeInsetValue)
+        static let childrenEdgeInsets = UIEdgeInsets(
+            top: spacingValue,
+            left: edgeInsetValue,
+            bottom: spacingValue,
+            right: edgeInsetValue
+        )
         // накидываю эти инсеты только на scrollView
         static let parentInsets = UIEdgeInsets(top: 0, left: 0, bottom: 50, right: 0)
 
@@ -51,7 +56,7 @@ class MealViewFactory {
     }
 
     func makeCloseButton() -> UIButton {
-        return CloseButton()
+        CloseButton()
     }
 
     func makeMealImageView() -> UIImageView {
@@ -62,7 +67,7 @@ class MealViewFactory {
     }
 
     func getMuliplier(image: UIImage?) -> CGFloat? {
-        guard let image = image else {return nil}
+        guard let image = image else { return nil }
         let width = image.size.width
         let height = image.size.height
         return height / width
@@ -101,7 +106,10 @@ class MealViewFactory {
     func makeIngridientsStack() -> UIStackView {
         let ingridientsTitle = UILabel()
         ingridientsTitle.text = Constants.ingridientsTitle
-        ingridientsTitle.font = UIFont.systemFont(ofSize: Constants.secondaryTitleFontSize, weight: .bold)
+        ingridientsTitle.font = UIFont.systemFont(
+            ofSize: Constants.secondaryTitleFontSize,
+            weight: .bold
+        )
         let stackView = UIStackView()
         stackView.layoutMargins = Constants.childrenEdgeInsets
         stackView.isLayoutMarginsRelativeArrangement = true
@@ -131,7 +139,7 @@ class MealViewFactory {
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false
         emojiLabel.textAlignment = .right
         emojiLabel.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        if emoji == nil {emojiLabel.isHidden = true}
+        if emoji == nil { emojiLabel.isHidden = true }
 
         let textStack = UIStackView()
         textStack.axis = .vertical
@@ -165,7 +173,10 @@ class MealViewFactory {
     func makeRecipeStack() -> UIStackView {
         let recipeTitle = UILabel()
         recipeTitle.text = Constants.recipeTitle
-        recipeTitle.font = UIFont.systemFont(ofSize: Constants.secondaryTitleFontSize, weight: .bold)
+        recipeTitle.font = UIFont.systemFont(
+            ofSize: Constants.secondaryTitleFontSize,
+            weight: .bold
+        )
 
         let recipeLabel = UILabel()
         recipeLabel.numberOfLines = 0

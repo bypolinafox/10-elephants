@@ -12,14 +12,13 @@ struct UIMeals {
 }
 
 struct UIMeal {
-
     let dataProvider: DBDataProvider
-    let id: String                 // idMeal
-    let name: String?              // strMeal
-    let thumbnailLink: String?     // strMealThumb
-    let instructions: String?      // strInstructions
+    let id: String // idMeal
+    let name: String? // strMeal
+    let thumbnailLink: String? // strMealThumb
+    let instructions: String? // strInstructions
     let ingredients: [Ingredient]? // Ingredient(strIngredient, strMeasure)
-    let category: String?          // strCategory
+    let category: String? // strCategory
 
     var isLiked: Bool {
         get {

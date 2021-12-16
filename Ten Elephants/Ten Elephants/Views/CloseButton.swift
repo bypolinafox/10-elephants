@@ -15,10 +15,10 @@ final class CloseButton: UIButton {
         static let tintColor: UIColor = .black
         static let blurStyle: UIBlurEffect.Style = .light
     }
-    
+
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: Constants.blurStyle))
-    
-    init(){
+
+    init() {
         super.init(frame: .zero)
 
         self.setTitle(nil, for: .normal)
@@ -28,15 +28,16 @@ final class CloseButton: UIButton {
         blur.isUserInteractionEnabled = false
         blur.layer.masksToBounds = true
         self.insertSubview(blur, at: 0)
-        if let imageView = self.imageView{
+        if let imageView = self.imageView {
             self.bringSubviewToFront(imageView)
         }
     }
-    
-    required init?(coder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         blur.frame = self.bounds

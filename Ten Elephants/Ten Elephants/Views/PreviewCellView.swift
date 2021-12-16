@@ -9,25 +9,24 @@ import Foundation
 import UIKit
 
 final class PreviewCellView: UICollectionViewCell {
-    
-    lazy var titleLabel    = makeTitleLabel()
-    lazy var imageView     = makeImageView()
+    lazy var titleLabel = makeTitleLabel()
+    lazy var imageView = makeImageView()
     lazy var containerView = makeContainerView()
-    lazy var shadowLayer   = makeShadowLayer()
-    lazy var indicator     = makeActivityIndicator()
-    
+    lazy var shadowLayer = makeShadowLayer()
+    lazy var indicator = makeActivityIndicator()
+
     private enum Constants {
         static let titleFontSize: CGFloat = 18
-        static let cornerRadius:  CGFloat = 20
-        static let imCornRadius:  CGFloat = 15
-        static let labelGap:      CGFloat = 10
-        static let imageGap:      CGFloat = 10
-        static let shadowOpacity: Float   = 0.2
-        static let shadowRadius:  CGFloat = 3
-        static let shadowColor:   CGColor = UIColor.black.cgColor
+        static let cornerRadius: CGFloat = 20
+        static let imCornRadius: CGFloat = 15
+        static let labelGap: CGFloat = 10
+        static let imageGap: CGFloat = 10
+        static let shadowOpacity: Float = 0.2
+        static let shadowRadius: CGFloat = 3
+        static let shadowColor: CGColor = UIColor.black.cgColor
         static let shadowOffset = CGSize(width: 0.0, height: 1.0)
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = .systemBackground
@@ -44,13 +43,13 @@ final class PreviewCellView: UICollectionViewCell {
         layer.insertSublayer(shadowLayer, at: 0)
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("has not been implemented")
     }
 }
 
 extension PreviewCellView {
-
     func makeTitleLabel() -> UILabel {
         let label = UILabel(
             frame: CGRect(
@@ -64,7 +63,7 @@ extension PreviewCellView {
         label.font = UIFont.systemFont(ofSize: Constants.titleFontSize, weight: .bold)
         return label
     }
-    
+
     private func makeImageView() -> UIImageView {
         let image = UIImageView(
             frame: CGRect(
@@ -85,11 +84,12 @@ extension PreviewCellView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }
-    
+
     private func makeShadowLayer() -> CAShapeLayer {
         shadowLayer = CAShapeLayer()
 
-        shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: Constants.cornerRadius).cgPath
+        shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: Constants.cornerRadius)
+            .cgPath
         shadowLayer.shadowPath = shadowLayer.path
         shadowLayer.shadowColor = Constants.shadowColor
         shadowLayer.shadowOffset = Constants.shadowOffset
@@ -102,7 +102,10 @@ extension PreviewCellView {
     func makeActivityIndicator() -> UIActivityIndicatorView {
         let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         indicator.style = UIActivityIndicatorView.Style.medium
-        indicator.center = CGPoint(x: 0.75 * self.contentView.frame.width, y: self.contentView.center.y)
+        indicator.center = CGPoint(
+            x: 0.75 * self.contentView.frame.width,
+            y: self.contentView.center.y
+        )
         return indicator
     }
 }

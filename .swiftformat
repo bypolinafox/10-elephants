@@ -1,0 +1,16 @@
+--disable redundantSelf
+--disable redundantFileprivate
+--disable wrapMultilineStatementBraces
+--extensionacl on-declarations
+--hexgrouping 2
+--ifdef noindent
+--indent 4
+--maxwidth 100
+--nospaceoperators ...,..<
+--operatorfunc nospace
+--swiftversion 5.1
+--symlinks ignore
+--wraparguments before-first
+--wrapcollections before-first
+--wrapparameters before-first
+--modifierorder public,private,private(set),internal,override

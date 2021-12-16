@@ -9,9 +9,9 @@ import Foundation
 import UIKit
 
 final class IngredientSuggestionCell: UICollectionViewCell {
-    //is used in ingredientDataSource to set size for cells
+    // is used in ingredientDataSource to set size for cells
     static let titleFont = UIFont.systemFont(ofSize: Constants.titleSize, weight: .bold)
-    
+
     private enum Constants {
         static let emojiSize: CGFloat = 25
         static let titleSize: CGFloat = 17
@@ -22,30 +22,31 @@ final class IngredientSuggestionCell: UICollectionViewCell {
         static let activeLabelColor: UIColor = .systemBackground
         static let edgeInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     }
-    
+
     var ingredientName = UILabel()
-    
-    override init(frame: CGRect){
+
+    override init(frame: CGRect) {
         super.init(frame: frame)
-        
+
         self.layer.cornerRadius = Constants.cornerRadius
         self.layer.masksToBounds = true
         self.backgroundColor = Constants.backgroundColor
         self.layoutMargins = Constants.edgeInsets
-        
+
         ingredientName = makeTitleLabel()
         self.addSubview(ingredientName)
     }
-    
-    required init?(coder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         ingredientName.frame = bounds
     }
-    
+
     func setActiveState(isActive: Bool) {
         if isActive {
             self.backgroundColor = Constants.activeBackgroundColor

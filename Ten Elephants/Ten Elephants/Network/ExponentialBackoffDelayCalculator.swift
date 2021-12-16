@@ -11,10 +11,9 @@ final class ExponentialBackoffDelayCalculator {
     private let minDelay: Double
     private let jitter: Double
     private let factor: Double
-    
+
     private var currentDelay: Double
-    
-    
+
     init(
         currentDelay: Double = 0.1,
         minDelay: Double = 0.1,
@@ -28,13 +27,13 @@ final class ExponentialBackoffDelayCalculator {
         self.jitter = jitter
         self.factor = factor
     }
-    
+
     func countDelay() -> Double {
         currentDelay *= factor
         currentDelay += Double.random(in: 0.0...(currentDelay * jitter))
         return min(currentDelay, maxDelay)
     }
-    
+
     func resetDelay() {
         currentDelay = minDelay
     }

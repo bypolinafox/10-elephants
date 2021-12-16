@@ -7,7 +7,7 @@
 
 import XCTest
 
-class Unit_Tests: XCTestCase {
+final class Unit_Tests: XCTestCase {
     func testExample() throws {
         XCTAssertTrue(true)
     }

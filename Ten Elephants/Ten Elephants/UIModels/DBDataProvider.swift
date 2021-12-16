@@ -13,6 +13,7 @@ final class UserDefaultsDataProvider: DBDataProvider {
     private enum Constants {
         static let userDefaultsKey: String = "Favourites"
     }
+
     private var data: [String] {
         get {
             let obj = UserDefaults.standard.object(forKey: Constants.userDefaultsKey)
@@ -24,7 +25,7 @@ final class UserDefaultsDataProvider: DBDataProvider {
     }
 
     func isLiked(_ id: String) -> Bool {
-        data.contains(where: {$0 == id})
+        data.contains(where: { $0 == id })
     }
 
     func setIsLiked(_ id: String) {

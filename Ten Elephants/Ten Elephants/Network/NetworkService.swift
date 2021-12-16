@@ -9,9 +9,12 @@ import Foundation
 
 final class NetworkService: NetworkServiceProtocol {
     private lazy var delayCounter = ExponentialBackoffDelayCalculator()
-    
+
     func getMealDetails(id: Int, completion: @escaping mealsCompletion) {
-        request(type: .detailsById(id: id)) { [weak self] (result: Result<Meals, NetworkFetchingError>) in
+        request(type: .detailsById(id: id)) { [weak self] (result: Result<
+            Meals,
+            NetworkFetchingError
+        >) in
             completion(result)
             guard let self = self else { return }
             if case .failure = result {
@@ -27,7 +30,7 @@ final class NetworkService: NetworkServiceProtocol {
             }
         }
     }
-    
+
     func getRandomMeals(completion: @escaping mealsCompletion) {
         request(type: .randomMeals) { [weak self] (result: Result<Meals, NetworkFetchingError>) in
             completion(result)
@@ -46,12 +49,17 @@ final class NetworkService: NetworkServiceProtocol {
         }
     }
 
-    func getFullIngredientsList(completion: @escaping (Result<FullIngredients, NetworkFetchingError>) -> Void) {
+    func getFullIngredientsList(completion: @escaping (Result<
+        FullIngredients,
+        NetworkFetchingError
+    >) -> Void) {
         request(type: .ingrediendsList, completion: completion)
     }
-    
+
     func getFilteredMealList(ingredient: String, completion: @escaping mealsCompletion) {
-        request(type: .mealsByIngredient(ingredient: ingredient)) { [weak self] (result: Result<Meals, NetworkFetchingError>) in
+        request(type: .mealsByIngredient(
+            ingredient: ingredient
+        )) { [weak self] (result: Result<Meals, NetworkFetchingError>) in
             completion(result)
             guard let self = self else { return }
             if case .failure = result {
@@ -67,22 +75,22 @@ final class NetworkService: NetworkServiceProtocol {
             }
         }
     }
-    
-    func getMealListFiltered(by ingridients: [String], completion: @escaping mealsCompletion){
+
+    func getMealListFiltered(by ingridients: [String], completion: @escaping mealsCompletion) {
         request(
             type: .mealsByMultipleIngredients(ingredients: ingridients),
             completion: completion
         )
     }
-    
+
     func searchMealByName(name: String, completion: @escaping mealsCompletion) {
         request(
             type: .mealsByName(name: name),
             completion: completion
         )
     }
-    
-    func getLatestMeals(completion: @escaping mealsCompletion){
+
+    func getLatestMeals(completion: @escaping mealsCompletion) {
         request(
             type: .latestMeals,
             completion: completion
@@ -91,32 +99,33 @@ final class NetworkService: NetworkServiceProtocol {
 }
 
 extension NetworkService {
-    
-    private func request<T: Decodable>(type: RequestType, completion: @escaping (Result<T, NetworkFetchingError>) -> Void) {
+    private func request<T: Decodable>(
+        type: RequestType,
+        completion: @escaping (Result<T, NetworkFetchingError>) -> Void
+    ) {
         guard let url = type.url else {
             completion(.failure(NetworkFetchingError.unableToMakeURL))
             return
         }
-        
+
         URLSession.shared.dataTask(with: url) {
             data, _, error in
             if let error = error {
                 completion(.failure(.serverError(error: error)))
                 return
             }
-            
+
             do {
                 guard let data = data else {
                     completion(.failure(NetworkFetchingError.noResponseData))
                     return
                 }
-                
+
                 let result = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(result))
             } catch {
                 completion(.failure(.parsingError))
             }
         }.resume()
-        
     }
 }

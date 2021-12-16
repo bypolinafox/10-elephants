@@ -7,7 +7,7 @@
 
 import Foundation
 
-class GenericCodingKeys: CodingKey {
+final class GenericCodingKeys: CodingKey {
     var stringValue: String
     var intValue: Int?
 

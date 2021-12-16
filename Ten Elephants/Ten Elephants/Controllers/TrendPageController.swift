@@ -7,8 +7,7 @@
 
 import UIKit
 
-class TrendPageController: UIViewController {
-
+final class TrendPageController: UIViewController {
     var viewModelH = Meals(meals: [])
     var viewModelV = Meals(meals: [])
     // TODO: receive networkService from TabBar
@@ -21,10 +20,10 @@ class TrendPageController: UIViewController {
     }
 
     private enum Constants {
-        static let headerV:   String = "This may be interesting for you..."
-        static let headerH:   String = "Trending now"
-        static let reuseIdH:  String = "hCell"
-        static let reuseIdV:  String = "vCell"
+        static let headerV: String = "This may be interesting for you..."
+        static let headerH: String = "Trending now"
+        static let reuseIdH: String = "hCell"
+        static let reuseIdV: String = "vCell"
         static let reuseHead: String = "headerView"
 
         static let cellsToShowV: Int = 5
@@ -40,24 +39,28 @@ class TrendPageController: UIViewController {
     }
 
     private lazy var compositionalLayout: UICollectionViewCompositionalLayout = {
-            let layout = UICollectionViewCompositionalLayout { [weak self]
-                (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-                guard let section = Section(rawValue: sectionIndex) else { fatalError("No section provided") }
-                switch section {
-                case .horizontal:
-                    return self?.setupHorizontalSection()
-                case .vertical:
-                    return self?.setupVerticalSection()
-                }
+        let layout = UICollectionViewCompositionalLayout { [weak self]
+            (
+                sectionIndex: Int,
+                _: NSCollectionLayoutEnvironment
+            ) -> NSCollectionLayoutSection? in
+            guard let section = Section(rawValue: sectionIndex)
+            else { fatalError("No section provided") }
+            switch section {
+            case .horizontal:
+                return self?.setupHorizontalSection()
+            case .vertical:
+                return self?.setupVerticalSection()
             }
-            return layout
-        }()
-    
+        }
+        return layout
+    }()
+
     private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
         return view
     }()
-    
+
     private func setupHorizontalSection() -> NSCollectionLayoutSection {
         // item properties
         let itemSize = NSCollectionLayoutSize(
@@ -81,19 +84,21 @@ class TrendPageController: UIViewController {
         // section properties
         let section = NSCollectionLayoutSection(group: group)
         let headerView = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .absolute(44)),
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(44)
+            ),
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top
         )
         section.boundarySupplementaryItems = [headerView]
-        
+
         section.contentInsets = Constants.sectionContentInsets
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
 
         return section
     }
-    
+
     private func setupVerticalSection() -> NSCollectionLayoutSection {
         // item properties
         let itemSize = NSCollectionLayoutSize(
@@ -113,28 +118,33 @@ class TrendPageController: UIViewController {
             subitem: item,
             count: 1
         )
-        
+
         // section properties
         let section = NSCollectionLayoutSection(group: group)
         let headerView = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .absolute(44)),
+            layoutSize: NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .absolute(44)
+            ),
             elementKind: UICollectionView.elementKindSectionHeader,
             alignment: .top
         )
         section.boundarySupplementaryItems = [headerView]
-        
+
         section.contentInsets = Constants.sectionContentInsets
         section.interGroupSpacing = Constants.interGroupSpacing
-        
+
         return section
     }
-    
+
     private func configureLayout() {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor  = .systemBackground
+        collectionView.backgroundColor = .systemBackground
         collectionView.register(WideCellView.self, forCellWithReuseIdentifier: Constants.reuseIdH)
-        collectionView.register(PreviewCellView.self, forCellWithReuseIdentifier: Constants.reuseIdV)
+        collectionView.register(
+            PreviewCellView.self,
+            forCellWithReuseIdentifier: Constants.reuseIdV
+        )
         collectionView.register(
             HeaderCollectionView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
@@ -163,14 +173,14 @@ class TrendPageController: UIViewController {
             }
         }
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.configureLayout()
         self.fetchData(for: .horizontal)
         self.fetchData(for: .vertical)
-        
+
         self.view.addSubview(collectionView)
     }
 
@@ -182,12 +192,12 @@ class TrendPageController: UIViewController {
 
 // MARK: - UICollectionViewDataSource
 
-extension TrendPageController: UICollectionViewDataSource { 
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 2
+extension TrendPageController: UICollectionViewDataSource {
+    func numberOfSections(in _: UICollectionView) -> Int {
+        2
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let s = Section(rawValue: section) else { fatalError("No section provided") }
         switch s {
         case .horizontal:
@@ -197,11 +207,18 @@ extension TrendPageController: UICollectionViewDataSource {
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let section = Section(rawValue: indexPath.section) else { fatalError("No section provided") }
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let section = Section(rawValue: indexPath.section)
+        else { fatalError("No section provided") }
         switch section {
         case .horizontal:
-            let reusableCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.reuseIdH, for: indexPath)
+            let reusableCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: Constants.reuseIdH,
+                for: indexPath
+            )
             guard let cell = reusableCell as? WideCellView else {
                 return reusableCell
             }
@@ -220,12 +237,15 @@ extension TrendPageController: UICollectionViewDataSource {
                     return cell
                 }
                 imageFetcher.fetch(url: url) { image in
-                        cell.imageView.image = image
+                    cell.imageView.image = image
                 }
             }
             return cell
         case .vertical:
-            let reusableCell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.reuseIdV, for: indexPath)
+            let reusableCell = collectionView.dequeueReusableCell(
+                withReuseIdentifier: Constants.reuseIdV,
+                for: indexPath
+            )
             guard let cell = reusableCell as? PreviewCellView else {
                 return reusableCell
             }
@@ -242,30 +262,39 @@ extension TrendPageController: UICollectionViewDataSource {
                     return cell
                 }
                 imageFetcher.fetch(url: url) { image in
-                        cell.imageView.image = image
+                    cell.imageView.image = image
                 }
             }
             return cell
         }
     }
-    
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-            if kind == UICollectionView.elementKindSectionHeader {
-                let reusableView = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "headerView", for: indexPath)
 
-                guard let headerView = reusableView as? HeaderCollectionView else {
-                    return reusableView
-                }
-                guard let section = Section(rawValue: indexPath.section) else { fatalError("No section provided") }
-                switch section {
-                case .vertical:
-                    headerView.setText(Constants.headerV)
-                case .horizontal:
-                    headerView.setText(Constants.headerH)
-                }
-                return headerView
-            } else {
-                return UICollectionReusableView()
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionHeader {
+            let reusableView = collectionView.dequeueReusableSupplementaryView(
+                ofKind: UICollectionView.elementKindSectionHeader,
+                withReuseIdentifier: "headerView",
+                for: indexPath
+            )
+
+            guard let headerView = reusableView as? HeaderCollectionView else {
+                return reusableView
             }
+            guard let section = Section(rawValue: indexPath.section)
+            else { fatalError("No section provided") }
+            switch section {
+            case .vertical:
+                headerView.setText(Constants.headerV)
+            case .horizontal:
+                headerView.setText(Constants.headerH)
+            }
+            return headerView
+        } else {
+            return UICollectionReusableView()
         }
+    }
 }

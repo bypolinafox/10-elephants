@@ -8,10 +8,9 @@
 import Foundation
 import UIKit
 
-class HeaderCollectionView: UICollectionReusableView {
-
+final class HeaderCollectionView: UICollectionReusableView {
     lazy var label: UILabel = makeTitleLabel()
-    
+
     private enum Constants {
         static let fontSize: CGFloat = 20
         static let labelGap: CGFloat = 10
@@ -27,10 +26,10 @@ class HeaderCollectionView: UICollectionReusableView {
         super.layoutSubviews()
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("has not been implemented")
     }
-    
 }
 
 extension HeaderCollectionView {
@@ -47,7 +46,7 @@ extension HeaderCollectionView {
         label.font = UIFont.systemFont(ofSize: Constants.fontSize, weight: .bold)
         return label
     }
-    
+
     func setText(_ text: String) {
         label.text = text
     }

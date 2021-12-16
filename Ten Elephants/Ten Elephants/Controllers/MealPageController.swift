@@ -8,7 +8,7 @@
 import UIKit
 
 final class MealPageController: UIViewController {
-    private struct Constants {
+    private enum Constants {
         static let heartSize = CGSize(width: 40, height: 40)
         static let closeButtonSize = CGSize(width: 40, height: 40)
         static let closeButtonTopMargin: CGFloat = 16
@@ -18,7 +18,7 @@ final class MealPageController: UIViewController {
 
     private let factory = MealViewFactory()
     private let imageFetcher: CachedImageFetcher
-    
+
     private lazy var scrollView = factory.makeScrollView()
     private lazy var contentStackView = factory.makeContentStackView()
     private lazy var closeButton = factory.makeCloseButton()
@@ -44,7 +44,8 @@ final class MealPageController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("Init from coder is not avaible")
     }
 
@@ -69,7 +70,12 @@ final class MealPageController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         scrollView.scrollIndicatorInsets = view.safeAreaInsets
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: view.safeAreaInsets.bottom, right: 0)
+        scrollView.contentInset = UIEdgeInsets(
+            top: 0,
+            left: 0,
+            bottom: view.safeAreaInsets.bottom,
+            right: 0
+        )
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -78,26 +84,27 @@ final class MealPageController: UIViewController {
     }
 
     // MARK: - setLiked()
+
     // executes when like button is pressed
     @objc private func updateLike(_ sender: LikeButton) {
         sender.isLiked = !sender.isLiked
         mealData.isLiked = sender.isLiked
     }
-    
-    //executes when close button is pressed
-    @objc private func close(_ sender: CloseButton){
+
+    // executes when close button is pressed
+    @objc private func close(_: CloseButton) {
         self.dismiss(animated: true, completion: nil)
     }
-    
-    private func loadImage(url: NSURL){
+
+    private func loadImage(url: NSURL) {
         imageFetcher.fetch(url: url, completion: { [weak self] image in
-            guard let self = self else {return}
+            guard let self = self else { return }
             self.mealImageView.image = image
         })
     }
 
     private func fillMealData() {
-        if let url = mealData.thumbnailLink.flatMap({ NSURL(string: $0) }){
+        if let url = mealData.thumbnailLink.flatMap({ NSURL(string: $0) }) {
             loadImage(url: url)
         }
         titleLabel.text = mealData.name
@@ -113,12 +120,17 @@ final class MealPageController: UIViewController {
             return
         }
         for ingridient in ingridients {
-            let ingridientCell = factory.makeIngridientCell(name: ingridient.name, measure: ingridient.measure ?? "", emoji: Constants.defaultEmoji)
+            let ingridientCell = factory.makeIngridientCell(
+                name: ingridient.name,
+                measure: ingridient.measure ?? "",
+                emoji: Constants.defaultEmoji
+            )
             ingridientStack.addArrangedSubview(ingridientCell)
         }
     }
 
     // MARK: - configuring funcs
+
     private func setTranslatingToConstraints() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         imageContainerView.translatesAutoresizingMaskIntoConstraints = false
@@ -142,14 +154,14 @@ final class MealPageController: UIViewController {
         scrollView.addSubview(ingridientStack)
         scrollView.addSubview(recipeStack)
     }
-    
-    private func setScrollView(){
+
+    private func setScrollView() {
         scrollView.delegate = self
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
 
@@ -159,7 +171,10 @@ final class MealPageController: UIViewController {
             imageContainerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             imageContainerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             imageContainerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            imageContainerView.heightAnchor.constraint(equalTo: imageContainerView.widthAnchor, multiplier: imageRatio)
+            imageContainerView.heightAnchor.constraint(
+                equalTo: imageContainerView.widthAnchor,
+                multiplier: imageRatio
+            ),
         ])
     }
 
@@ -170,14 +185,15 @@ final class MealPageController: UIViewController {
         let mealImageTopConstraint = mealImageView.topAnchor.constraint(equalTo: view.topAnchor)
         mealImageTopConstraint.priority = .defaultHigh
 
-        let mealImageHeightConstraint = mealImageView.heightAnchor.constraint(greaterThanOrEqualTo: imageContainerView.heightAnchor)
+        let mealImageHeightConstraint = mealImageView.heightAnchor
+            .constraint(greaterThanOrEqualTo: imageContainerView.heightAnchor)
         mealImageHeightConstraint.priority = .required
 
         NSLayoutConstraint.activate([
             mealImageView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor),
             mealImageView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor),
             mealImageView.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor),
-            mealImageTopConstraint, mealImageHeightConstraint
+            mealImageTopConstraint, mealImageHeightConstraint,
         ])
     }
 
@@ -185,7 +201,7 @@ final class MealPageController: UIViewController {
         NSLayoutConstraint.activate([
             titleView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             titleView.topAnchor.constraint(equalTo: mealImageView.bottomAnchor),
-            titleView.widthAnchor.constraint(equalTo: view.widthAnchor)
+            titleView.widthAnchor.constraint(equalTo: view.widthAnchor),
         ])
     }
 
@@ -197,7 +213,7 @@ final class MealPageController: UIViewController {
         NSLayoutConstraint.activate([
             ingridientStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             ingridientStack.topAnchor.constraint(equalTo: titleView.bottomAnchor),
-            ingridientStack.widthAnchor.constraint(equalTo: view.widthAnchor)
+            ingridientStack.widthAnchor.constraint(equalTo: view.widthAnchor),
         ])
     }
 
@@ -211,24 +227,30 @@ final class MealPageController: UIViewController {
             recipeStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             recipeStack.topAnchor.constraint(equalTo: ingridientStack.bottomAnchor),
             recipeStack.widthAnchor.constraint(equalTo: view.widthAnchor),
-            recipeStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            recipeStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
     }
 
     private func configureCloseButton() {
         closeButton.addTarget(self, action: #selector(close), for: .touchUpInside)
         NSLayoutConstraint.activate([
-            closeButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: Constants.closeButtonRightMargin),
-            closeButton.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: Constants.closeButtonTopMargin),
+            closeButton.trailingAnchor.constraint(
+                equalTo: view.trailingAnchor,
+                constant: Constants.closeButtonRightMargin
+            ),
+            closeButton.topAnchor.constraint(
+                equalTo: view.layoutMarginsGuide.topAnchor,
+                constant: Constants.closeButtonTopMargin
+            ),
             closeButton.heightAnchor.constraint(equalToConstant: Constants.closeButtonSize.height),
-            closeButton.widthAnchor.constraint(equalToConstant: Constants.closeButtonSize.width)
+            closeButton.widthAnchor.constraint(equalToConstant: Constants.closeButtonSize.width),
         ])
     }
 }
 
 extension MealPageController: UIScrollViewDelegate {
     override var preferredStatusBarStyle: UIStatusBarStyle {
-        return .lightContent
+        .lightContent
     }
 
     private var shouldHideStatusBar: Bool {
@@ -237,14 +259,14 @@ extension MealPageController: UIScrollViewDelegate {
     }
 
     override var prefersStatusBarHidden: Bool {
-        return shouldHideStatusBar
+        shouldHideStatusBar
     }
 
     override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return .slide
+        .slide
     }
 
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+    func scrollViewDidScroll(_: UIScrollView) {
         if previousStatusBarHidden != shouldHideStatusBar {
             UIView.animate(withDuration: 0.2, animations: {
                 self.setNeedsStatusBarAppearanceUpdate()

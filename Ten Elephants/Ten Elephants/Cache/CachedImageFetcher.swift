@@ -5,11 +5,10 @@
 //  Created by Kirill Denisov on 13.12.2021.
 //
 
-import UIKit
 import Foundation
+import UIKit
 
 final class CachedImageFetcher {
-
     private enum Constants {
         static let cacheCountLimit: Int = 25
     }
@@ -38,7 +37,7 @@ final class CachedImageFetcher {
         } else {
             loadingResponses[url] = [completion]
         }
-        let task = URLSession.shared.dataTask(with: url as URL) { [weak self] (data, _, error) in
+        let task = URLSession.shared.dataTask(with: url as URL) { [weak self] data, _, error in
             guard let responseData = data, let image = UIImage(data: responseData),
                   let blocks = self?.loadingResponses[url], error == nil else {
                 DispatchQueue.main.async {

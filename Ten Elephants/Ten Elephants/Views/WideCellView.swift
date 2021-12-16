@@ -8,7 +8,6 @@
 import UIKit
 
 final class WideCellView: UICollectionViewCell {
-
     private enum Constants {
         static let labelGap: CGFloat = 10
         static let labelHeight: CGFloat = 20
@@ -51,31 +50,53 @@ final class WideCellView: UICollectionViewCell {
             containerView.topAnchor.constraint(equalTo: contentView.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             containerView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
-            containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor)
+            containerView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
         ])
 
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            imageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: Constants.imageBottomGap),
+            imageView.bottomAnchor.constraint(
+                equalTo: containerView.bottomAnchor,
+                constant: Constants.imageBottomGap
+            ),
             imageView.rightAnchor.constraint(equalTo: containerView.rightAnchor),
-            imageView.leftAnchor.constraint(equalTo: containerView.leftAnchor)
+            imageView.leftAnchor.constraint(equalTo: containerView.leftAnchor),
         ])
 
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: Constants.labelGap),
-            titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Constants.labelGap),
-            titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Constants.cornerRadius)
+            titleLabel.topAnchor.constraint(
+                equalTo: imageView.bottomAnchor,
+                constant: Constants.labelGap
+            ),
+            titleLabel.rightAnchor.constraint(
+                equalTo: containerView.rightAnchor,
+                constant: -Constants.labelGap
+            ),
+            titleLabel.leftAnchor.constraint(
+                equalTo: containerView.leftAnchor,
+                constant: Constants.cornerRadius
+            ),
         ])
 
         NSLayoutConstraint.activate([
             subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            subtitleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -Constants.labelGap),
-            subtitleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -Constants.labelGap),
-            subtitleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: Constants.cornerRadius)
+            subtitleLabel.bottomAnchor.constraint(
+                equalTo: containerView.bottomAnchor,
+                constant: -Constants.labelGap
+            ),
+            subtitleLabel.rightAnchor.constraint(
+                equalTo: containerView.rightAnchor,
+                constant: -Constants.labelGap
+            ),
+            subtitleLabel.leftAnchor.constraint(
+                equalTo: containerView.leftAnchor,
+                constant: Constants.cornerRadius
+            ),
         ])
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("has not been implemented")
     }
 
@@ -121,7 +142,8 @@ extension WideCellView {
     private func makeShadowLayer() -> CAShapeLayer {
         shadowLayer = CAShapeLayer()
 
-        shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: Constants.cornerRadius).cgPath
+        shadowLayer.path = UIBezierPath(roundedRect: bounds, cornerRadius: Constants.cornerRadius)
+            .cgPath
         shadowLayer.shadowPath = shadowLayer.path
         shadowLayer.shadowColor = Constants.shadowColor
         shadowLayer.shadowOffset = Constants.shadowOffset
@@ -133,12 +155,13 @@ extension WideCellView {
 }
 
 extension UILabel {
-
     func startBlink() {
-        UIView.animate(withDuration: 1,
-              delay:0.0,
-              options:[.curveEaseOut, .autoreverse, .repeat],
-              animations: { self.alpha = 0 })
+        UIView.animate(
+            withDuration: 1,
+            delay: 0.0,
+            options: [.curveEaseOut, .autoreverse, .repeat],
+            animations: { self.alpha = 0 }
+        )
     }
 
     func stopBlink() {

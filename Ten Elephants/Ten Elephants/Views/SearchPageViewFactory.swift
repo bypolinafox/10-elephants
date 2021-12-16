@@ -14,29 +14,34 @@ final class SearchPageViewFactory {
         static let searchBarPlaceHolder = "Meal, ingredient..."
         static let sideInsetValue: CGFloat = 16
         static let mealSuggestionBottomInsetValue: CGFloat = 10
-        static let sideInsets = UIEdgeInsets(top: 0, left: sideInsetValue, bottom: 0, right: sideInsetValue)
+        static let sideInsets = UIEdgeInsets(
+            top: 0,
+            left: sideInsetValue,
+            bottom: 0,
+            right: sideInsetValue
+        )
         static let mealHeight: CGFloat = 250
         static let ingredientHeight: CGFloat = 50
-        
+
         static let mealSuggestionCellWidth: CGFloat = 320
         static let sectionSpacing: CGFloat = 10
         static let titleSpacing: CGFloat = 5
         static let mealResultCellHeight: CGFloat = 300
         static let titleFontSize: CGFloat = 17
-        
+
         static let blurAnimationDuration: TimeInterval = 0.5
     }
-    
+
     func makeSuggestionsScrollView() -> UIScrollView {
-        return UIScrollView()
+        UIScrollView()
     }
-    
+
     func makeSuggestionStackView() -> UIStackView {
         let stackView = UIStackView()
         stackView.spacing = Constants.sectionSpacing
         return stackView
     }
-    
+
     func makeSearchBar() -> UISearchBar {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .minimal
@@ -44,7 +49,7 @@ final class SearchPageViewFactory {
         searchBar.placeholder = Constants.searchBarPlaceHolder
         return searchBar
     }
-    
+
     func makeMealCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -54,7 +59,7 @@ final class SearchPageViewFactory {
         cv.showsVerticalScrollIndicator = false
         return cv
     }
-    
+
     func makeMealSuggestionStackView() -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -63,14 +68,14 @@ final class SearchPageViewFactory {
         stackView.spacing = Constants.titleSpacing
         return stackView
     }
-    
+
     func makeMealSuggestionTitle() -> UILabel {
         let title = UILabel()
         title.font = UIFont.systemFont(ofSize: Constants.titleFontSize, weight: .bold)
         title.textAlignment = .left
         return title
     }
-    
+
     func makeIngredientSuggestionStackView() -> UIStackView {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -79,7 +84,7 @@ final class SearchPageViewFactory {
         stackView.spacing = Constants.titleSpacing
         return stackView
     }
-    
+
     func makeIngredientSuggestionTitle() -> UILabel {
         let title = UILabel()
         title.font = UIFont.systemFont(ofSize: Constants.titleFontSize, weight: .bold)
@@ -87,7 +92,7 @@ final class SearchPageViewFactory {
         title.textAlignment = .left
         return title
     }
-    
+
     func makeIngredientCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -97,7 +102,7 @@ final class SearchPageViewFactory {
         cv.showsVerticalScrollIndicator = false
         return cv
     }
-    
+
     func makeResultCollectionView() -> UICollectionView {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
@@ -106,8 +111,8 @@ final class SearchPageViewFactory {
         cv.showsHorizontalScrollIndicator = false
         return cv
     }
-    
+
     func makeBlurView() -> UIVisualEffectView {
-        return UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterialLight))
+        UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterialLight))
     }
 }
