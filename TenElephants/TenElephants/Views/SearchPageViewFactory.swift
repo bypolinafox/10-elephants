@@ -30,6 +30,15 @@ final class SearchPageViewFactory {
         static let titleFontSize: CGFloat = 17
 
         static let blurAnimationDuration: TimeInterval = 0.5
+
+        // nothingFoundStack
+        static let nothingFoundEmojiLabelFont = UIFont.systemFont(ofSize: 50)
+        static let nothingFoundTitleLabelFont = UIFont.systemFont(ofSize: 30, weight: .bold)
+        static let nothingFoundDesriptionLabelFont = UIFont.systemFont(ofSize: 15)
+        static let nothingFoundEmoji = "🔎"
+        static let nothingFoundTitle = "Nothing found"
+        static let nothingFoundDescription = "Please try again with a different request"
+        static let nothingFoundSpacing: CGFloat = 5
     }
 
     func makeSuggestionsScrollView() -> UIScrollView {
@@ -114,5 +123,36 @@ final class SearchPageViewFactory {
 
     func makeBlurView() -> UIVisualEffectView {
         UIVisualEffectView(effect: UIBlurEffect(style: .systemUltraThinMaterialLight))
+    }
+
+    func makeNothingFoundStack(
+        emoji: String = Constants.nothingFoundEmoji,
+        title: String = Constants.nothingFoundTitle,
+        description: String = Constants.nothingFoundDescription
+    ) -> UIStackView {
+        let nothingFoundStack = UIStackView()
+        nothingFoundStack.translatesAutoresizingMaskIntoConstraints = false
+        nothingFoundStack.axis = .vertical
+        nothingFoundStack.alignment = .center
+        nothingFoundStack.distribution = .fill
+        nothingFoundStack.spacing = Constants.nothingFoundSpacing
+
+        let emojiLabel = UILabel()
+        emojiLabel.font = Constants.nothingFoundEmojiLabelFont
+        emojiLabel.text = emoji
+
+        let titleLabel = UILabel()
+        titleLabel.font = Constants.nothingFoundTitleLabelFont
+        titleLabel.text = title
+
+        let descLabel = UILabel()
+        descLabel.font = Constants.nothingFoundDesriptionLabelFont
+        descLabel.text = description
+
+        nothingFoundStack.addArrangedSubview(emojiLabel)
+        nothingFoundStack.addArrangedSubview(titleLabel)
+        nothingFoundStack.addArrangedSubview(descLabel)
+
+        return nothingFoundStack
     }
 }

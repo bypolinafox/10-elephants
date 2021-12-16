@@ -44,14 +44,14 @@ final class TrendPageController: UIViewController {
                 sectionIndex: Int,
                 _: NSCollectionLayoutEnvironment
             ) -> NSCollectionLayoutSection? in
-            guard let section = Section(rawValue: sectionIndex)
-            else { fatalError("No section provided") }
-            switch section {
-            case .horizontal:
-                return self?.setupHorizontalSection()
-            case .vertical:
-                return self?.setupVerticalSection()
-            }
+                guard let section = Section(rawValue: sectionIndex)
+                else { fatalError("No section provided") }
+                switch section {
+                case .horizontal:
+                    return self?.setupHorizontalSection()
+                case .vertical:
+                    return self?.setupVerticalSection()
+                }
         }
         return layout
     }()
