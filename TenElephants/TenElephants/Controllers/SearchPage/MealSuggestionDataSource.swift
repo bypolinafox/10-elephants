@@ -47,16 +47,13 @@ final class MealSuggestionDataSource: NSObject, UICollectionViewDataSource {
         suggestionCell.layer.masksToBounds = false
 
         let meal = meals[indexPath.row]
-        suggestionCell.titleLabel.text = meal.name
-        suggestionCell.subtitleLabel.text = meal.id
-
-        guard let url = meal.thumbnailLink.flatMap({ NSURL(string: $0) })
-        else { return suggestionCell }
-
-        imageFetcher.fetch(url: url) { image in
-            suggestionCell.imageView.image = image
-        }
-
+        suggestionCell.configure(
+            titleText: meal.name,
+            area: meal.area,
+            category: meal.category,
+            thumbnailLink: meal.thumbnailLink,
+            imageFetcher: imageFetcher
+        )
         return suggestionCell
     }
 

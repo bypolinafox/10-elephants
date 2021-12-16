@@ -255,7 +255,8 @@ extension TrendPageController: UICollectionViewDataSource {
                 let item = viewModelH.meals[indexPath.row]
                 cell.configure(
                     titleText: item.name,
-                    subtitleText: item.id,
+                    area: item.area,
+                    category: item.category,
                     thumbnailLink: item.thumbnailLink,
                     imageFetcher: imageFetcher
                 )
