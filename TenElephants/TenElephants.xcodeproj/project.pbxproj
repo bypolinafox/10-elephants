@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		14FD7008E421CB109D5A4261 /* NSMutableArray+Fill+Convert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7A93F9835C049CFF52B5 /* NSMutableArray+Fill+Convert.swift */; };
-		14FD71FBD7FA3C2AFDA7DAB6 /* UIMeals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD7E61068FFFD13D2EEF04 /* UIMeals.swift */; };
 		14FD761E55C129216DBA8BF5 /* DBDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD704149414CDA8D77FB65 /* DBDataProvider.swift */; };
 		14FD76823CBB2F9664A153F7 /* WideCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD74DF6B0FA3921D7E066E /* WideCellView.swift */; };
 		14FD770FF738AD41E178659A /* LikePageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14FD75C2DB755BA7B2605AE5 /* LikePageController.swift */; };
@@ -38,6 +37,7 @@
 		43BEF28B27628A5200E42C33 /* GenericCodingKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BEF28A27628A5200E42C33 /* GenericCodingKeys.swift */; };
 		43E8CED92768A54100C3F357 /* MealsDataProviderNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E8CED82768A54100C3F357 /* MealsDataProviderNetwork.swift */; };
 		43E8CEDB276B7E6300C3F357 /* Cocktails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E8CEDA276B7E6300C3F357 /* Cocktails.swift */; };
+		43E8CEDF276BD31B00C3F357 /* UICocktail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E8CEDE276BD31B00C3F357 /* UICocktail.swift */; };
 		DF30420B2766814C0066DBEF /* CloseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF30420A2766814C0066DBEF /* CloseButton.swift */; };
 		DF30420D276687990066DBEF /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF30420C276687990066DBEF /* LikeButton.swift */; };
 		DF3589192767AA5A002C6221 /* MealSuggestionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3589162767AA5A002C6221 /* MealSuggestionDataSource.swift */; };
@@ -62,13 +62,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		14FD703B7696CC9277B935DD /* UIMeals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UIMeals.swift; path = UIModels/UIMeals.swift; sourceTree = "<group>"; };
+		14FD703B7696CC9277B935DD /* UIMeals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIMeals.swift; sourceTree = "<group>"; };
 		14FD704149414CDA8D77FB65 /* DBDataProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBDataProvider.swift; sourceTree = "<group>"; };
 		14FD74DF6B0FA3921D7E066E /* WideCellView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WideCellView.swift; sourceTree = "<group>"; };
 		14FD75C2DB755BA7B2605AE5 /* LikePageController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikePageController.swift; sourceTree = "<group>"; };
 		14FD7A93F9835C049CFF52B5 /* NSMutableArray+Fill+Convert.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSMutableArray+Fill+Convert.swift"; sourceTree = "<group>"; };
 		14FD7C53EE8DFD1416FABAEB /* MealViewFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealViewFactory.swift; sourceTree = "<group>"; };
-		14FD7E61068FFFD13D2EEF04 /* UIMeals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIMeals.swift; sourceTree = "<group>"; };
 		1F746E282767779A00BF0EC1 /* CachedImageFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachedImageFetcher.swift; sourceTree = "<group>"; };
 		1FC26ACC276117B0003B8162 /* TenElephants.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TenElephants.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1FC26ACF276117B0003B8162 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -96,6 +95,7 @@
 		43BEF28A27628A5200E42C33 /* GenericCodingKeys.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GenericCodingKeys.swift; sourceTree = "<group>"; };
 		43E8CED82768A54100C3F357 /* MealsDataProviderNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsDataProviderNetwork.swift; sourceTree = "<group>"; };
 		43E8CEDA276B7E6300C3F357 /* Cocktails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cocktails.swift; sourceTree = "<group>"; };
+		43E8CEDE276BD31B00C3F357 /* UICocktail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICocktail.swift; sourceTree = "<group>"; };
 		DF30420A2766814C0066DBEF /* CloseButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloseButton.swift; sourceTree = "<group>"; };
 		DF30420C276687990066DBEF /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
 		DF3589162767AA5A002C6221 /* MealSuggestionDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealSuggestionDataSource.swift; sourceTree = "<group>"; };
@@ -131,18 +131,11 @@
 		14FD7C1FDD6910F86AF78C99 /* UIModels */ = {
 			isa = PBXGroup;
 			children = (
-				14FD7E61068FFFD13D2EEF04 /* UIMeals.swift */,
+				14FD703B7696CC9277B935DD /* UIMeals.swift */,
 				14FD704149414CDA8D77FB65 /* DBDataProvider.swift */,
+				43E8CEDE276BD31B00C3F357 /* UICocktail.swift */,
 			);
 			path = UIModels;
-			sourceTree = "<group>";
-		};
-		1F746E272767779A00BF0EC1 /* Cache */ = {
-			isa = PBXGroup;
-			children = (
-				1F746E282767779A00BF0EC1 /* CachedImageFetcher.swift */,
-			);
-			path = Cache;
 			sourceTree = "<group>";
 		};
 		14FD7C4D277EAFC131ACC8CA /* Extensions */ = {
@@ -195,7 +188,6 @@
 				1FC26ADA276117B2003B8162 /* LaunchScreen.storyboard */,
 				4266C20027676411009E9BCD /* Main.storyboard */,
 				1FC26ADD276117B2003B8162 /* Info.plist */,
-				14FD703B7696CC9277B935DD /* UIMeals.swift */,
 				14FD7C1FDD6910F86AF78C99 /* UIModels */,
 				14FD7C4D277EAFC131ACC8CA /* Extensions */,
 			);
@@ -402,6 +394,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F746E292767779A00BF0EC1 /* CachedImageFetcher.swift in Sources */,
+				43E8CEDF276BD31B00C3F357 /* UICocktail.swift in Sources */,
 				1FDE4AB1276216CF002879F8 /* TabBarController.swift in Sources */,
 				430F422F2764BF75001DE6BB /* MealsDataProvider.swift in Sources */,
 				1FDE4AB3276216DF002879F8 /* SearchPageController.swift in Sources */,
@@ -432,13 +425,9 @@
 				DF35891A2767AA5A002C6221 /* ResultMealDataSource.swift in Sources */,
 				14FD7F4FED201791E182456E /* MealViewFactory.swift in Sources */,
 				430F423927672C45001DE6BB /* PreviewCellView.swift in Sources */,
-				14FD7E1D0C8CE63093E664E8 /* UIMeals.swift in Sources */,
-				14FD71FBD7FA3C2AFDA7DAB6 /* UIMeals.swift in Sources */,
 				43E8CEDB276B7E6300C3F357 /* Cocktails.swift in Sources */,
-				14FD761E55C129216DBA8BF5 /* DBDataProvider.swift in Sources */,
 				14FD770FF738AD41E178659A /* LikePageController.swift in Sources */,
 				14FD7E1D0C8CE63093E664E8 /* UIMeals.swift in Sources */,
-				14FD71FBD7FA3C2AFDA7DAB6 /* UIMeals.swift in Sources */,
 				14FD761E55C129216DBA8BF5 /* DBDataProvider.swift in Sources */,
 				43E8CED92768A54100C3F357 /* MealsDataProviderNetwork.swift in Sources */,
 				14FD7008E421CB109D5A4261 /* NSMutableArray+Fill+Convert.swift in Sources */,
