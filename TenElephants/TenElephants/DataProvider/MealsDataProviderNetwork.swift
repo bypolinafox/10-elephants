@@ -24,6 +24,8 @@ final class MealsDataProviderNetwork: MealsDataProvider {
             }
         }
     }
+
+    func fetchRandomCocktail(completionHandler: @escaping CocktailFetchCompletion) {}
 }
 
 extension NetworkFetchingError {

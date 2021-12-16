@@ -25,7 +25,77 @@ final class MealsDataProviderStub: MealsDataProvider {
             completionHandler(.failure(.unparsableData))
         }
     }
+
+    func fetchRandomCocktail(completionHandler: @escaping CocktailFetchCompletion) {
+        do {
+            let drinks = try JSONDecoder().decode(Drinks.self, from: stubDataCocktail)
+            completionHandler(.success(drinks))
+        } catch let err {
+            print(err)
+            completionHandler(.failure(.unparsableData))
+        }
+    }
 }
+
+fileprivate let stubDataCocktail = """
+{
+  "drinks": [
+    {
+      "idDrink": "17199",
+      "strDrink": "Golden dream",
+      "strDrinkAlternate": null,
+      "strTags": "IBA,ContemporaryClassic",
+      "strVideo": null,
+      "strCategory": "Ordinary Drink",
+      "strIBA": "Contemporary Classics",
+      "strAlcoholic": "Alcoholic",
+      "strGlass": "Cocktail glass",
+      "strInstructions": "Shake with cracked ice. Strain into glass and serve.",
+      "strInstructionsES": null,
+      "strInstructionsDE": "Mit gebrochenem Eis schütteln. In ein Glas abseihen und servieren.",
+      "strInstructionsFR": null,
+      "strInstructionsIT": "Shakerare con ghiaccio tritato.\\r\\nFiltrare nel bicchiere e servire.",
+      "strInstructionsZH-HANS": null,
+      "strInstructionsZH-HANT": null,
+      "strDrinkThumb": "https://www.thecocktaildb.com/images/media/drink/qrot6j1504369425.jpg",
+      "strIngredient1": "Galliano",
+      "strIngredient2": "Triple Sec",
+      "strIngredient3": "orange juice",
+      "strIngredient4": "Cream",
+      "strIngredient5": null,
+      "strIngredient6": null,
+      "strIngredient7": null,
+      "strIngredient8": null,
+      "strIngredient9": null,
+      "strIngredient10": null,
+      "strIngredient11": null,
+      "strIngredient12": null,
+      "strIngredient13": null,
+      "strIngredient14": null,
+      "strIngredient15": null,
+      "strMeasure1": "2 parts",
+      "strMeasure2": "2 parts",
+      "strMeasure3": "2 parts",
+      "strMeasure4": "1 part",
+      "strMeasure5": null,
+      "strMeasure6": null,
+      "strMeasure7": null,
+      "strMeasure8": null,
+      "strMeasure9": null,
+      "strMeasure10": null,
+      "strMeasure11": null,
+      "strMeasure12": null,
+      "strMeasure13": null,
+      "strMeasure14": null,
+      "strMeasure15": null,
+      "strImageSource": null,
+      "strImageAttribution": null,
+      "strCreativeCommonsConfirmed": "No",
+      "dateModified": "2017-09-02 17:23:45"
+    }
+  ]
+}
+""".data(using: .utf8)!
 
 fileprivate let stubDataMeal = """
 {
