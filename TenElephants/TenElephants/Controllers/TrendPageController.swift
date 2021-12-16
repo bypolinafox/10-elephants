@@ -29,6 +29,9 @@ final class TrendPageController: UIViewController {
         static let cellsToShowV: Int = 5
         static let cellsToShowH: Int = 2
 
+        static let widthH: CGFloat = 300
+        static let heightH: CGFloat = 250
+
         static let interGroupSpacing: CGFloat = 20
         static let itemContentInsets = NSDirectionalEdgeInsets(
             top: 0.0, leading: 8.0, bottom: 0.0, trailing: 8.0
@@ -72,8 +75,8 @@ final class TrendPageController: UIViewController {
 
         // group properties
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .estimated(300),
-            heightDimension: .absolute(250)
+            widthDimension: .estimated(Constants.widthH),
+            heightDimension: .absolute(Constants.heightH)
         )
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize,

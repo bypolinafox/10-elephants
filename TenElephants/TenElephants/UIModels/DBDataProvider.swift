@@ -7,6 +7,7 @@ import Foundation
 protocol DBDataProvider {
     func isLiked(_ id: String) -> Bool
     func setIsLiked(_ id: String)
+    func likeList() -> [String]
 }
 
 final class UserDefaultsDataProvider: DBDataProvider {
@@ -19,6 +20,7 @@ final class UserDefaultsDataProvider: DBDataProvider {
             let obj = UserDefaults.standard.object(forKey: Constants.userDefaultsKey)
             return obj as? [String] ?? [String]()
         }
+
         set {
             UserDefaults.standard.set(newValue, forKey: Constants.userDefaultsKey)
         }
@@ -38,4 +40,6 @@ final class UserDefaultsDataProvider: DBDataProvider {
             data.append(id)
         }
     }
+
+    func likeList() -> [String] { data }
 }

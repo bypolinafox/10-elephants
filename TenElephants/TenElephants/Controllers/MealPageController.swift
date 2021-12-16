@@ -4,7 +4,6 @@
 //
 //  Created by Kirill Denisov on 09.12.2021.
 //
-
 import UIKit
 
 final class MealPageController: UIViewController {
