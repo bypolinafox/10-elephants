@@ -8,6 +8,12 @@
 import Foundation
 import UIKit
 
+protocol Cancellable {
+    func cancel()
+}
+
+extension URLSessionTask: Cancellable {}
+
 final class CachedImageFetcher {
     private enum Constants {
         static let cacheCountLimit: Int = 25
@@ -24,16 +30,16 @@ final class CachedImageFetcher {
         cachedImages.object(forKey: url)
     }
 
-    func fetch(url: NSURL, completion: @escaping (UIImage?) -> Swift.Void) {
+    func fetch(url: NSURL, completion: @escaping (UIImage?) -> Swift.Void) -> Cancellable? {
         if let cachedImage = image(url: url) {
             DispatchQueue.main.async {
                 completion(cachedImage)
             }
-            return
+            return nil
         }
         if loadingResponses[url] != nil {
             loadingResponses[url]?.append(completion)
-            return
+            return nil
         } else {
             loadingResponses[url] = [completion]
         }
@@ -53,5 +59,6 @@ final class CachedImageFetcher {
             }
         }
         task.resume()
+        return task
     }
 }

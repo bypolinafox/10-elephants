@@ -8,6 +8,9 @@
 import UIKit
 
 final class WideCellView: UICollectionViewCell {
+    private var imageRequest: Cancellable?
+    private var curURL: NSURL?
+
     private enum Constants {
         static let labelGap: CGFloat = 10
         static let labelHeight: CGFloat = 20
@@ -167,5 +170,31 @@ extension UILabel {
     func stopBlink() {
         layer.removeAllAnimations()
         alpha = 1
+    }
+}
+
+extension WideCellView {
+    func configure(
+        titleText: String?,
+        subtitleText: String = "",
+        thumbnailLink: String? = nil,
+        imageFetcher: CachedImageFetcher? = nil
+    ) {
+        self.titleLabel.text = titleText
+        self.subtitleLabel.text = subtitleText
+        guard let link = thumbnailLink,
+              let url = NSURL(string: link) else {
+                  return
+        }
+        guard curURL != url else {
+            return
+        }
+        curURL = url
+        if let imageRequest = imageRequest {
+            imageRequest.cancel()
+        }
+        imageRequest = imageFetcher?.fetch(url: url) { image in
+            self.imageView.image = image
+        }
     }
 }
