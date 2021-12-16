@@ -229,19 +229,15 @@ extension TrendPageController: UICollectionViewDataSource {
             cell.isLoading = false
             if viewModelH.meals.isEmpty {
                 cell.isLoading = true
-                cell.titleLabel.text = "Loading..."
-                cell.subtitleLabel.text = ""
+                cell.configure(titleText: "Loading...")
             } else {
                 let item = viewModelH.meals[indexPath.row]
-                cell.titleLabel.text = item.name
-                cell.subtitleLabel.text = item.id
-                guard let link = item.thumbnailLink,
-                      let url = NSURL(string: link) else {
-                    return cell
-                }
-                imageFetcher.fetch(url: url) { image in
-                    cell.imageView.image = image
-                }
+                cell.configure(
+                    titleText: item.name,
+                    subtitleText: item.id,
+                    thumbnailLink: item.thumbnailLink,
+                    imageFetcher: imageFetcher
+                )
             }
             return cell
         case .vertical:
@@ -255,18 +251,16 @@ extension TrendPageController: UICollectionViewDataSource {
 
             if viewModelV.meals.isEmpty {
                 cell.indicator.startAnimating()
+                cell.configure(titleText: nil)
             } else {
                 cell.indicator.stopAnimating()
                 cell.indicator.hidesWhenStopped = true
                 let item = viewModelV.meals[indexPath.row]
-                cell.titleLabel.text = item.name
-                guard let link = item.thumbnailLink,
-                      let url = NSURL(string: link) else {
-                    return cell
-                }
-                imageFetcher.fetch(url: url) { image in
-                    cell.imageView.image = image
-                }
+                cell.configure(
+                    titleText: item.name,
+                    thumbnailLink: item.thumbnailLink,
+                    imageFetcher: imageFetcher
+                )
             }
             return cell
         }

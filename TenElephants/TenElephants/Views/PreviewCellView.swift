@@ -9,8 +9,11 @@ import Foundation
 import UIKit
 
 final class PreviewCellView: UICollectionViewCell {
-    lazy var titleLabel = makeTitleLabel()
-    lazy var imageView = makeImageView()
+    private var imageRequest: Cancellable?
+    private var curURL: NSURL?
+
+    lazy var titleLabel    = makeTitleLabel()
+    lazy var imageView     = makeImageView()
     lazy var containerView = makeContainerView()
     lazy var shadowLayer = makeShadowLayer()
     lazy var indicator = makeActivityIndicator()
@@ -107,5 +110,29 @@ extension PreviewCellView {
             y: self.contentView.center.y
         )
         return indicator
+    }
+}
+
+extension PreviewCellView {
+    func configure(
+        titleText: String?,
+        thumbnailLink: String? = nil,
+        imageFetcher: CachedImageFetcher? = nil
+    ) {
+        self.titleLabel.text = titleText
+        guard let link = thumbnailLink,
+              let url = NSURL(string: link) else {
+                  return
+        }
+        guard curURL != url else {
+            return
+        }
+        curURL = url
+        if let imageRequest = imageRequest {
+            imageRequest.cancel()
+        }
+        imageRequest = imageFetcher?.fetch(url: url) { image in
+            self.imageView.image = image
+        }
     }
 }
