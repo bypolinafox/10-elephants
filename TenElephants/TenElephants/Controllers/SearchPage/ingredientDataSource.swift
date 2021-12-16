@@ -27,7 +27,7 @@ final class IngredientDataSource: NSObject, UICollectionViewDataSource {
     }
 
     func collectionView(_: UICollectionView, numberOfItemsInSection _: Int) -> Int {
-        keys.count
+        min(keys.count, 20)
     }
 
     func collectionView(

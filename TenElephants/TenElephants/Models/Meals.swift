@@ -108,7 +108,7 @@ extension Meal: Decodable {
                 guard let measure = try? otherContainer.decode(
                     String.self, forKey: measureKey
                 ) else {
-                    assert(false, "Missing required JSON property: \(measureKeyName)")
+                    assertionFailure("Missing required JSON property: \(measureKeyName)")
                     break
                 }
 

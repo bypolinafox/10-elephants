@@ -53,6 +53,8 @@ final class SearchPageController: UIViewController {
         .makeIngredientCollectionView()
     private lazy var resultCollectionView: UICollectionView = factory.makeResultCollectionView()
     private lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
+    private lazy var suggestionNothingFound = factory.makeNothingFoundStack()
+    private lazy var resultNothingFound = factory.makeNothingFoundStack()
     private lazy var tapRecognizer = UITapGestureRecognizer(
         target: self,
         action: #selector(hideSuggestions)
@@ -134,6 +136,7 @@ final class SearchPageController: UIViewController {
         configureMealSuggestions()
         configureIngredientSuggestions()
         configureSuggestionsLayout()
+        configureNothingFoundStacks()
 
         tapRecognizer.delegate = self
         suggestionScrollView.addGestureRecognizer(tapRecognizer)
@@ -150,7 +153,7 @@ final class SearchPageController: UIViewController {
         mealCollectionView.reloadData()
         ingregientCollectionView.reloadData()
         resultCollectionView.reloadData()
-        updateSuggestionTitle()
+        updateSuggestionLayout()
     }
 
     private func filterMeals(meals: [Meal], searchWord: String) -> [Meal] {
@@ -181,11 +184,15 @@ final class SearchPageController: UIViewController {
         }
     }
 
-    private func updateSuggestionTitle() {
+    private func updateSuggestionLayout() {
         guard !mealsToShow.isEmpty else {
-            mealSuggestionTitle.text = Constants.nothingFoundTitle
+            mealSuggestionTitle.isHidden = true
+            setNothingFoundStackAppearance(isHidden: false)
             return
         }
+
+        setNothingFoundStackAppearance(isHidden: true)
+        mealSuggestionTitle.isHidden = false
 
         guard searchBar.nonOptionalText.isEmpty, filters.isEmpty else {
             mealSuggestionTitle.text = Constants.suggestionsTitle
@@ -309,6 +316,7 @@ extension SearchPageController {
         view.addSubview(resultCollectionView)
         view.addSubview(searchBar)
         view.addSubview(suggestionScrollView)
+        view.addSubview(resultNothingFound)
         suggestionScrollView.addSubview(suggestionStackView)
 
         suggestionStackView.addArrangedSubview(ingredientSuggestionsStack)
@@ -318,6 +326,7 @@ extension SearchPageController {
         suggestionStackView.addArrangedSubview(mealSuggestionsStack)
         mealSuggestionsStack.addArrangedSubview(mealSuggestionTitle)
         mealSuggestionsStack.addArrangedSubview(mealCollectionView)
+        mealSuggestionsStack.addSubview(suggestionNothingFound)
     }
 
     private func configureSearchBar() {
@@ -435,6 +444,26 @@ extension SearchPageController {
                 self.suggestionScrollView.layer.opacity = 1
             })
         }
+    }
+
+    private func configureNothingFoundStacks() {
+        NSLayoutConstraint.activate([
+            suggestionNothingFound.centerXAnchor
+                .constraint(equalTo: mealSuggestionsStack.centerXAnchor),
+            suggestionNothingFound.centerYAnchor
+                .constraint(equalTo: mealSuggestionsStack.centerYAnchor),
+        ])
+
+        NSLayoutConstraint.activate([
+            resultNothingFound.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            resultNothingFound.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+        ])
+        setNothingFoundStackAppearance(isHidden: true)
+    }
+
+    private func setNothingFoundStackAppearance(isHidden: Bool) {
+        suggestionNothingFound.isHidden = isHidden
+        resultNothingFound.isHidden = isHidden
     }
 
     // tap gesture recognizer action
