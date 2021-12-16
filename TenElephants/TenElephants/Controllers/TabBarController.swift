@@ -12,7 +12,11 @@ final class TabBarController: UITabBarController {
     private var imageLoader = ImageLoader()
     private lazy var recentsProvider = RecentsProvider(networkService: networkService)
     private let likeProvider = UserDefaultsDataProvider()
+
     private lazy var networkDataProvider = MealsDataProviderNetwork(networkService: networkService)
+
+    private lazy var ingredientsDataProvider: IngredientsDataProvider =
+        IngredientsDataProviderNetwork(networkService: networkService)
 
     func openSingleMeal(meal: Meal) {
         let uiMeal = UIMeal(mealObj: meal, dataProvider: likeProvider)
@@ -57,6 +61,15 @@ final class TabBarController: UITabBarController {
         searchItem.image = UIImage(systemName: "magnifyingglass")
         searchC.tabBarItem = searchItem
 
+        let ingredientsC = IngredientsPageController(
+            dataProvider: ingredientsDataProvider
+        )
+
+        let ingredientsItem = UITabBarItem()
+        ingredientsItem.title = "Ingredients"
+        ingredientsItem.image = UIImage(systemName: "applelogo")
+        ingredientsC.tabBarItem = ingredientsItem
+
         let randomC = MealPageController(
             meal: nil,
             imageLoader: imageLoader,
@@ -80,6 +93,7 @@ final class TabBarController: UITabBarController {
 
         self.viewControllers = [
             trendC,
+            ingredientsC,
             searchC,
             randomC,
             likeC,

@@ -48,3 +48,13 @@ struct FullIngredient: Decodable {
         self.type = try customContainer.decodeIfPresent(String.self, forKey: .strType)
     }
 }
+
+struct IngredientsUIData {
+    let ingredients: [IngredientUIData]
+}
+
+struct IngredientUIData {
+    let title: String?
+    let type: String?
+    let description: String?
+}

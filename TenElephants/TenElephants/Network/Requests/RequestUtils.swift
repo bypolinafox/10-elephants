@@ -63,7 +63,7 @@ extension RequestType {
         case .latestMeals:
             return "latest"
         case .randomCocktails:
-             return "random"
+            return "random"
         }
     }
 

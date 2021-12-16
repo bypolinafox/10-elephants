@@ -4,8 +4,8 @@
 //
 //  Created by Kirill Denisov on 09.12.2021.
 //
-import UIKit
 import Combine
+import UIKit
 
 final class MealPageController: UIViewController {
     private enum Constants {
@@ -16,6 +16,7 @@ final class MealPageController: UIViewController {
         static let defaultEmoji: String = "😋"
         static let loadingScreenAppearanceDuration: TimeInterval = 0.5
     }
+
     private var cancellable: AnyCancellable? {
         willSet {
             cancellable?.cancel()
@@ -280,7 +281,7 @@ final class MealPageController: UIViewController {
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
 
@@ -293,7 +294,7 @@ final class MealPageController: UIViewController {
             imageContainerView.heightAnchor.constraint(
                 equalTo: imageContainerView.widthAnchor,
                 multiplier: imageRatio
-            )
+            ),
         ])
     }
 
@@ -312,7 +313,7 @@ final class MealPageController: UIViewController {
             mealImageView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor),
             mealImageView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor),
             mealImageView.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor),
-            mealImageTopConstraint, mealImageHeightConstraint
+            mealImageTopConstraint, mealImageHeightConstraint,
         ])
     }
 
@@ -321,7 +322,7 @@ final class MealPageController: UIViewController {
             textStackView.topAnchor.constraint(equalTo: mealImageView.bottomAnchor),
             textStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             textStackView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            textStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            textStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
     }
 
@@ -347,7 +348,7 @@ final class MealPageController: UIViewController {
             roundCornerButton.heightAnchor
                 .constraint(equalToConstant: Constants.closeButtonSize.height),
             roundCornerButton.widthAnchor
-                .constraint(equalToConstant: Constants.closeButtonSize.width)
+                .constraint(equalToConstant: Constants.closeButtonSize.width),
         ])
     }
 
@@ -356,7 +357,7 @@ final class MealPageController: UIViewController {
             loadingScreen.topAnchor.constraint(equalTo: view.topAnchor),
             loadingScreen.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             loadingScreen.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            loadingScreen.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            loadingScreen.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
 }

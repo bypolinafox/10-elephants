@@ -5,8 +5,8 @@
 //  Created by Kirill Denisov on 10.12.2021.
 //
 
-import UIKit
 import Combine
+import UIKit
 
 final class WideCellView: UICollectionViewCell {
     private var cancellable: AnyCancellable?
@@ -182,15 +182,15 @@ extension UILabel {
 }
 
 extension WideCellView {
-
     private func showImage(image: UIImage?) {
         imageView.alpha = 0.0
         animator?.stopAnimation(false)
         imageView.image = image
         animator = UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
-            self.imageView.alpha = 1.0
-        })
+                self.imageView.alpha = 1.0
+            }
+        )
     }
 
     private func makeSubtitleText(
