@@ -78,7 +78,6 @@ extension IngredientsPageController: UITableViewDelegate {
         switch section {
         case .header: return 1
         case .elements: return ingredientsData?.ingredients.count ?? 0
-        default: return 0
         }
     }
 

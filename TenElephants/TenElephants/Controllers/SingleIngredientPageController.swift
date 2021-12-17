@@ -24,9 +24,6 @@ final class SingleIngredientPageController: UIViewController {
             cancellable?.cancel()
         }
     }
-    deinit {
-        print("deinit")
-    }
 
     private let factory = MealViewFactory()
     private var imageLoader: ImageLoader
@@ -39,9 +36,8 @@ final class SingleIngredientPageController: UIViewController {
     private lazy var ingredientImageView = factory.makeMealImageView()
     private lazy var titleView = factory.makeTitleView()
     private lazy var titleLabel = factory.makeTitleLabel()
-    private lazy var descriptionStack = factory.makeRecipeStack()
+    private lazy var descriptionStack = factory.makeRecipeStack(needTitle: false)
     private lazy var descriptionLabel = factory.makeRecipeLabel()
-    private lazy var textStackView = factory.makeTextStackView()
     private lazy var loadingScreen = factory.makeLoadingScreen(isHidden: true)
     private let imageContainerView = UIView()
 
@@ -77,7 +73,8 @@ final class SingleIngredientPageController: UIViewController {
         configureImageContainer()
         configureIngredientImage()
         configureCloseButton()
-        configureTextStackView()
+        configureTitleContainer()
+        configureTextContainer()
         configureLoadingScreen()
     }
 
@@ -113,18 +110,7 @@ final class SingleIngredientPageController: UIViewController {
         }
     }
 
-    private func makeDescriptionText() -> UITextView {
-        let label = UITextView()
-        label.font = UIFont.systemFont(ofSize: 16)
-        label.isScrollEnabled = true
-//        label.frame = scrollView.frame
-//        label.numberOfLines = 0
-        return label
-    }
-
     private func constructThumbnailLink(title: String) -> String {
-        let urlLink = "\(Constants.urlLinkBeginning)\(title)\(Constants.imgFormat)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        print(urlLink)
         return "\(Constants.urlLinkBeginning)\(title)\(Constants.imgFormat)"
     }
 
@@ -134,7 +120,6 @@ final class SingleIngredientPageController: UIViewController {
             loadImage(link: link)
         }
         titleLabel.text = ingredient.title
-        print(ingredient.description ?? "no")
         if let description = ingredient.description, !description.isEmpty {
             descriptionStack.isHidden = false
             descriptionLabel.text = description
@@ -174,9 +159,8 @@ final class SingleIngredientPageController: UIViewController {
         descriptionStack.addArrangedSubview(descriptionLabel)
         scrollView.addSubview(imageContainerView)
         scrollView.addSubview(ingredientImageView)
-        scrollView.addSubview(textStackView)
-        textStackView.addArrangedSubview(titleView)
-        textStackView.addArrangedSubview(descriptionStack)
+        scrollView.addSubview(titleView)
+        scrollView.addSubview(descriptionStack)
     }
 
     private func setScrollView() {
@@ -201,18 +185,22 @@ final class SingleIngredientPageController: UIViewController {
             ),
         ])
     }
+
+    private func configureTitleContainer() {
+        NSLayoutConstraint.activate([
+            titleView.topAnchor.constraint(equalTo: imageContainerView.bottomAnchor),
+            titleView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            titleView.widthAnchor.constraint(equalTo: view.widthAnchor),
+        ])
+    }
+
     private func configureTextContainer() {
         NSLayoutConstraint.activate([
-            descriptionLabel.topAnchor.constraint(equalTo: textStackView.bottomAnchor),
-            descriptionLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            descriptionLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            descriptionStack.topAnchor.constraint(equalTo: titleView.bottomAnchor),
+            descriptionStack.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            descriptionStack.widthAnchor.constraint(equalTo: view.widthAnchor),
+            descriptionStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
-//        NSLayoutConstraint.activate([
-//            descriptionLabel.topAnchor.constraint(equalTo: textContainerView.topAnchor),
-//            descriptionLabel.leadingAnchor.constraint(equalTo: textContainerView.leadingAnchor),
-//            descriptionLabel.trailingAnchor.constraint(equalTo: textContainerView.trailingAnchor),
-//            descriptionLabel.bottomAnchor.constraint(equalTo: textContainerView.bottomAnchor),
-//        ])
     }
 
     private func configureIngredientImage() {
@@ -231,15 +219,6 @@ final class SingleIngredientPageController: UIViewController {
             ingredientImageView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor),
             ingredientImageView.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor),
             mealImageTopConstraint, mealImageHeightConstraint,
-        ])
-    }
-
-    private func configureTextStackView() {
-        NSLayoutConstraint.activate([
-            textStackView.topAnchor.constraint(equalTo: ingredientImageView.bottomAnchor),
-            textStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            textStackView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            textStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
     }
 
