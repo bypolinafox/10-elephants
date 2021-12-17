@@ -11,8 +11,8 @@ import UIKit
 final class PreviewCellView: UICollectionViewCell {
     private var imageRequest: Cancellable?
 
-    lazy var titleLabel    = makeTitleLabel()
-    lazy var imageView     = makeImageView()
+    lazy var titleLabel = makeTitleLabel()
+    lazy var imageView = makeImageView()
     lazy var containerView = makeContainerView()
     lazy var shadowLayer = makeShadowLayer()
     lazy var indicator = makeActivityIndicator()
@@ -121,7 +121,7 @@ extension PreviewCellView {
         self.titleLabel.text = titleText
         guard let link = thumbnailLink,
               let url = NSURL(string: link) else {
-                  return
+            return
         }
         imageView.image = nil
 

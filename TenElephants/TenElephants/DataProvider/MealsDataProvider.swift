@@ -20,8 +20,14 @@ protocol MealsDataProvider {
 
     func fetchRandomPreviewMeals(completionHandler: @escaping MealsFetchCompletion)
     func fetchMealDetails(by id: String, completionHandler: @escaping MealsFetchCompletion)
-    func fetchMealListFiltered(by ingredient: String, completionHandler: @escaping MealsFetchCompletion)
-    func fetchMealListFiltered(by ingridients: [String], completionHandler: @escaping MealsFetchCompletion)
+    func fetchMealListFiltered(
+        by ingredient: String,
+        completionHandler: @escaping MealsFetchCompletion
+    )
+    func fetchMealListFiltered(
+        by ingridients: [String],
+        completionHandler: @escaping MealsFetchCompletion
+    )
     func fetchLatestMeals(completionHandler: @escaping MealsFetchCompletion)
     func searchMealByName(name: String, completionHandler: @escaping MealsFetchCompletion)
     func fetchRandomCocktail(completionHandler: @escaping CocktailFetchCompletion)

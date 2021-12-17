@@ -44,7 +44,8 @@ final class CachedImageFetcher {
             loadingResponses[url] = [completion]
         }
         let task = URLSession.shared.dataTask(with: url as URL) { [weak self] data, _, error in
-            guard let responseData = data, let image = UIImage(data: responseData), error == nil else {
+            guard let responseData = data, let image = UIImage(data: responseData),
+                  error == nil else {
                 DispatchQueue.main.async {
                     completion(nil)
                 }

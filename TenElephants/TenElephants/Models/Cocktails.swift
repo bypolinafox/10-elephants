@@ -57,7 +57,10 @@ extension Cocktail: Decodable {
 
         // try to get these values, they can be used for preview
         self.name = try commonContainer.decodeIfPresent(String.self, forKey: .strDrink)
-        self.thumbnailLink = try commonContainer.decodeIfPresent(String.self, forKey: .strDrinkThumb)
+        self.thumbnailLink = try commonContainer.decodeIfPresent(
+            String.self,
+            forKey: .strDrinkThumb
+        )
 
         let customContainer = try decoder.container(keyedBy: OptionalCodingKeys.self)
 
