@@ -86,7 +86,7 @@ final class TabBarController: UITabBarController {
 
         let ingredientsItem = UITabBarItem()
         ingredientsItem.title = "Ingredients"
-        ingredientsItem.image = UIImage(systemName: "applelogo")
+        ingredientsItem.image = UIImage(systemName: "list.bullet.rectangle")
         ingredientsC.tabBarItem = ingredientsItem
 
         let randomC = MealPageController(
@@ -100,22 +100,27 @@ final class TabBarController: UITabBarController {
         randomItem.image = UIImage(systemName: "dice")
         randomC.tabBarItem = randomItem
 
+        let personNavC = UINavigationController()
+
         let likeC = LikePageController(
             dataProvider: likeProvider,
             imageLoader: imageLoader,
             networkDataProvider: networkDataProvider
         )
         let likeItem = UITabBarItem()
-        likeItem.title = "Like"
         likeItem.image = UIImage(systemName: "heart")
         likeC.tabBarItem = likeItem
+        likeC.title = "Favourites"
+
+        personNavC.viewControllers = [likeC]
+        personNavC.navigationBar.prefersLargeTitles = true
 
         self.viewControllers = [
             trendC,
             searchC,
             randomC,
             ingredientsC,
-            likeC,
+            personNavC,
         ]
     }
 }

@@ -28,8 +28,8 @@ func getEmoji(ingredientName: String, drinks: Bool = false) -> String? {
     if drinks {
         return ingredientSuggestionsCocktail[ingredientName.lowercased()]?.emoji
     }
-        return ingredientSuggestions[ingredientName.lowercased()]?.emoji
-    }
+    return ingredientSuggestions[ingredientName.lowercased()]?.emoji
+}
 
 let ingredientSuggestions: [String: IngredientSuggestion] = [
     "apples": .init("Apple", "🍎"), // id: 488

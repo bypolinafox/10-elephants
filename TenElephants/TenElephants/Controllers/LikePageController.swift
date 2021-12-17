@@ -24,13 +24,23 @@ final class LikePageController: UIViewController {
         static let reuseId: String = "FavCell"
         static let cellHeight: CGFloat = 100
         static let cellWidth: CGFloat = 343
+        static let bottomInset: CGFloat = 20
+        static let settingsIcon: UIImage = .init(systemName: "gearshape")!
     }
 
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.contentInset.bottom = 20
         return view
     }()
+
+    private lazy var settingsItem = UIBarButtonItem(
+        image: Constants.settingsIcon,
+        style: .plain,
+        target: self,
+        action: #selector(openSettings)
+    )
 
     init(
         dataProvider: DBDataProvider,
@@ -98,11 +108,18 @@ final class LikePageController: UIViewController {
         }
     }
 
+    @objc func openSettings() {
+        let settingsController = SettingsViewController()
+        self.navigationController?.pushViewController(settingsController, animated: true)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         view.addSubview(collectionView)
         view.addSubview(nothingFoundView)
+
+        self.navigationItem.rightBarButtonItem = settingsItem
 
         NSLayoutConstraint.activate([
             nothingFoundView.centerXAnchor.constraint(equalTo: view.centerXAnchor),

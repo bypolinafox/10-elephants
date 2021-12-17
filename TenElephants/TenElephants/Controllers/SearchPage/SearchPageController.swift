@@ -14,10 +14,10 @@ final class SearchPageController: UIViewController {
         static let nothingFoundTitle = "Nothing found 😢"
         static let sideInsetValue: CGFloat = 16
         static let sideInsets = UIEdgeInsets(
-                top: 0,
-                left: sideInsetValue,
-                bottom: 0,
-                right: sideInsetValue
+            top: 0,
+            left: sideInsetValue,
+            bottom: 0,
+            right: sideInsetValue
         )
         static let ingredientHeight: CGFloat = 35
 
@@ -47,17 +47,17 @@ final class SearchPageController: UIViewController {
     private lazy var mealSuggestionsStack: UIStackView = factory.makeMealSuggestionStackView()
     private lazy var mealSuggestionTitle: UILabel = factory.makeMealSuggestionTitle()
     private lazy var ingredientSuggestionsStack: UIStackView = factory
-            .makeIngredientSuggestionStackView()
+        .makeIngredientSuggestionStackView()
     private lazy var ingredientSuggestionTitle: UILabel = factory.makeIngredientSuggestionTitle()
     private lazy var ingregientCollectionView: UICollectionView = factory
-            .makeIngredientCollectionView()
+        .makeIngredientCollectionView()
     private lazy var resultCollectionView: UICollectionView = factory.makeResultCollectionView()
     private lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
     private lazy var suggestionNothingFound = factory.makeNothingFoundStack()
     private lazy var resultNothingFound = factory.makeNothingFoundStack()
     private lazy var tapRecognizer = UITapGestureRecognizer(
-            target: self,
-            action: #selector(hideSuggestions)
+        target: self,
+        action: #selector(hideSuggestions)
     )
 
     private let factory = SearchPageViewFactory()
@@ -71,43 +71,43 @@ final class SearchPageController: UIViewController {
     private var openSingleMeal: (Meal) -> Void
 
     private lazy var mealDataSource = MealSuggestionDataSource(
-            cellWidth: Constants.mealSuggestionCellWidth,
-            cellID: Constants.mealCellID,
-            imageLoader: imageLoader,
-            openSingleMeal: openSingleMeal
+        cellWidth: Constants.mealSuggestionCellWidth,
+        cellID: Constants.mealCellID,
+        imageLoader: imageLoader,
+        openSingleMeal: openSingleMeal
     )
     private lazy var ingredientDataSource = IngredientDataSource(
-            cellID: Constants.ingredientCellID,
-            updateParentFilters: { [weak self] newFilters in
-                // we pass it to dataSource so we can respond to touches in CollectionView
-                guard let self = self else {
-                    return
-                }
-
-                let searchText = self.searchBar.nonOptionalText
-                self.filters = newFilters
-                guard !newFilters.isEmpty else {
-                    self.search(searchText: searchText)
-                    return
-                }
-
-                self.searchByIngredients(filters: newFilters, searchText: searchText)
+        cellID: Constants.ingredientCellID,
+        updateParentFilters: { [weak self] newFilters in
+            // we pass it to dataSource so we can respond to touches in CollectionView
+            guard let self = self else {
+                return
             }
+
+            let searchText = self.searchBar.nonOptionalText
+            self.filters = newFilters
+            guard !newFilters.isEmpty else {
+                self.search(searchText: searchText)
+                return
+            }
+
+            self.searchByIngredients(filters: newFilters, searchText: searchText)
+        }
     )
 
     private lazy var resultDataSource = ResultMealDataSource(
-            cellHeight: Constants.resultCellHeight,
-            insetValue: Constants.sideInsetValue,
-            cellID: Constants.resultMealCellID,
-            imageLoader: imageLoader,
-            openSingleMeal: openSingleMeal
+        cellHeight: Constants.resultCellHeight,
+        insetValue: Constants.sideInsetValue,
+        cellID: Constants.resultMealCellID,
+        imageLoader: imageLoader,
+        openSingleMeal: openSingleMeal
     )
 
     init(
-            networkDataProvider: MealsDataProviderNetwork,
-            recentProvider: RecentsProviderProtocol,
-            imageLoader: ImageLoader,
-            openSingleMeal: @escaping (Meal) -> Void
+        networkDataProvider: MealsDataProviderNetwork,
+        recentProvider: RecentsProviderProtocol,
+        imageLoader: ImageLoader,
+        openSingleMeal: @escaping (Meal) -> Void
     ) {
         self.netDataProvider = networkDataProvider
         self.recentsProvider = recentProvider
@@ -263,9 +263,9 @@ final class SearchPageController: UIViewController {
 extension SearchPageController: UISearchBarDelegate {
     func searchBar(_: UISearchBar, textDidChange _: String) {
         NSObject.cancelPreviousPerformRequests(
-                withTarget: self,
-                selector: #selector(reloadSuggestions),
-                object: nil
+            withTarget: self,
+            selector: #selector(reloadSuggestions),
+            object: nil
         )
         self.perform(#selector(reloadSuggestions), with: nil, afterDelay: 0.5)
     }
@@ -306,22 +306,22 @@ extension SearchPageController {
         mealCollectionView.dataSource = mealDataSource
         mealCollectionView.delegate = mealDataSource
         mealCollectionView.register(
-                Constants.mealCellType,
-                forCellWithReuseIdentifier: Constants.mealCellID
+            Constants.mealCellType,
+            forCellWithReuseIdentifier: Constants.mealCellID
         )
 
         ingregientCollectionView.dataSource = ingredientDataSource
         ingregientCollectionView.delegate = ingredientDataSource
         ingregientCollectionView.register(
-                Constants.ingredientCellType,
-                forCellWithReuseIdentifier: Constants.ingredientCellID
+            Constants.ingredientCellType,
+            forCellWithReuseIdentifier: Constants.ingredientCellID
         )
 
         resultCollectionView.dataSource = resultDataSource
         resultCollectionView.delegate = resultDataSource
         resultCollectionView.register(
-                Constants.resultMealCellType,
-                forCellWithReuseIdentifier: Constants.resultMealCellID
+            Constants.resultMealCellType,
+            forCellWithReuseIdentifier: Constants.resultMealCellID
         )
     }
 
@@ -393,18 +393,18 @@ extension SearchPageController {
         self.mealCollectionView.backgroundColor = .clear
         NSLayoutConstraint.activate([
             mealCollectionView.heightAnchor
-                    .constraint(equalToConstant: Constants.mealSuggestionHeight),
+                .constraint(equalToConstant: Constants.mealSuggestionHeight),
             mealCollectionView.widthAnchor.constraint(equalTo: mealSuggestionsStack.widthAnchor),
         ])
 
         NSLayoutConstraint.activate([
             mealSuggestionTitle.leadingAnchor.constraint(
-                    equalTo: mealSuggestionsStack.leadingAnchor,
-                    constant: Constants.sideInsetValue
+                equalTo: mealSuggestionsStack.leadingAnchor,
+                constant: Constants.sideInsetValue
             ),
             mealSuggestionTitle.trailingAnchor.constraint(
-                    equalTo: mealSuggestionsStack.trailingAnchor,
-                    constant: -Constants.sideInsetValue
+                equalTo: mealSuggestionsStack.trailingAnchor,
+                constant: -Constants.sideInsetValue
             ),
         ])
     }
@@ -413,19 +413,19 @@ extension SearchPageController {
         self.ingregientCollectionView.backgroundColor = .clear
         NSLayoutConstraint.activate([
             ingregientCollectionView.heightAnchor
-                    .constraint(equalToConstant: Constants.ingredientHeight),
+                .constraint(equalToConstant: Constants.ingredientHeight),
             ingregientCollectionView.widthAnchor
-                    .constraint(equalTo: ingredientSuggestionsStack.widthAnchor),
+                .constraint(equalTo: ingredientSuggestionsStack.widthAnchor),
         ])
 
         NSLayoutConstraint.activate([
             ingredientSuggestionTitle.leadingAnchor.constraint(
-                    equalTo: ingredientSuggestionsStack.leadingAnchor,
-                    constant: Constants.sideInsetValue
+                equalTo: ingredientSuggestionsStack.leadingAnchor,
+                constant: Constants.sideInsetValue
             ),
             ingredientSuggestionTitle.trailingAnchor.constraint(
-                    equalTo: ingredientSuggestionsStack.trailingAnchor,
-                    constant: -Constants.sideInsetValue
+                equalTo: ingredientSuggestionsStack.trailingAnchor,
+                constant: -Constants.sideInsetValue
             ),
         ])
     }
@@ -463,9 +463,9 @@ extension SearchPageController {
     private func configureNothingFoundStacks() {
         NSLayoutConstraint.activate([
             suggestionNothingFound.centerXAnchor
-                    .constraint(equalTo: mealSuggestionsStack.centerXAnchor),
+                .constraint(equalTo: mealSuggestionsStack.centerXAnchor),
             suggestionNothingFound.centerYAnchor
-                    .constraint(equalTo: mealSuggestionsStack.centerYAnchor),
+                .constraint(equalTo: mealSuggestionsStack.centerYAnchor),
         ])
 
         NSLayoutConstraint.activate([
