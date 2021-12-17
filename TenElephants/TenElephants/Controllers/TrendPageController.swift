@@ -21,7 +21,7 @@ final class TrendPageController: UIViewController {
     }
 
     let provider: MealsDataProviderNetwork
-    let imageFetcher: CachedImageFetcher
+    let imageLoader: ImageLoader
     private let openSingleMeal: (Meal) -> Void
 
     enum Section: Int {
@@ -53,11 +53,11 @@ final class TrendPageController: UIViewController {
 
     init(
         networkDataProvider: MealsDataProviderNetwork,
-        imageFetcher: CachedImageFetcher,
+        imageLoader: ImageLoader,
         openSingleMeal: @escaping (Meal) -> Void
     ) {
         self.provider = networkDataProvider
-        self.imageFetcher = imageFetcher
+        self.imageLoader = imageLoader
         self.openSingleMeal = openSingleMeal
         super.init(nibName: nil, bundle: nil)
     }
@@ -263,7 +263,7 @@ extension TrendPageController: UICollectionViewDataSource {
                     area: item.area,
                     category: item.category,
                     thumbnailLink: item.thumbnailLink,
-                    imageFetcher: imageFetcher
+                    imageLoader: imageLoader
                 )
             }
             return cell
@@ -286,7 +286,7 @@ extension TrendPageController: UICollectionViewDataSource {
                 cell.configure(
                     titleText: item.name,
                     thumbnailLink: item.thumbnailLink,
-                    imageFetcher: imageFetcher
+                    imageLoader: imageLoader
                 )
             }
             return cell

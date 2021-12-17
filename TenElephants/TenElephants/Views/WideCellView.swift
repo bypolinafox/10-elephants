@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import Combine
 
 final class WideCellView: UICollectionViewCell {
-    private var imageRequest: Cancellable?
+    private var cancellable: AnyCancellable?
+    private var animator: UIViewPropertyAnimator?
 
     private enum Constants {
         static let labelGap: CGFloat = 10
@@ -106,6 +108,13 @@ final class WideCellView: UICollectionViewCell {
         super.layoutSubviews()
         layer.insertSublayer(shadowLayer, at: 0)
     }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+        animator?.stopAnimation(true)
+        cancellable?.cancel()
+    }
 }
 
 extension WideCellView {
@@ -173,6 +182,17 @@ extension UILabel {
 }
 
 extension WideCellView {
+
+    private func showImage(image: UIImage?) {
+        imageView.alpha = 0.0
+        animator?.stopAnimation(false)
+        imageView.image = image
+        animator = UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
+            self.imageView.alpha = 1.0
+        })
+    }
+
     private func makeSubtitleText(
         area: String? = nil,
         category: String? = nil
@@ -192,18 +212,15 @@ extension WideCellView {
         area: String? = nil,
         category: String? = nil,
         thumbnailLink: String? = nil,
-        imageFetcher: CachedImageFetcher? = nil
+        imageLoader: ImageLoader? = nil
     ) {
         self.titleLabel.text = titleText
         self.subtitleLabel.text = makeSubtitleText(area: area, category: category)
-        guard let link = thumbnailLink,
-              let url = NSURL(string: link) else {
+        guard let link = thumbnailLink, let imageLoader = imageLoader else {
             return
         }
-        imageView.image = nil
-
-        imageRequest = imageFetcher?.fetch(url: url) { image in
-            self.imageView.image = image
+        cancellable = imageLoader.loadImage(thumbnailLink: link).sink { [unowned self] image in
+            self.showImage(image: image)
         }
     }
 }

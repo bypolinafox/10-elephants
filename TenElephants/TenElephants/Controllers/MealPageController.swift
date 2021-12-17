@@ -5,6 +5,7 @@
 //  Created by Kirill Denisov on 09.12.2021.
 //
 import UIKit
+import Combine
 
 final class MealPageController: UIViewController {
     private enum Constants {
@@ -15,9 +16,14 @@ final class MealPageController: UIViewController {
         static let defaultEmoji: String = "😋"
         static let loadingScreenAppearanceDuration: TimeInterval = 0.5
     }
+    private var cancellable: AnyCancellable? {
+        willSet {
+            cancellable?.cancel()
+        }
+    }
 
     private let factory = MealViewFactory()
-    private let imageFetcher: CachedImageFetcher
+    private var imageLoader: ImageLoader
     private var preloadedMeal: UIMeal? // is received from init
     private var randomMeal: UIMeal? // loads from dataProvider
     private let dataProvider: MealsDataProvider
@@ -47,12 +53,12 @@ final class MealPageController: UIViewController {
 
     init(
         meal: UIMeal?,
-        imageFetcher: CachedImageFetcher,
+        imageLoader: ImageLoader,
         dataProvider: MealsDataProvider,
         likeProvider: DBDataProvider
     ) {
         self.preloadedMeal = meal
-        self.imageFetcher = imageFetcher
+        self.imageLoader = imageLoader
         self.dataProvider = dataProvider
         self.likeProvider = likeProvider
         super.init(nibName: nil, bundle: nil)
@@ -160,8 +166,8 @@ final class MealPageController: UIViewController {
     }
 
     private func fillMealData(meal: UIMeal) {
-        if let url = meal.thumbnailLink.flatMap({ NSURL(string: $0) }) {
-            loadImage(url: url)
+        if let link = meal.thumbnailLink {
+            loadImage(link: link)
         }
         titleLabel.text = meal.name
         if let ingredients = meal.ingredients, !ingredients.isEmpty {
@@ -181,11 +187,10 @@ final class MealPageController: UIViewController {
         loadingScreen.setAppearance(shouldHide: shouldHide, animated: animated)
     }
 
-    private func loadImage(url: NSURL) {
-        _ = imageFetcher.fetch(url: url, completion: { [weak self] image in
-            guard let self = self else { return }
+    private func loadImage(link: String) {
+        cancellable = imageLoader.loadImage(thumbnailLink: link).sink { [unowned self] image in
             self.mealImageView.image = image
-        })
+        }
     }
 
     private func fillIngredients(_ ingredients: [Ingredient]?) {

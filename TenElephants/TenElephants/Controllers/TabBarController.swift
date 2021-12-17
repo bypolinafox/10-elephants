@@ -9,7 +9,7 @@ import UIKit
 
 final class TabBarController: UITabBarController {
     private var networkService = NetworkService()
-    private var imageFetcher = CachedImageFetcher()
+    private var imageLoader = ImageLoader()
     private lazy var recentsProvider = RecentsProvider(networkService: networkService)
     private let likeProvider = UserDefaultsDataProvider()
     private lazy var networkDataProvider = MealsDataProviderNetwork(networkService: networkService)
@@ -18,7 +18,7 @@ final class TabBarController: UITabBarController {
         let uiMeal = UIMeal(mealObj: meal, dataProvider: likeProvider)
         let singleMealController = MealPageController(
             meal: uiMeal,
-            imageFetcher: imageFetcher,
+            imageLoader: imageLoader,
             dataProvider: networkDataProvider,
             likeProvider: likeProvider
         )
@@ -34,7 +34,7 @@ final class TabBarController: UITabBarController {
 
         let trendC = TrendPageController(
             networkDataProvider: networkDataProvider,
-            imageFetcher: imageFetcher,
+            imageLoader: imageLoader,
             openSingleMeal: { [weak self] meal in
                 self?.openSingleMeal(meal: meal)
             }
@@ -47,7 +47,7 @@ final class TabBarController: UITabBarController {
         let searchC = SearchPageController(
             networkDataProvider: networkDataProvider,
             recentProvider: recentsProvider,
-            imageFetcher: imageFetcher,
+            imageLoader: imageLoader,
             openSingleMeal: { [weak self] meal in
                 self?.openSingleMeal(meal: meal)
             }
@@ -59,7 +59,7 @@ final class TabBarController: UITabBarController {
 
         let randomC = MealPageController(
             meal: nil,
-            imageFetcher: imageFetcher,
+            imageLoader: imageLoader,
             dataProvider: networkDataProvider,
             likeProvider: likeProvider
         )
@@ -70,7 +70,7 @@ final class TabBarController: UITabBarController {
 
         let likeC = LikePageController(
             dataProvider: likeProvider,
-            imageFetcher: imageFetcher,
+            imageLoader: imageLoader,
             networkDataProvider: networkDataProvider
         )
         let likeItem = UITabBarItem()

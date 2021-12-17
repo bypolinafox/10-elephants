@@ -7,9 +7,11 @@
 
 import Foundation
 import UIKit
+import Combine
 
 final class PreviewCellView: UICollectionViewCell {
-    private var imageRequest: Cancellable?
+    private var cancellable: AnyCancellable?
+    private var animator: UIViewPropertyAnimator?
 
     lazy var titleLabel = makeTitleLabel()
     lazy var imageView = makeImageView()
@@ -48,6 +50,13 @@ final class PreviewCellView: UICollectionViewCell {
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("has not been implemented")
+    }
+
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageView.image = nil
+        animator?.stopAnimation(true)
+        cancellable?.cancel()
     }
 }
 
@@ -113,20 +122,28 @@ extension PreviewCellView {
 }
 
 extension PreviewCellView {
+
+    private func showImage(image: UIImage?) {
+        imageView.alpha = 0.0
+        animator?.stopAnimation(false)
+        imageView.image = image
+        animator = UIViewPropertyAnimator.runningPropertyAnimator(
+            withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
+            self.imageView.alpha = 1.0
+        })
+    }
+
     func configure(
         titleText: String?,
         thumbnailLink: String? = nil,
-        imageFetcher: CachedImageFetcher? = nil
+        imageLoader: ImageLoader? = nil
     ) {
         self.titleLabel.text = titleText
-        guard let link = thumbnailLink,
-              let url = NSURL(string: link) else {
+        guard let link = thumbnailLink, let imageLoader = imageLoader else {
             return
         }
-        imageView.image = nil
-
-        imageRequest = imageFetcher?.fetch(url: url) { image in
-            self.imageView.image = image
+        cancellable = imageLoader.loadImage(thumbnailLink: link).sink { [unowned self] image in
+            self.showImage(image: image)
         }
     }
 }

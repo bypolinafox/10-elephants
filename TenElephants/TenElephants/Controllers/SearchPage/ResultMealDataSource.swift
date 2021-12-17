@@ -12,7 +12,7 @@ final class ResultMealDataSource: NSObject, UICollectionViewDataSource {
     private let cellHeight: CGFloat
     private let sideInsetValue: CGFloat
     private let cellID: String
-    private let imageFetcher: CachedImageFetcher
+    private let imageLoader: ImageLoader
 
     let openMealPageController: (Meal) -> Void
 
@@ -22,13 +22,13 @@ final class ResultMealDataSource: NSObject, UICollectionViewDataSource {
         cellHeight: CGFloat,
         insetValue: CGFloat,
         cellID: String,
-        imageFetcher: CachedImageFetcher,
+        imageLoader: ImageLoader,
         openSingleMeal: @escaping (Meal) -> Void
     ) {
         self.cellHeight = cellHeight
         self.sideInsetValue = insetValue
         self.cellID = cellID
-        self.imageFetcher = imageFetcher
+        self.imageLoader = imageLoader
         self.openMealPageController = openSingleMeal
     }
 
@@ -48,7 +48,7 @@ final class ResultMealDataSource: NSObject, UICollectionViewDataSource {
             area: meal.area,
             category: meal.category,
             thumbnailLink: meal.thumbnailLink,
-            imageFetcher: imageFetcher
+            imageLoader: imageLoader
         )
         return mealCell
     }
