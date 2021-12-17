@@ -21,8 +21,7 @@ final class MealsDataProviderStub: MealsDataProvider {
         do {
             let drinks = try JSONDecoder().decode(Drinks.self, from: stubDataCocktail)
             completionHandler(.success(drinks))
-        } catch let err {
-            print(err)
+        } catch {
             completionHandler(.failure(.unparsableData))
         }
     }

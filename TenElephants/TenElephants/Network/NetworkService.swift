@@ -19,7 +19,6 @@ final class NetworkService: NetworkServiceProtocol {
             guard let self = self else { return }
             if case .failure = result {
                 let newDelay = self.delayCounter.countDelay()
-                print("Retry after \(newDelay)")
                 DispatchQueue.main.asyncAfter(
                     deadline: .now() + newDelay, execute: { [weak self] in
                         self?.getMealDetails(id: id, completion: completion)
@@ -37,7 +36,6 @@ final class NetworkService: NetworkServiceProtocol {
             guard let self = self else { return }
             if case .failure = result {
                 let newDelay = self.delayCounter.countDelay()
-                print("Retry after \(newDelay)")
                 DispatchQueue.main.asyncAfter(
                     deadline: .now() + newDelay, execute: { [weak self] in
                         self?.getRandomMeals(completion: completion)
@@ -55,7 +53,6 @@ final class NetworkService: NetworkServiceProtocol {
             guard let self = self else { return }
             if case .failure = result {
                 let newDelay = self.delayCounter.countDelay()
-                print("Retry after \(newDelay)")
                 DispatchQueue.main.asyncAfter(
                     deadline: .now() + newDelay, execute: { [weak self] in
                         self?.getRandomCocktails(completion: completion)
@@ -82,7 +79,6 @@ final class NetworkService: NetworkServiceProtocol {
             guard let self = self else { return }
             if case .failure = result {
                 let newDelay = self.delayCounter.countDelay()
-                print("Retry after \(newDelay)")
                 DispatchQueue.main.asyncAfter(
                     deadline: .now() + newDelay, execute: { [weak self] in
                         self?.getFilteredMealList(ingredient: ingredient, completion: completion)

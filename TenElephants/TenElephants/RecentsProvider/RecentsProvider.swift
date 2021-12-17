@@ -25,8 +25,8 @@ final class RecentsProvider: RecentsProviderProtocol {
                 DispatchQueue.main.async {
                     completion(.success(items))
                 }
-            case let .failure(error):
-                print(error.localizedDescription)
+            case .failure:
+                return
             }
         }
     }

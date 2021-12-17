@@ -174,8 +174,8 @@ final class MealPageController: UIViewController {
                             self.setLoadingScreenAppearance(shouldHide: true, animated: true)
                             self.fillMealData(meal: self.preloadedMeal!)
                         }
-                    case let .failure(error):
-                        print(error.localizedDescription)
+                    case .failure:
+                        return
                     }
                 }
                 return
