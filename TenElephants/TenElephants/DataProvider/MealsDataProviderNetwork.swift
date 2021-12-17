@@ -57,7 +57,7 @@ final class MealsDataProviderNetwork: MealsDataProvider {
         by ingridients: [String],
         completionHandler: @escaping MealsFetchCompletion
     ) {
-        (networkService as NetworkServiceProtocol).getMealListFiltered(by: ingridients) { result in
+        (networkService as NetworkServiceProtocol).getFilteredMealList(ingredients: ingridients) { result in
             switch result {
             case let .success(meals):
                 completionHandler(.success(meals))
