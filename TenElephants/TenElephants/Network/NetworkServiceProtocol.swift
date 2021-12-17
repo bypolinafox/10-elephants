@@ -21,7 +21,7 @@ protocol NetworkServiceProtocol {
 
     func getFilteredMealList(ingredient: String, completion: @escaping mealsCompletion)
 
-    func getFilteredMealList(ingredients: [String], completion: @escaping mealsCompletion)
+    func getMealListFiltered(by ingredients: [String], completion: @escaping mealsCompletion)
 
     func searchMealByName(name: String, completion: @escaping mealsCompletion)
 
