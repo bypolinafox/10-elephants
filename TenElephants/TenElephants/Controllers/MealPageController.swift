@@ -183,8 +183,8 @@ final class MealPageController: UIViewController {
     private func fillMealData(meal: UIMeal) {
         self.likeButton.isHidden = false
 
-        if let url = meal.thumbnailLink.flatMap({ NSURL(string: $0) }) {
-            loadImage(url: url)
+        if let link = meal.thumbnailLink {
+            loadImage(link: link)
         }
         titleLabel.text = meal.name
         if let ingredients = meal.ingredients, !ingredients.isEmpty {
@@ -200,8 +200,8 @@ final class MealPageController: UIViewController {
 
     private func fillDrinkData(drink: UICocktail) {
         self.likeButton.isHidden = true
-        if let url = drink.thumbnailLink.flatMap({ NSURL(string: $0) }) {
-            loadImage(url: url)
+        if let link = drink.thumbnailLink {
+            loadImage(link: link)
         }
         titleLabel.text = drink.name
         if let ingredients = drink.ingredients, !ingredients.isEmpty {
