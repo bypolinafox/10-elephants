@@ -174,14 +174,7 @@ final class MealViewFactory {
         return label
     }
 
-    func makeRecipeStack() -> UIStackView {
-        let recipeTitle = UILabel()
-        recipeTitle.text = Constants.recipeTitle
-        recipeTitle.font = UIFont.systemFont(
-            ofSize: Constants.secondaryTitleFontSize,
-            weight: .bold
-        )
-
+    func makeRecipeStack(needTitle: Bool = true) -> UIStackView {
         let recipeLabel = UILabel()
         recipeLabel.numberOfLines = 0
 
@@ -194,7 +187,16 @@ final class MealViewFactory {
         stackView.axis = .vertical
         stackView.alignment = .leading
 
-        stackView.addArrangedSubview(recipeTitle)
+        if needTitle {
+            let recipeTitle = UILabel()
+            recipeTitle.text = Constants.recipeTitle
+            recipeTitle.font = UIFont.systemFont(
+                ofSize: Constants.secondaryTitleFontSize,
+                weight: .bold
+            )
+            stackView.addArrangedSubview(recipeTitle)
+        }
+
         stackView.addArrangedSubview(recipeLabel)
 
         return stackView

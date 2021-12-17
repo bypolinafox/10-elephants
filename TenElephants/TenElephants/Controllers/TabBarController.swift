@@ -43,9 +43,7 @@ final class TabBarController: UITabBarController {
         singleIngredientController.modalPresentationStyle = .fullScreen
         singleIngredientController.modalTransitionStyle = .coverVertical
 
-        present(singleIngredientController, animated: true) {
-            print("Presented")
-        }
+        present(singleIngredientController, animated: true, completion: nil)
     }
 
     override func viewDidLoad() {
