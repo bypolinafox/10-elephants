@@ -50,6 +50,7 @@
 		DFB4C10C2768BEDE002CE4A0 /* RecentsProviderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4C10B2768BEDD002CE4A0 /* RecentsProviderProtocol.swift */; };
 		DFB4C10E2768BF71002CE4A0 /* RecentsProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4C10D2768BF71002CE4A0 /* RecentsProvider.swift */; };
 		DFB4C1102768E68F002CE4A0 /* IngredientSuggestions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB4C10F2768E68F002CE4A0 /* IngredientSuggestions.swift */; };
+		DFFF8F0A276CAB680094AA69 /* CellBackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFFF8F09276CAB680094AA69 /* CellBackgroundColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -109,6 +110,7 @@
 		DFB4C10B2768BEDD002CE4A0 /* RecentsProviderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsProviderProtocol.swift; sourceTree = "<group>"; };
 		DFB4C10D2768BF71002CE4A0 /* RecentsProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsProvider.swift; sourceTree = "<group>"; };
 		DFB4C10F2768E68F002CE4A0 /* IngredientSuggestions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientSuggestions.swift; sourceTree = "<group>"; };
+		DFFF8F09276CAB680094AA69 /* CellBackgroundColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellBackgroundColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +222,7 @@
 				430F423827672C45001DE6BB /* PreviewCellView.swift */,
 				430F423A27676FD4001DE6BB /* HeaderCollectionView.swift */,
 				DFB4C1072767B6C2002CE4A0 /* IngredientSuggestionCell.swift */,
+				DFFF8F09276CAB680094AA69 /* CellBackgroundColor.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				430F423927672C45001DE6BB /* PreviewCellView.swift in Sources */,
 				43E8CEDB276B7E6300C3F357 /* Cocktails.swift in Sources */,
 				14FD770FF738AD41E178659A /* LikePageController.swift in Sources */,
+				DFFF8F0A276CAB680094AA69 /* CellBackgroundColor.swift in Sources */,
 				14FD7E1D0C8CE63093E664E8 /* UIMeals.swift in Sources */,
 				14FD761E55C129216DBA8BF5 /* DBDataProvider.swift in Sources */,
 				43E8CED92768A54100C3F357 /* MealsDataProviderNetwork.swift in Sources */,

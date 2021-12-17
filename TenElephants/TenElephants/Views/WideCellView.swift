@@ -19,7 +19,7 @@ final class WideCellView: UICollectionViewCell {
         static let imageBottomGap: CGFloat = -60
         static let shadowOpacity: Float = 0.2
         static let shadowRadius: CGFloat = 3
-        static let shadowColor = UIColor.label.cgColor
+        static let shadowColor = UIColor.black.cgColor
         static let shadowOffset = CGSize(width: 0.0, height: 1.0)
     }
 
@@ -38,7 +38,7 @@ final class WideCellView: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        contentView.backgroundColor = .systemBackground
+        contentView.backgroundColor = .cellBackgroundColor
         contentView.layer.cornerRadius = Constants.cornerRadius
         contentView.layer.masksToBounds = true
 

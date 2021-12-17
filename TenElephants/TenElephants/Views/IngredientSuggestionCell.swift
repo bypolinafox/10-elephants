@@ -16,7 +16,7 @@ final class IngredientSuggestionCell: UICollectionViewCell {
         static let emojiSize: CGFloat = 25
         static let titleSize: CGFloat = 17
         static let cornerRadius: CGFloat = 10
-        static let backgroundColor: UIColor = .systemBackground
+        static let backgroundColor: UIColor = .cellBackgroundColor
         static let activeBackgroundColor: UIColor = .link
         static let labelColor: UIColor = .label
         static let activeLabelColor: UIColor = .systemBackground
