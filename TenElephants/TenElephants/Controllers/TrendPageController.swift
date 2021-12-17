@@ -198,8 +198,8 @@ final class TrendPageController: UIViewController {
                         self.viewModelV = items
                     }
                 }
-            case let .failure(error): // TODO: proper error handling
-                print(error.localizedDescription)
+            case .failure:
+                return
             }
         }
     }

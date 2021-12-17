@@ -52,8 +52,8 @@ final class IngredientsPageController: UIViewController {
     private func fetchData() {
         dataProvider.fetchIngredientsList { [weak self] result in
             switch result {
-            case let .failure(error):
-                print(error.localizedDescription) // Пока не решили, что придумаем для ошибок
+            case .failure:
+                return
             case let .success(data):
                 self?.ingredientsData = data
                 DispatchQueue.main.async { [weak self] in

@@ -158,7 +158,6 @@ public final class ImageLoader {
                 guard let image = image else { return }
                 self.cache[url] = image
             })
-            .print("Image loading \(url):")
             .subscribe(on: backgroundQueue)
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
