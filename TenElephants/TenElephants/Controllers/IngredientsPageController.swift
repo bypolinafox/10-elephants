@@ -25,11 +25,15 @@ final class IngredientsPageController: UIViewController {
 
     private let dataProvider: IngredientsDataProvider
     private var ingredientsData: IngredientsUIData?
+    private let openSingleIngredient: (IngredientUIData) -> Void
 
     init(
-        dataProvider: IngredientsDataProvider
+        dataProvider: IngredientsDataProvider,
+        imageLoader: ImageLoader,
+        openSingleIngredient: @escaping (IngredientUIData) -> Void
     ) {
         self.dataProvider = dataProvider
+        self.openSingleIngredient = openSingleIngredient
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -167,5 +171,15 @@ extension IngredientsPageController: UITableViewDataSource {
         tableView.dataSource = self
 
         tableView.reloadData()
+    }
+
+    func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let section = IngredientsSection(rawValue: indexPath.section),
+              section == .elements else {
+            return
+        }
+        if let ingredient = ingredientsData?.ingredients[indexPath.row] {
+            openSingleIngredient(ingredient)
+        }
     }
 }
