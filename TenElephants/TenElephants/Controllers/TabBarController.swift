@@ -93,9 +93,9 @@ final class TabBarController: UITabBarController {
 
         self.viewControllers = [
             trendC,
-            ingredientsC,
             searchC,
             randomC,
+            ingredientsC,
             likeC,
         ]
     }
