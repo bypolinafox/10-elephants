@@ -42,7 +42,7 @@ final class SettingsViewController: UIViewController {
         .init("firstIcon", description: "Nice Blue", image: UIImage(named: "firstIcon")!),
         .init("secondIcon", description: "Lovely Pink", image: UIImage(named: "secondIcon")!),
         .init("thirdIcon", description: "Awesome Orange", image: UIImage(named: "thirdIcon")!),
-        .init("fourthIcon", description: "Sketchy one", image: UIImage(named: "fourthIcon")!),
+        .init("fourthIcon", description: "Sketchy One", image: UIImage(named: "fourthIcon")!),
     ]
 
     private lazy var iconCollection: UICollectionView = {

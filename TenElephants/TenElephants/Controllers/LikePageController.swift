@@ -23,7 +23,7 @@ final class LikePageController: UIViewController {
     private enum Constants {
         static let reuseId: String = "FavCell"
         static let cellHeight: CGFloat = 100
-        static let cellWidth: CGFloat = 343
+        static let sideInset: CGFloat = 16
         static let bottomInset: CGFloat = 20
         static let settingsIcon: UIImage = .init(systemName: "gearshape")!
     }
@@ -31,7 +31,7 @@ final class LikePageController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.contentInset.bottom = 20
+        view.contentInset = UIEdgeInsets(top: 0, left: Constants.sideInset, bottom: Constants.bottomInset, right: Constants.sideInset)
         return view
     }()
 
@@ -203,6 +203,6 @@ extension LikePageController: UICollectionViewDelegateFlowLayout {
         layout _: UICollectionViewLayout,
         sizeForItemAt _: IndexPath
     ) -> CGSize {
-        .init(width: Constants.cellWidth, height: Constants.cellHeight)
+        .init(width: self.collectionView.bounds.width - Constants.sideInset * 2, height: Constants.cellHeight)
     }
 }
