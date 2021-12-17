@@ -26,6 +26,7 @@ final class MealPageController: UIViewController {
     private var imageLoader: ImageLoader
     private var preloadedMeal: UIMeal? // is received from init
     private var randomMeal: UIMeal? // loads from dataProvider
+    private var randomCocktail: UICocktail?
     private let dataProvider: MealsDataProvider
     private let likeProvider: DBDataProvider
 
@@ -134,8 +135,22 @@ final class MealPageController: UIViewController {
     }
 
     private func loadCocktail() {
-        // just reloads for now
-        self.loadMealData()
+        setLoadingScreenAppearance(shouldHide: false, animated: true)
+        dataProvider.fetchRandomCocktail { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case let .success(items):
+                guard !items.drinks.isEmpty else { return }
+                self.randomCocktail = UICocktail(cocktailObj: items.drinks[0])
+                DispatchQueue.main.async {
+                    self.refreshControl.endRefreshing()
+                    self.setLoadingScreenAppearance(shouldHide: true, animated: true)
+                    self.fillDrinkData(drink: self.randomCocktail!)
+                }
+            case .failure:
+                return
+            }
+        }
     }
 
     // MARK: - working with data
@@ -159,13 +174,15 @@ final class MealPageController: UIViewController {
                     self.setLoadingScreenAppearance(shouldHide: true, animated: true)
                     self.fillMealData(meal: self.randomMeal!)
                 }
-            case let .failure(error):
-                print(error.localizedDescription)
+            case .failure:
+                return
             }
         }
     }
 
     private func fillMealData(meal: UIMeal) {
+        self.likeButton.isHidden = false
+
         if let link = meal.thumbnailLink {
             loadImage(link: link)
         }
@@ -181,6 +198,22 @@ final class MealPageController: UIViewController {
         likeButton.isLiked = meal.isLiked
     }
 
+    private func fillDrinkData(drink: UICocktail) {
+        self.likeButton.isHidden = true
+        if let link = drink.thumbnailLink {
+            loadImage(link: link)
+        }
+        titleLabel.text = drink.name
+        if let ingredients = drink.ingredients, !ingredients.isEmpty {
+            ingredientStack.isHidden = false
+            fillIngredients(drink.ingredients, drinks: true)
+        } else { ingredientStack.isHidden = true }
+        if let recipe = drink.instructions, !recipe.isEmpty {
+            recipeStack.isHidden = false
+            recipeLabel.text = recipe
+        } else { recipeStack.isHidden = true }
+    }
+
     // MARK: - changing appearance
 
     private func setLoadingScreenAppearance(shouldHide: Bool, animated: Bool) {
@@ -193,13 +226,14 @@ final class MealPageController: UIViewController {
         }
     }
 
-    private func fillIngredients(_ ingredients: [Ingredient]?) {
+    private func fillIngredients(_ ingredients: [Ingredient]?, drinks: Bool = false) {
         guard let ingredients = ingredients else { return }
         clearIngredientsStack()
         for ingredient in ingredients {
             let ingredientCell = factory.makeIngredientCell(
                 name: ingredient.name,
-                measure: ingredient.measure ?? ""
+                measure: ingredient.measure ?? "",
+                drinks: drinks
             )
             ingredientStack.addArrangedSubview(ingredientCell)
         }
@@ -246,7 +280,7 @@ final class MealPageController: UIViewController {
             scrollView.topAnchor.constraint(equalTo: view.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 
@@ -259,7 +293,7 @@ final class MealPageController: UIViewController {
             imageContainerView.heightAnchor.constraint(
                 equalTo: imageContainerView.widthAnchor,
                 multiplier: imageRatio
-            ),
+            )
         ])
     }
 
@@ -278,7 +312,7 @@ final class MealPageController: UIViewController {
             mealImageView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor),
             mealImageView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor),
             mealImageView.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor),
-            mealImageTopConstraint, mealImageHeightConstraint,
+            mealImageTopConstraint, mealImageHeightConstraint
         ])
     }
 
@@ -287,7 +321,7 @@ final class MealPageController: UIViewController {
             textStackView.topAnchor.constraint(equalTo: mealImageView.bottomAnchor),
             textStackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             textStackView.widthAnchor.constraint(equalTo: view.widthAnchor),
-            textStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            textStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
         ])
     }
 
@@ -313,7 +347,7 @@ final class MealPageController: UIViewController {
             roundCornerButton.heightAnchor
                 .constraint(equalToConstant: Constants.closeButtonSize.height),
             roundCornerButton.widthAnchor
-                .constraint(equalToConstant: Constants.closeButtonSize.width),
+                .constraint(equalToConstant: Constants.closeButtonSize.width)
         ])
     }
 
@@ -322,7 +356,7 @@ final class MealPageController: UIViewController {
             loadingScreen.topAnchor.constraint(equalTo: view.topAnchor),
             loadingScreen.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             loadingScreen.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            loadingScreen.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            loadingScreen.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
 }

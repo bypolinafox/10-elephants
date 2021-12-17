@@ -8,6 +8,7 @@ enum RequestType {
     case mealsByMultipleIngredients(ingredients: [String])
     case mealsByName(name: String)
     case latestMeals
+    case randomCocktails
 }
 
 extension RequestType {
@@ -27,11 +28,22 @@ extension RequestType {
             return ["s": name]
         case .latestMeals:
             return [:]
+        case .randomCocktails:
+            return [:]
+        }
+    }
+
+    private var drinks: Bool {
+        switch self {
+        case .randomCocktails:
+            return true
+        default:
+            return false
         }
     }
 
     var url: URL? {
-        makeUrl(params: params)
+        makeUrl(params: params, drinks: drinks)
     }
 
     private var path: String {
@@ -50,13 +62,15 @@ extension RequestType {
             return "search"
         case .latestMeals:
             return "latest"
+        case .randomCocktails:
+             return "random"
         }
     }
 
-    private func makeUrl(params: [String: String]) -> URL? {
+    private func makeUrl(params: [String: String], drinks: Bool = false) -> URL? {
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
-        urlComponents.host = NetworkKeys.host
+        urlComponents.host = drinks ? NetworkKeys.drinkhost : NetworkKeys.mealhost
         urlComponents.path = "/api/json/v2/\(NetworkKeys.apiKey)/\(path).php"
 
         var queryItems: [URLQueryItem] = []
@@ -71,6 +85,7 @@ extension RequestType {
 }
 
 fileprivate enum NetworkKeys {
-    static let host: String = "www.themealdb.com"
+    static let drinkhost: String = "www.thecocktaildb.com"
+    static let mealhost: String = "www.themealdb.com"
     static let apiKey: Int = 9_973_533
 }

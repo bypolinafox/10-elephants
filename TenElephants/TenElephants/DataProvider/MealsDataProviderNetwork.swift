@@ -25,7 +25,16 @@ final class MealsDataProviderNetwork: MealsDataProvider {
         }
     }
 
-    func fetchRandomCocktail(completionHandler _: @escaping CocktailFetchCompletion) {}
+    func fetchRandomCocktail(completionHandler: @escaping CocktailFetchCompletion) {
+        (networkService as NetworkServiceProtocol).getRandomCocktails { result in
+            switch result {
+            case let .success(meals):
+                completionHandler(.success(meals))
+            case let .failure(error):
+                completionHandler(.failure(error.mealProviderError))
+            }
+        }
+    }
 
     func fetchMealDetails(by id: String, completionHandler: @escaping MealsFetchCompletion) {
         (networkService as NetworkServiceProtocol).getMealDetails(id: id) { result in
@@ -88,6 +97,7 @@ final class MealsDataProviderNetwork: MealsDataProvider {
             }
         }
     }
+
 }
 
 extension NetworkFetchingError {
