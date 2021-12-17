@@ -43,7 +43,7 @@ final class NetworkService: NetworkServiceProtocol {
         NetworkFetchingError
     >) -> Void) {
         let getFullIngredientsOp = FetchingDataOperation(
-            type: .ingrediendsList,
+            type: .ingredientsList,
             delayCounter: delayCounter,
             completion: completion
         )
@@ -111,7 +111,7 @@ final class FetchingDataOperation<T>: Operation where T: Decodable {
     init(
         type: RequestType,
         delayCounter: ExponentialBackoffDelayCalculator,
-        completion: @escaping ((Result<T, NetworkFetchingError>) -> Void)
+        completion: @escaping (Result<T, NetworkFetchingError>) -> Void
     ) {
         self.type = type
         self.delayCounter = delayCounter
@@ -155,7 +155,6 @@ final class FetchingDataOperation<T>: Operation where T: Decodable {
     }
 
     override func start() {
-        print("Starting")
         isFinished = false
         isExecuting = true
         main()
@@ -179,8 +178,6 @@ final class FetchingDataOperation<T>: Operation where T: Decodable {
                 }
 
                 let newDelay: Double = self.delayCounter.countDelay()
-
-                print("Retry after \(newDelay)")
 
                 sleep(UInt32(newDelay))
                 self.finish()

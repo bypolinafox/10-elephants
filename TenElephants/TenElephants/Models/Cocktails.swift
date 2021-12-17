@@ -53,11 +53,11 @@ extension Cocktail: Decodable {
         let commonContainer = try decoder.container(keyedBy: RequiredCodingKeys.self)
 
         // this value should always be present:
-        self.id = try commonContainer.decode(String.self, forKey: .idDrink)
+        id = try commonContainer.decode(String.self, forKey: .idDrink)
 
         // try to get these values, they can be used for preview
-        self.name = try commonContainer.decodeIfPresent(String.self, forKey: .strDrink)
-        self.thumbnailLink = try commonContainer.decodeIfPresent(
+        name = try commonContainer.decodeIfPresent(String.self, forKey: .strDrink)
+        thumbnailLink = try commonContainer.decodeIfPresent(
             String.self,
             forKey: .strDrinkThumb
         )
@@ -65,19 +65,16 @@ extension Cocktail: Decodable {
         let customContainer = try decoder.container(keyedBy: OptionalCodingKeys.self)
 
         // these values can be missing in preview model
-        self.category = try customContainer.decodeIfPresent(String.self, forKey: .strCategory)
-        self.area = try customContainer.decodeIfPresent(String.self, forKey: .strArea)
-        self.instructions = try customContainer.decodeIfPresent(
-            String.self,
-            forKey: .strInstructions
-        )
-        self.youTubeLink = try customContainer.decodeIfPresent(String.self, forKey: .strVideo)
+        category = try customContainer.decodeIfPresent(String.self, forKey: .strCategory)
+        area = try customContainer.decodeIfPresent(String.self, forKey: .strArea)
+        instructions = try customContainer.decodeIfPresent(String.self, forKey: .strInstructions)
+        youTubeLink = try customContainer.decodeIfPresent(String.self, forKey: .strVideo)
 
-        self.tags = try customContainer.decodeIfPresent(String.self, forKey: .strTags).flatMap {
+        tags = try customContainer.decodeIfPresent(String.self, forKey: .strTags).flatMap {
             $0.components(separatedBy: ",")
         }
-        self.glassType = try customContainer.decodeIfPresent(String.self, forKey: .strGlass)
-        self.isAlcoholic = try customContainer.decodeIfPresent(String.self, forKey: .strAlcoholic)
+        glassType = try customContainer.decodeIfPresent(String.self, forKey: .strGlass)
+        isAlcoholic = try customContainer.decodeIfPresent(String.self, forKey: .strAlcoholic)
 
         var localIngredients: [Ingredient] = []
 
@@ -92,7 +89,7 @@ extension Cocktail: Decodable {
 
         // assuming return when having only RequiredCodingKeys
         guard !filteredKeys.isEmpty else {
-            self.ingredients = nil
+            ingredients = nil
             return
         }
 
@@ -103,13 +100,13 @@ extension Cocktail: Decodable {
             let measureKeyName = "strMeasure\(num)"
             guard filteredKeysNames.contains(ingredientKeyName),
                   filteredKeysNames.contains(measureKeyName) else {
-                self.ingredients = nil
+                ingredients = nil
                 assertionFailure("Unexpected data format")
                 return
             }
             if let ingredientKey = GenericCodingKeys(stringValue: ingredientKeyName),
                let measureKey = GenericCodingKeys(stringValue: measureKeyName) {
-                guard let ingrName = try? otherContainer.decode(
+                guard let ingredientName = try? otherContainer.decode(
                     String.self, forKey: ingredientKey
                 ).trimmingCharacters(in: .whitespaces) else {
                     break // found end of ingredient list
@@ -121,22 +118,22 @@ extension Cocktail: Decodable {
                 }
 
                 // Measure able to be empty (or whitespace) while corresponding ingredient not. id for testing: 53000
-                if ingrName.isEmpty,
+                if ingredientName.isEmpty,
                    measure.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     break // found end of ingredient list
                 }
 
                 assert(
-                    !ingrName.isEmpty,
+                    !ingredientName.isEmpty,
                     "Inconsistency in data: \(ingredientKeyName) and \(measureKeyName)"
                 )
                 let ingredient = Ingredient(
-                    name: ingrName,
+                    name: ingredientName,
                     measure: measure.isEmpty ? nil : measure
                 )
                 localIngredients.append(ingredient)
             }
         }
-        self.ingredients = localIngredients.isEmpty ? nil : localIngredients
+        ingredients = localIngredients.isEmpty ? nil : localIngredients
     }
 }

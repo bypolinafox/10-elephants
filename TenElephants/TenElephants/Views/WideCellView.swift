@@ -33,7 +33,7 @@ final class WideCellView: UICollectionViewCell {
 
     var isLoading: Bool = false {
         didSet {
-            self.isLoading ? self.titleLabel.startBlink() : self.titleLabel.stopBlink()
+            isLoading ? titleLabel.startBlink() : titleLabel.stopBlink()
         }
     }
 
@@ -214,13 +214,13 @@ extension WideCellView {
         thumbnailLink: String? = nil,
         imageLoader: ImageLoader? = nil
     ) {
-        self.titleLabel.text = titleText
-        self.subtitleLabel.text = makeSubtitleText(area: area, category: category)
+        titleLabel.text = titleText
+        subtitleLabel.text = makeSubtitleText(area: area, category: category)
         guard let link = thumbnailLink, let imageLoader = imageLoader else {
             return
         }
-        cancellable = imageLoader.loadImage(thumbnailLink: link).sink { [unowned self] image in
-            self.showImage(image: image)
+        cancellable = imageLoader.loadImage(thumbnailLink: link).sink { [weak self] image in
+            self?.showImage(image: image)
         }
     }
 }

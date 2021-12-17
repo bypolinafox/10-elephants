@@ -15,7 +15,7 @@ final class MealsDataProviderNetwork: MealsDataProvider {
     }
 
     func fetchRandomPreviewMeals(completionHandler: @escaping MealsFetchCompletion) {
-        (networkService as NetworkServiceProtocol).getRandomMeals { result in
+        networkService.getRandomMeals { result in
             switch result {
             case let .success(meals):
                 completionHandler(.success(meals))
@@ -26,7 +26,7 @@ final class MealsDataProviderNetwork: MealsDataProvider {
     }
 
     func fetchRandomCocktail(completionHandler: @escaping CocktailFetchCompletion) {
-        (networkService as NetworkServiceProtocol).getRandomCocktails { result in
+        networkService.getRandomCocktails { result in
             switch result {
             case let .success(meals):
                 completionHandler(.success(meals))
@@ -37,7 +37,7 @@ final class MealsDataProviderNetwork: MealsDataProvider {
     }
 
     func fetchMealDetails(by id: String, completionHandler: @escaping MealsFetchCompletion) {
-        (networkService as NetworkServiceProtocol).getMealDetails(id: id) { result in
+        networkService.getMealDetails(id: id) { result in
             switch result {
             case let .success(meals):
                 completionHandler(.success(meals))
@@ -51,34 +51,32 @@ final class MealsDataProviderNetwork: MealsDataProvider {
         by ingredient: String,
         completionHandler: @escaping MealsFetchCompletion
     ) {
-        (networkService as NetworkServiceProtocol)
-            .getFilteredMealList(ingredient: ingredient) { result in
-                switch result {
-                case let .success(meals):
-                    completionHandler(.success(meals))
-                case let .failure(error):
-                    completionHandler(.failure(error.mealProviderError))
-                }
+        networkService.getFilteredMealList(ingredient: ingredient) { result in
+            switch result {
+            case let .success(meals):
+                completionHandler(.success(meals))
+            case let .failure(error):
+                completionHandler(.failure(error.mealProviderError))
             }
+        }
     }
 
     func fetchMealListFiltered(
-        by ingridients: [String],
+        by ingredients: [String],
         completionHandler: @escaping MealsFetchCompletion
     ) {
-        (networkService as NetworkServiceProtocol)
-            .getFilteredMealList(ingredients: ingridients) { result in
-                switch result {
-                case let .success(meals):
-                    completionHandler(.success(meals))
-                case let .failure(error):
-                    completionHandler(.failure(error.mealProviderError))
-                }
+        networkService.getFilteredMealList(ingredients: ingredients) { result in
+            switch result {
+            case let .success(meals):
+                completionHandler(.success(meals))
+            case let .failure(error):
+                completionHandler(.failure(error.mealProviderError))
             }
+        }
     }
 
     func fetchLatestMeals(completionHandler: @escaping MealsFetchCompletion) {
-        (networkService as NetworkServiceProtocol).getLatestMeals { result in
+        networkService.getLatestMeals { result in
             switch result {
             case let .success(meals):
                 completionHandler(.success(meals))
@@ -89,7 +87,7 @@ final class MealsDataProviderNetwork: MealsDataProvider {
     }
 
     func searchMealByName(name: String, completionHandler: @escaping MealsFetchCompletion) {
-        (networkService as NetworkServiceProtocol).searchMealByName(name: name) { result in
+        networkService.searchMealByName(name: name) { result in
             switch result {
             case let .success(meals):
                 completionHandler(.success(meals))

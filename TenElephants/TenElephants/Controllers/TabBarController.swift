@@ -30,7 +30,7 @@ final class TabBarController: UITabBarController {
         singleMealController.modalPresentationStyle = .fullScreen
         singleMealController.modalTransitionStyle = .coverVertical
 
-        self.present(singleMealController, animated: true, completion: nil)
+        present(singleMealController, animated: true, completion: nil)
     }
 
     func openSingleIngredient(ingredient: IngredientUIData) {
@@ -50,7 +50,7 @@ final class TabBarController: UITabBarController {
         super.viewDidLoad()
 
         let trendC = TrendPageController(
-            networkDataProvider: networkDataProvider,
+            mealsDataProvider: networkDataProvider,
             imageLoader: imageLoader,
             openSingleMeal: { [weak self] meal in
                 self?.openSingleMeal(meal: meal)
@@ -62,8 +62,8 @@ final class TabBarController: UITabBarController {
         trendC.tabBarItem = trendItem
 
         let searchC = SearchPageController(
-            networkDataProvider: networkDataProvider,
-            recentProvider: recentsProvider,
+            mealsDataProvider: networkDataProvider,
+            recentsProvider: recentsProvider,
             imageLoader: imageLoader,
             openSingleMeal: { [weak self] meal in
                 self?.openSingleMeal(meal: meal)
@@ -76,7 +76,6 @@ final class TabBarController: UITabBarController {
 
         let ingredientsC = IngredientsPageController(
             dataProvider: ingredientsDataProvider,
-            imageLoader: imageLoader,
             openSingleIngredient: { [weak self] ingredient in
                 self?.openSingleIngredient(ingredient: ingredient)
             }
@@ -103,7 +102,7 @@ final class TabBarController: UITabBarController {
         let likeC = LikePageController(
             dataProvider: likeProvider,
             imageLoader: imageLoader,
-            networkDataProvider: networkDataProvider
+            mealsDataProvider: networkDataProvider
         )
         let likeItem = UITabBarItem()
         likeItem.image = UIImage(systemName: "heart")
@@ -113,7 +112,7 @@ final class TabBarController: UITabBarController {
         personNavC.viewControllers = [likeC]
         personNavC.navigationBar.prefersLargeTitles = true
 
-        self.viewControllers = [
+        viewControllers = [
             trendC,
             searchC,
             randomC,

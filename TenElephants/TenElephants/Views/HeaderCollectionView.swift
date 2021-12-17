@@ -22,8 +22,8 @@ final class HeaderCollectionView: UICollectionReusableView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .systemBackground
-        self.addSubview(label)
+        backgroundColor = .systemBackground
+        addSubview(label)
     }
 
     override func layoutSubviews() {
@@ -41,8 +41,8 @@ extension HeaderCollectionView {
         let label = UILabel(
             frame: CGRect(
                 x: Constants.labelGap, y: 0,
-                width: self.frame.width - 2 * Constants.labelGap,
-                height: self.frame.height
+                width: frame.width - 2 * Constants.labelGap,
+                height: frame.height
             )
         )
         label.numberOfLines = 0

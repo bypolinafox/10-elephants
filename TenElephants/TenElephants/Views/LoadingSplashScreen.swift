@@ -18,7 +18,7 @@ final class LoadingSplashScreen: UIView {
 
     func setAppearance(shouldHide: Bool, animated: Bool) {
         guard animated else {
-            self.isHidden = shouldHide
+            isHidden = shouldHide
             return
         }
 
@@ -30,8 +30,8 @@ final class LoadingSplashScreen: UIView {
             })
             return
         }
-        self.layer.opacity = 0
-        self.isHidden = false
+        layer.opacity = 0
+        isHidden = false
         UIView.animate(withDuration: Constants.loadingScreenAppearanceDuration, animations: {
             self.layer.opacity = 1
         })
@@ -42,16 +42,16 @@ final class LoadingSplashScreen: UIView {
 
         blur.translatesAutoresizingMaskIntoConstraints = false
         loadingView.translatesAutoresizingMaskIntoConstraints = false
-        self.translatesAutoresizingMaskIntoConstraints = false
+        translatesAutoresizingMaskIntoConstraints = false
 
         loadingView.startAnimating()
         blur.contentView.addSubview(loadingView)
-        self.addSubview(blur)
+        addSubview(blur)
         NSLayoutConstraint.activate([
-            loadingView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            loadingView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            loadingView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            loadingView.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
-        self.layer.opacity = isHidden ? 0 : 1
+        layer.opacity = isHidden ? 0 : 1
     }
 
     @available(*, unavailable)

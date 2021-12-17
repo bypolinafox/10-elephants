@@ -31,13 +31,13 @@ final class IconTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.addSubview(cellStack)
+        addSubview(cellStack)
 
         NSLayoutConstraint.activate([
-            cellStack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            cellStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            cellStack.topAnchor.constraint(equalTo: self.topAnchor),
-            cellStack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            cellStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+            cellStack.trailingAnchor.constraint(equalTo: trailingAnchor),
+            cellStack.topAnchor.constraint(equalTo: topAnchor),
+            cellStack.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
 
         iconPreview.translatesAutoresizingMaskIntoConstraints = false

@@ -40,12 +40,12 @@ struct FullIngredient: Decodable {
 
     init(from decoder: Decoder) throws {
         let commonContainer = try decoder.container(keyedBy: RequiredCodingKeys.self)
-        self.id = try commonContainer.decode(String.self, forKey: .idIngredient)
+        id = try commonContainer.decode(String.self, forKey: .idIngredient)
 
         let customContainer = try decoder.container(keyedBy: OptionalCodingKeys.self)
-        self.name = try customContainer.decode(String.self, forKey: .strIngredient)
-        self.description = try customContainer.decodeIfPresent(String.self, forKey: .strDescription)
-        self.type = try customContainer.decodeIfPresent(String.self, forKey: .strType)
+        name = try customContainer.decode(String.self, forKey: .strIngredient)
+        description = try customContainer.decodeIfPresent(String.self, forKey: .strDescription)
+        type = try customContainer.decodeIfPresent(String.self, forKey: .strType)
     }
 }
 
