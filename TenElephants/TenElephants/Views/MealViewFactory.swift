@@ -55,7 +55,7 @@ final class MealViewFactory {
         return stackView
     }
 
-    func makeRoundButtonWithBlur(type: RoundButtonWithBlur.buttonType) -> UIButton {
+    func makeRoundButtonWithBlur(type: RoundButtonWithBlur.ButtonType) -> UIButton {
         RoundButtonWithBlur(type: type)
     }
 

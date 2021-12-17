@@ -9,33 +9,26 @@ import Foundation
 import UIKit
 
 final class RoundButtonWithBlur: UIButton {
-    enum buttonType {
+    enum ButtonType {
         case refresh
         case close
     }
 
     private enum Constants {
-        static let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
-        static let closeIcon = UIImage(systemName: "xmark", withConfiguration: config)
-        static let refreshIcon = UIImage(systemName: "shuffle", withConfiguration: config)
         static let tintColor: UIColor = .black
         static let blurStyle: UIBlurEffect.Style = .light
     }
 
     let blur = UIVisualEffectView(effect: UIBlurEffect(style: Constants.blurStyle))
+    let type: ButtonType
 
-    init(type: buttonType) {
+    init(type: ButtonType) {
+        self.type = type
         super.init(frame: .zero)
-
-        let icon: UIImage?
-        switch type {
-        case .refresh: icon = Constants.refreshIcon
-        case .close: icon = Constants.closeIcon
-        }
 
         self.setTitle(nil, for: .normal)
         self.backgroundColor = .clear
-        self.setImage(icon, for: .normal)
+        self.setImage(type.icon, for: .normal)
         self.tintColor = Constants.tintColor
         blur.isUserInteractionEnabled = false
         blur.layer.masksToBounds = true
@@ -54,5 +47,15 @@ final class RoundButtonWithBlur: UIButton {
         super.layoutSubviews()
         blur.frame = self.bounds
         blur.layer.cornerRadius = blur.frame.width / 2
+    }
+}
+
+extension RoundButtonWithBlur.ButtonType {
+    var icon: UIImage {
+        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold)
+        switch self {
+        case .close: return UIImage(systemName: "xmark", withConfiguration: config)!
+        case .refresh: return UIImage(systemName: "shuffle", withConfiguration: config)!
+        }
     }
 }
