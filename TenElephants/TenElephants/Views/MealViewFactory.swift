@@ -137,7 +137,8 @@ final class MealViewFactory {
         if let emoji = getEmoji(ingredientName: name) {
             emojiLabel.text = emoji
         } else {
-            emojiLabel.text = (drinks ? Constants.drinkEmojis : Constants.defaultEmojis).randomElement()
+            emojiLabel.text = (drinks ? Constants.drinkEmojis : Constants.defaultEmojis)
+                .randomElement()
         }
         emojiLabel.font = UIFont.systemFont(ofSize: 30)
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false

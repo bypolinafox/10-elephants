@@ -97,7 +97,6 @@ final class MealsDataProviderNetwork: MealsDataProvider {
             }
         }
     }
-
 }
 
 extension NetworkFetchingError {

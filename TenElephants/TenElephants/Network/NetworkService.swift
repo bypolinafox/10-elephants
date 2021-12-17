@@ -57,9 +57,9 @@ final class NetworkService: NetworkServiceProtocol {
                 let newDelay = self.delayCounter.countDelay()
                 print("Retry after \(newDelay)")
                 DispatchQueue.main.asyncAfter(
-                        deadline: .now() + newDelay, execute: { [weak self] in
-                    self?.getRandomCocktails(completion: completion)
-                }
+                    deadline: .now() + newDelay, execute: { [weak self] in
+                        self?.getRandomCocktails(completion: completion)
+                    }
                 )
             } else {
                 self.delayCounter.resetDelay()
