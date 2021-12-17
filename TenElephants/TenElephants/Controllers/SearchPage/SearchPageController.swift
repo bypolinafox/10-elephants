@@ -63,7 +63,7 @@ final class SearchPageController: UIViewController {
     private let factory = SearchPageViewFactory()
     private var netDataProvider: MealsDataProviderNetwork
     private var recentsProvider: RecentsProviderProtocol
-    private var imageFetcher: CachedImageFetcher
+    private var imageLoader: ImageLoader
 
     private var mealsToShow: [Meal] = []
     private var filters: [String] = []
@@ -73,7 +73,7 @@ final class SearchPageController: UIViewController {
     private lazy var mealDataSource = MealSuggestionDataSource(
         cellWidth: Constants.mealSuggestionCellWidth,
         cellID: Constants.mealCellID,
-        imageFetcher: imageFetcher,
+        imageLoader: imageLoader,
         openSingleMeal: openSingleMeal
     )
     private lazy var ingredientDataSource = IngredientDataSource(
@@ -97,19 +97,19 @@ final class SearchPageController: UIViewController {
         cellHeight: Constants.mealSuggestionsHeight,
         insetValue: Constants.sideInsetValue,
         cellID: Constants.resultMealCellID,
-        imageFetcher: imageFetcher,
+        imageLoader: imageLoader,
         openSingleMeal: openSingleMeal
     )
 
     init(
         networkDataProvider: MealsDataProviderNetwork,
         recentProvider: RecentsProviderProtocol,
-        imageFetcher: CachedImageFetcher,
+        imageLoader: ImageLoader,
         openSingleMeal: @escaping (Meal) -> Void
     ) {
         self.netDataProvider = networkDataProvider
         self.recentsProvider = recentProvider
-        self.imageFetcher = imageFetcher
+        self.imageLoader = imageLoader
         self.openSingleMeal = openSingleMeal
         super.init(nibName: nil, bundle: nil)
     }

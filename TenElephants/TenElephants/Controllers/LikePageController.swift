@@ -17,7 +17,7 @@ final class LikePageController: UIViewController {
 
     var viewModel: UIMeals
     let likeProvider: DBDataProvider
-    var imageFetcher: CachedImageFetcher
+    var imageLoader: ImageLoader
     let netDataProvider: MealsDataProviderNetwork
 
     private enum Constants {
@@ -34,13 +34,13 @@ final class LikePageController: UIViewController {
 
     init(
         dataProvider: DBDataProvider,
-        imageFetcher: CachedImageFetcher,
+        imageLoader: ImageLoader,
         networkDataProvider: MealsDataProviderNetwork
     ) {
         netDataProvider = networkDataProvider
         viewModel = UIMeals(meals: [])
         likeProvider = dataProvider
-        self.imageFetcher = imageFetcher
+        self.imageLoader = imageLoader
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -52,7 +52,7 @@ final class LikePageController: UIViewController {
     func openSingleMeal(meal: UIMeal) {
         let singleMealController = MealPageController(
             meal: meal,
-            imageFetcher: imageFetcher,
+            imageLoader: imageLoader,
             dataProvider: netDataProvider,
             likeProvider: likeProvider
         )
@@ -159,7 +159,7 @@ extension LikePageController: UICollectionViewDataSource {
             cell.configure(
                 titleText: item.name,
                 thumbnailLink: item.thumbnailLink,
-                imageFetcher: imageFetcher
+                imageLoader: imageLoader
             )
         }
         return cell

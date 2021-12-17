@@ -15,7 +15,7 @@ final class MealSuggestionDataSource: NSObject, UICollectionViewDataSource {
 
     private let cellWidth: CGFloat
     private let cellID: String
-    private let imageFetcher: CachedImageFetcher
+    private let imageLoader: ImageLoader
 
     let openMealPageController: (Meal) -> Void
 
@@ -24,12 +24,12 @@ final class MealSuggestionDataSource: NSObject, UICollectionViewDataSource {
     init(
         cellWidth: CGFloat,
         cellID: String,
-        imageFetcher: CachedImageFetcher,
+        imageLoader: ImageLoader,
         openSingleMeal: @escaping (Meal) -> Void
     ) {
         self.cellWidth = cellWidth
         self.cellID = cellID
-        self.imageFetcher = imageFetcher
+        self.imageLoader = imageLoader
         self.openMealPageController = openSingleMeal
     }
 
@@ -52,7 +52,7 @@ final class MealSuggestionDataSource: NSObject, UICollectionViewDataSource {
             area: meal.area,
             category: meal.category,
             thumbnailLink: meal.thumbnailLink,
-            imageFetcher: imageFetcher
+            imageLoader: imageLoader
         )
         return suggestionCell
     }
