@@ -10,7 +10,7 @@ import Foundation
 final class NetworkService: NetworkServiceProtocol {
     private lazy var delayCounter = ExponentialBackoffDelayCalculator()
 
-    func getMealDetails(id: String, completion: @escaping mealsCompletion) {
+    func getMealDetails(id: String, completion: @escaping MealsCompletion) {
         request(type: .detailsById(id: id)) { [weak self] (result: Result<
             Meals,
             NetworkFetchingError
@@ -31,7 +31,7 @@ final class NetworkService: NetworkServiceProtocol {
         }
     }
 
-    func getRandomMeals(completion: @escaping mealsCompletion) {
+    func getRandomMeals(completion: @escaping MealsCompletion) {
         request(type: .randomMeals) { [weak self] (result: Result<Meals, NetworkFetchingError>) in
             completion(result)
             guard let self = self else { return }
@@ -49,6 +49,24 @@ final class NetworkService: NetworkServiceProtocol {
         }
     }
 
+    func getRandomCocktails(completion: @escaping CocktailCompletion) {
+        request(type: .randomCocktails) { [weak self] (result: Result<Drinks, NetworkFetchingError>) in
+            completion(result)
+            guard let self = self else { return }
+            if case .failure = result {
+                let newDelay = self.delayCounter.countDelay()
+                print("Retry after \(newDelay)")
+                DispatchQueue.main.asyncAfter(
+                        deadline: .now() + newDelay, execute: { [weak self] in
+                    self?.getRandomCocktails(completion: completion)
+                }
+                )
+            } else {
+                self.delayCounter.resetDelay()
+            }
+        }
+    }
+
     func getFullIngredientsList(completion: @escaping (Result<
         FullIngredients,
         NetworkFetchingError
@@ -56,7 +74,7 @@ final class NetworkService: NetworkServiceProtocol {
         request(type: .ingrediendsList, completion: completion)
     }
 
-    func getFilteredMealList(ingredient: String, completion: @escaping mealsCompletion) {
+    func getFilteredMealList(ingredient: String, completion: @escaping MealsCompletion) {
         request(type: .mealsByIngredient(
             ingredient: ingredient
         )) { [weak self] (result: Result<Meals, NetworkFetchingError>) in
@@ -76,7 +94,7 @@ final class NetworkService: NetworkServiceProtocol {
         }
     }
 
-    func getMealListFiltered(by ingridients: [String], completion: @escaping mealsCompletion) {
+    func getMealListFiltered(by ingridients: [String], completion: @escaping MealsCompletion) {
         request(type: .mealsByMultipleIngredients(
             ingredients: ingridients
         )) { [weak self] (result: Result<Meals, NetworkFetchingError>) in
@@ -114,14 +132,14 @@ final class NetworkService: NetworkServiceProtocol {
         }
     }
 
-    func searchMealByName(name: String, completion: @escaping mealsCompletion) {
+    func searchMealByName(name: String, completion: @escaping MealsCompletion) {
         request(
             type: .mealsByName(name: name),
             completion: completion
         )
     }
 
-    func getLatestMeals(completion: @escaping mealsCompletion) {
+    func getLatestMeals(completion: @escaping MealsCompletion) {
         request(
             type: .latestMeals,
             completion: completion

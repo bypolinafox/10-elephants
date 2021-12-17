@@ -8,24 +8,27 @@
 import Foundation
 
 protocol NetworkServiceProtocol {
-    typealias mealsCompletion = (Result<Meals, NetworkFetchingError>) -> Void
+    typealias MealsCompletion = (Result<Meals, NetworkFetchingError>) -> Void
+    typealias CocktailCompletion = (Result<Drinks, NetworkFetchingError>) -> Void
 
-    func getMealDetails(id: String, completion: @escaping mealsCompletion)
+    func getMealDetails(id: String, completion: @escaping MealsCompletion)
 
-    func getRandomMeals(completion: @escaping mealsCompletion)
+    func getRandomMeals(completion: @escaping MealsCompletion)
 
     func getFullIngredientsList(completion: @escaping (Result<
         FullIngredients,
         NetworkFetchingError
     >) -> Void)
 
-    func getFilteredMealList(ingredient: String, completion: @escaping mealsCompletion)
+    func getFilteredMealList(ingredient: String, completion: @escaping MealsCompletion)
 
-    func getMealListFiltered(by ingredients: [String], completion: @escaping mealsCompletion)
+    func getMealListFiltered(by ingredients: [String], completion: @escaping MealsCompletion)
 
-    func searchMealByName(name: String, completion: @escaping mealsCompletion)
+    func searchMealByName(name: String, completion: @escaping MealsCompletion)
 
-    func getLatestMeals(completion: @escaping mealsCompletion)
+    func getLatestMeals(completion: @escaping MealsCompletion)
+
+    func getRandomCocktails(completion: @escaping CocktailCompletion)
 }
 
 enum NetworkFetchingError: Error {

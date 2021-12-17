@@ -159,7 +159,8 @@ extension LikePageController: UICollectionViewDataSource {
             cell.configure(
                 titleText: item.name,
                 thumbnailLink: item.thumbnailLink,
-                imageLoader: imageLoader
+                imageLoader: imageLoader,
+                animate: false
             )
         }
         return cell

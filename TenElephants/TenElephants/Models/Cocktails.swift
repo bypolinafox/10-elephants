@@ -117,7 +117,6 @@ extension Cocktail: Decodable {
                 guard let measure = try? otherContainer.decode(
                     String.self, forKey: measureKey
                 ) else {
-                    assertionFailure("Missing required JSON property: \(measureKeyName)")
                     break
                 }
 

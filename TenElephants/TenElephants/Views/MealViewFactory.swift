@@ -5,13 +5,11 @@
 //  Created by Алексей Шерстнёв on 10.12.2021.
 //
 
-import Foundation
 import UIKit
 
 final class MealViewFactory {
     private enum Constants {
         static let sampleIsLiked = true
-        static let sampleImageName = "sampleImage"
         static let closeButtonSize = CGSize(width: 40, height: 40)
         static let heartFillSystemName = "heart.fill"
         static let heartSystemName = "heart"
@@ -39,6 +37,7 @@ final class MealViewFactory {
         static let titleTopMargin: CGFloat = 15
         static let spacing: CGFloat = 10
         static let defaultEmojis: [String] = ["😋", "🤤", "🥣", "🥢", "🍴", "🍽", "🥡"]
+        static let drinkEmojis: [String] = ["🥴", "🍸", "🍷", "🍾", "🍼"]
     }
 
     func makeScrollView() -> UIScrollView {
@@ -125,7 +124,7 @@ final class MealViewFactory {
         return stackView
     }
 
-    func makeIngredientCell(name: String, measure: String) -> UIStackView {
+    func makeIngredientCell(name: String, measure: String, drinks: Bool = false) -> UIStackView {
         let ingredientName = UILabel()
         ingredientName.text = name
         ingredientName.font = UIFont.systemFont(ofSize: 17, weight: .bold)
@@ -137,7 +136,9 @@ final class MealViewFactory {
         let emojiLabel = UILabel()
         if let emoji = getEmoji(ingredientName: name) {
             emojiLabel.text = emoji
-        } else { emojiLabel.text = Constants.defaultEmojis.randomElement() }
+        } else {
+            emojiLabel.text = (drinks ? Constants.drinkEmojis : Constants.defaultEmojis).randomElement()
+        }
         emojiLabel.font = UIFont.systemFont(ofSize: 30)
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false
         emojiLabel.textAlignment = .right
