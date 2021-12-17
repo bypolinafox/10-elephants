@@ -7,9 +7,9 @@ import UIKit
 final class LikePageController: UIViewController {
     lazy var nothingFoundView: NothingFoundStack = {
         let nfv = NothingFoundStack(
-                emoji: "💔",
-                title: "Nothing Liked",
-                description: "Press ❤️ button to can save your favourite recipes here"
+            emoji: "💔",
+            title: "Nothing Liked",
+            description: "Press ❤️ button to can save your favourite recipes here"
         )
         nfv.isHidden = true
         return nfv
@@ -103,7 +103,7 @@ final class LikePageController: UIViewController {
             nothingFoundView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             nothingFoundView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             nothingFoundView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            nothingFoundView.rightAnchor.constraint(equalTo: view.rightAnchor)
+            nothingFoundView.rightAnchor.constraint(equalTo: view.rightAnchor),
 
         ])
 

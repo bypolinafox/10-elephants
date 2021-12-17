@@ -13,6 +13,7 @@ final class TrendPageController: UIViewController {
             collectionView.reloadData()
         }
     }
+
     var viewModelV = Meals(meals: []) {
         didSet {
             collectionView.reloadData()

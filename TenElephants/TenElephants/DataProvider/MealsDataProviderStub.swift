@@ -8,7 +8,6 @@
 import Foundation
 
 final class MealsDataProviderStub: MealsDataProvider {
-
     func fetchRandomPreviewMeals(completionHandler: @escaping MealsFetchCompletion) {
         do {
             let meals = try JSONDecoder().decode(Meals.self, from: stubDataMealPreview)
@@ -28,12 +27,15 @@ final class MealsDataProviderStub: MealsDataProvider {
         }
     }
 
-// TODO: finish stub implementation
-    func fetchMealDetails(by id: String, completionHandler: @escaping MealsFetchCompletion) {}
-    func fetchMealListFiltered(by ingredient: String, completionHandler: @escaping MealsFetchCompletion) {}
-    func fetchMealListFiltered(by ingridients: [String], completionHandler: @escaping MealsFetchCompletion) {}
-    func fetchLatestMeals(completionHandler: @escaping MealsFetchCompletion) {}
-    func searchMealByName(name: String, completionHandler: @escaping MealsFetchCompletion) {}
+    // TODO: finish stub implementation
+    func fetchMealDetails(by _: String, completionHandler _: @escaping MealsFetchCompletion) {}
+    func fetchMealListFiltered(by _: String, completionHandler _: @escaping MealsFetchCompletion) {}
+    func fetchMealListFiltered(
+        by _: [String],
+        completionHandler _: @escaping MealsFetchCompletion
+    ) {}
+    func fetchLatestMeals(completionHandler _: @escaping MealsFetchCompletion) {}
+    func searchMealByName(name _: String, completionHandler _: @escaping MealsFetchCompletion) {}
 }
 
 fileprivate let stubDataCocktail = """

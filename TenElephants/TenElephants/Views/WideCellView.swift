@@ -177,7 +177,7 @@ extension WideCellView {
         area: String? = nil,
         category: String? = nil
     ) -> String {
-        var subtitle: String = ""
+        var subtitle = ""
         if let area = area, area != "Unknown" {
             subtitle = "\(area)"
         }
@@ -198,7 +198,7 @@ extension WideCellView {
         self.subtitleLabel.text = makeSubtitleText(area: area, category: category)
         guard let link = thumbnailLink,
               let url = NSURL(string: link) else {
-                  return
+            return
         }
         imageView.image = nil
 

@@ -77,10 +77,41 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func getMealListFiltered(by ingridients: [String], completion: @escaping mealsCompletion) {
-        request(
-            type: .mealsByMultipleIngredients(ingredients: ingridients),
-            completion: completion
-        )
+        request(type: .mealsByMultipleIngredients(
+            ingredients: ingridients
+        )) { [weak self] (result: Result<Meals, NetworkFetchingError>) in
+            guard let self = self else { return }
+            switch result {
+            case let .success(items):
+                let group = DispatchGroup()
+                let queue = DispatchQueue(label: "writeToResult")
+                var result = [Meal]()
+
+                for meal in items.meals {
+                    group.enter()
+                    self.getMealDetails(id: meal.id) { res in
+                        defer {
+                            group.leave()
+                        }
+                        switch res {
+                        case let .success(items):
+                            guard !items.meals.isEmpty else { return }
+                            let loadedMeal = items.meals[0]
+                            queue.sync {
+                                result.append(loadedMeal)
+                            }
+                        case .failure:
+                            return
+                        }
+                    }
+                }
+                group.notify(queue: queue, execute: {
+                    completion(.success(Meals(meals: result)))
+                })
+            case let .failure(error):
+                completion(.failure(error))
+            }
+        }
     }
 
     func searchMealByName(name: String, completion: @escaping mealsCompletion) {

@@ -28,9 +28,9 @@ final class TabBarController: UITabBarController {
         super.viewDidLoad()
 
         let likeC = LikePageController(
-                dataProvider: dataProvider,
-                imageFetcher: imageFetcher,
-                networkDataProvider: networkDataProvider
+            dataProvider: dataProvider,
+            imageFetcher: imageFetcher,
+            networkDataProvider: networkDataProvider
         )
         let likeItem = UITabBarItem()
         likeItem.title = "Like"
@@ -63,7 +63,7 @@ final class TabBarController: UITabBarController {
         self.viewControllers = [
             trendC,
             searchC,
-            likeC
+            likeC,
         ]
     }
 }
