@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-final class LoadingSplashScreen: UIView {
+class LoadingSplashScreen: UIView {
     private enum Constants {
         static let loadingScreenAppearanceDuration: TimeInterval = 0.5
     }
