@@ -14,14 +14,18 @@ final class SettingsViewController: UIViewController {
     }
 
     private struct Icon {
-        let name: String
+        let name: String?
         let description: String
         let image: UIImage
 
-        init(_ name: String, description: String) {
+        init(
+            _ name: String?,
+            description: String,
+            image: UIImage
+        ) {
             self.name = name
             self.description = description
-            self.image = UIImage(named: name)!
+            self.image = image
         }
     }
 
@@ -34,8 +38,11 @@ final class SettingsViewController: UIViewController {
     }()
 
     private var icons: [Icon] = [
-        .init("AppIcon", description: "sampleIcon"),
-        .init("dice-1", description: "blue"),
+        .init(nil, description: "Stock Icon", image: UIImage(named: "stockIcon")!),
+        .init("firstIcon", description: "Nice Blue", image: UIImage(named: "firstIcon")!),
+        .init("secondIcon", description: "Lovely Pink", image: UIImage(named: "secondIcon")!),
+        .init("thirdIcon", description: "Awesome Orange", image: UIImage(named: "thirdIcon")!),
+        .init("fourthIcon", description: "Skethy one", image: UIImage(named: "fourthIcon")!),
     ]
 
     private lazy var iconCollection: UICollectionView = {
@@ -82,6 +89,8 @@ extension SettingsViewController: UITableViewDataSource {
 extension SettingsViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        UIApplication.shared.setAlternateIconName("blueIcon")
+        UIApplication.shared.setAlternateIconName(icons[indexPath.row].name) { (err: Error?) in
+            print("set icon error：\(String(describing: err))")
+        }
     }
 }

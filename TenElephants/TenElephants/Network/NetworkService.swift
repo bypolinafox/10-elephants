@@ -30,30 +30,12 @@ final class NetworkService: NetworkServiceProtocol {
     }
 
     func getRandomCocktails(completion: @escaping CocktailCompletion) {
-<<<<<<< HEAD
         let getCocktails = FetchingDataOperation(
             type: .randomCocktails,
             delayCounter: delayCounter,
             completion: completion
         )
         opQueue.fetchingQueue.addOperation(getCocktails)
-=======
-        request(type: .randomCocktails) { [weak self] (result: Result<Drinks, NetworkFetchingError>) in
-            completion(result)
-            guard let self = self else { return }
-            if case .failure = result {
-                let newDelay = self.delayCounter.countDelay()
-                print("Retry after \(newDelay)")
-                DispatchQueue.main.asyncAfter(
-                    deadline: .now() + newDelay, execute: { [weak self] in
-                        self?.getRandomCocktails(completion: completion)
-                    }
-                )
-            } else {
-                self.delayCounter.resetDelay()
-            }
-        }
->>>>>>> ce81cd2 (like and settings)
     }
 
     func getFullIngredientsList(completion: @escaping (Result<

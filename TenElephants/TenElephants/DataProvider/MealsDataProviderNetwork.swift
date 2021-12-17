@@ -66,14 +66,15 @@ final class MealsDataProviderNetwork: MealsDataProvider {
         by ingridients: [String],
         completionHandler: @escaping MealsFetchCompletion
     ) {
-        (networkService as NetworkServiceProtocol).getFilteredMealList(ingredients: ingridients) { result in
-            switch result {
-            case let .success(meals):
-                completionHandler(.success(meals))
-            case let .failure(error):
-                completionHandler(.failure(error.mealProviderError))
+        (networkService as NetworkServiceProtocol)
+            .getFilteredMealList(ingredients: ingridients) { result in
+                switch result {
+                case let .success(meals):
+                    completionHandler(.success(meals))
+                case let .failure(error):
+                    completionHandler(.failure(error.mealProviderError))
+                }
             }
-        }
     }
 
     func fetchLatestMeals(completionHandler: @escaping MealsFetchCompletion) {

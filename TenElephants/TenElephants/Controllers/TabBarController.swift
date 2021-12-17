@@ -86,7 +86,7 @@ final class TabBarController: UITabBarController {
 
         let ingredientsItem = UITabBarItem()
         ingredientsItem.title = "Ingredients"
-        ingredientsItem.image = UIImage(systemName: "applelogo")
+        ingredientsItem.image = UIImage(systemName: "list.bullet.rectangle")
         ingredientsC.tabBarItem = ingredientsItem
 
         let randomC = MealPageController(
@@ -120,7 +120,7 @@ final class TabBarController: UITabBarController {
             searchC,
             randomC,
             ingredientsC,
-            personNavC
+            personNavC,
         ]
     }
 }

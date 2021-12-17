@@ -6,19 +6,48 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>blueIcon</key>
+			<key>firstIcon</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
-					<string>blueIcon</string>
+					<string>firstIcon</string>
 				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>secondIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>secondIcon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>thirdIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>thirdIcon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
+			</dict>
+			<key>fourthIcon</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>fourthIcon</string>
+				</array>
+				<key>UIPrerenderedIcon</key>
+				<false/>
 			</dict>
 		</dict>
 		<key>CFBundlePrimaryIcon</key>
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>AppIcon</string>
+				<string>AppIcon60x60</string>
 			</array>
 		</dict>
 	</dict>
