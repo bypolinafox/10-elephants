@@ -9,168 +9,206 @@ import Foundation
 
 final class NetworkService: NetworkServiceProtocol {
     private lazy var delayCounter = ExponentialBackoffDelayCalculator()
+    private lazy var opQueue = FetchingOperations()
 
     func getMealDetails(id: String, completion: @escaping MealsCompletion) {
-        request(type: .detailsById(id: id)) { [weak self] (result: Result<
-            Meals,
-            NetworkFetchingError
-        >) in
-            completion(result)
-            guard let self = self else { return }
-            if case .failure = result {
-                let newDelay = self.delayCounter.countDelay()
-                DispatchQueue.main.asyncAfter(
-                    deadline: .now() + newDelay, execute: { [weak self] in
-                        self?.getMealDetails(id: id, completion: completion)
-                    }
-                )
-            } else {
-                self.delayCounter.resetDelay()
-            }
-        }
+        let getMealByIdOp = FetchingDataOperation(
+            type: .detailsById(id: id),
+            delayCounter: delayCounter,
+            completion: completion
+        )
+        opQueue.fetchingQueue.addOperation(getMealByIdOp)
     }
 
     func getRandomMeals(completion: @escaping MealsCompletion) {
-        request(type: .randomMeals) { [weak self] (result: Result<Meals, NetworkFetchingError>) in
-            completion(result)
-            guard let self = self else { return }
-            if case .failure = result {
-                let newDelay = self.delayCounter.countDelay()
-                DispatchQueue.main.asyncAfter(
-                    deadline: .now() + newDelay, execute: { [weak self] in
-                        self?.getRandomMeals(completion: completion)
-                    }
-                )
-            } else {
-                self.delayCounter.resetDelay()
-            }
-        }
+        let getRandomMealsOp = FetchingDataOperation(
+            type: .randomMeals,
+            delayCounter: delayCounter,
+            completion: completion
+        )
+        opQueue.fetchingQueue.addOperation(getRandomMealsOp)
     }
 
     func getRandomCocktails(completion: @escaping CocktailCompletion) {
-        request(type: .randomCocktails) { [weak self] (result: Result<Drinks, NetworkFetchingError>) in
-            completion(result)
-            guard let self = self else { return }
-            if case .failure = result {
-                let newDelay = self.delayCounter.countDelay()
-                DispatchQueue.main.asyncAfter(
-                    deadline: .now() + newDelay, execute: { [weak self] in
-                        self?.getRandomCocktails(completion: completion)
-                    }
-                )
-            } else {
-                self.delayCounter.resetDelay()
-            }
-        }
+        let getCocktails = FetchingDataOperation(
+            type: .randomCocktails,
+            delayCounter: delayCounter,
+            completion: completion
+        )
+        opQueue.fetchingQueue.addOperation(getCocktails)
     }
 
     func getFullIngredientsList(completion: @escaping (Result<
         FullIngredients,
         NetworkFetchingError
     >) -> Void) {
-        request(type: .ingrediendsList, completion: completion)
+        let getFullIngredientsOp = FetchingDataOperation(
+            type: .ingrediendsList,
+            delayCounter: delayCounter,
+            completion: completion
+        )
+        opQueue.fetchingQueue.addOperation(getFullIngredientsOp)
     }
 
     func getFilteredMealList(ingredient: String, completion: @escaping MealsCompletion) {
-        request(type: .mealsByIngredient(
-            ingredient: ingredient
-        )) { [weak self] (result: Result<Meals, NetworkFetchingError>) in
-            completion(result)
-            guard let self = self else { return }
-            if case .failure = result {
-                let newDelay = self.delayCounter.countDelay()
-                DispatchQueue.main.asyncAfter(
-                    deadline: .now() + newDelay, execute: { [weak self] in
-                        self?.getFilteredMealList(ingredient: ingredient, completion: completion)
-                    }
-                )
-            } else {
-                self.delayCounter.resetDelay()
-            }
-        }
+        let getFilteredMealList = FetchingDataOperation(
+            type: .mealsByIngredient(ingredient: ingredient),
+            delayCounter: delayCounter,
+            completion: completion
+        )
+        opQueue.fetchingQueue.addOperation(getFilteredMealList)
     }
 
-    func getMealListFiltered(by ingridients: [String], completion: @escaping MealsCompletion) {
-        request(type: .mealsByMultipleIngredients(
-            ingredients: ingridients
-        )) { [weak self] (result: Result<Meals, NetworkFetchingError>) in
-            guard let self = self else { return }
-            switch result {
-            case let .success(items):
-                let group = DispatchGroup()
-                let queue = DispatchQueue(label: "writeToResult")
-                var result = [Meal]()
-
-                for meal in items.meals {
-                    group.enter()
-                    self.getMealDetails(id: meal.id) { res in
-                        defer {
-                            group.leave()
-                        }
-                        switch res {
-                        case let .success(items):
-                            guard !items.meals.isEmpty else { return }
-                            let loadedMeal = items.meals[0]
-                            queue.sync {
-                                result.append(loadedMeal)
-                            }
-                        case .failure:
-                            return
-                        }
-                    }
-                }
-                group.notify(queue: queue, execute: {
-                    completion(.success(Meals(meals: result)))
-                })
-            case let .failure(error):
-                completion(.failure(error))
-            }
-        }
+    func getFilteredMealList(ingredients: [String], completion: @escaping MealsCompletion) {
+        let getFilteredMealList = FetchingDataOperation(
+            type: .mealsByMultipleIngredients(ingredients: ingredients),
+            delayCounter: delayCounter,
+            completion: completion
+        )
+        opQueue.fetchingQueue.addOperation(getFilteredMealList)
     }
 
     func searchMealByName(name: String, completion: @escaping MealsCompletion) {
-        request(
+        let getSearchMealByNameOp = FetchingDataOperation(
             type: .mealsByName(name: name),
+            delayCounter: delayCounter,
             completion: completion
         )
+        opQueue.fetchingQueue.addOperation(getSearchMealByNameOp)
     }
 
     func getLatestMeals(completion: @escaping MealsCompletion) {
-        request(
+        let getLatestMealsOp = FetchingDataOperation(
             type: .latestMeals,
+            delayCounter: delayCounter,
             completion: completion
         )
+        opQueue.fetchingQueue.addOperation(getLatestMealsOp)
     }
 }
 
-extension NetworkService {
-    private func request<T: Decodable>(
+final class FetchingOperations {
+    lazy var fetchingTasks: [IndexPath: Operation] = [:]
+    lazy var fetchingQueue: OperationQueue = {
+        var queue = OperationQueue()
+        queue.name = "FetchingDataQueue"
+        queue.maxConcurrentOperationCount = 4
+        return queue
+    }()
+}
+
+final class FetchingDataOperation<T>: Operation where T: Decodable {
+    private let lockQueue = DispatchQueue(
+        label: "com.swiftlee.asyncoperation",
+        attributes: .concurrent
+    )
+
+    private let type: RequestType
+    private let completion: (Result<T, NetworkFetchingError>) -> Void
+
+    private let delayCounter: ExponentialBackoffDelayCalculator
+
+    init(
         type: RequestType,
-        completion: @escaping (Result<T, NetworkFetchingError>) -> Void
+        delayCounter: ExponentialBackoffDelayCalculator,
+        completion: @escaping ((Result<T, NetworkFetchingError>) -> Void)
     ) {
+        self.type = type
+        self.delayCounter = delayCounter
+        self.completion = completion
+    }
+
+    override var isAsynchronous: Bool {
+        true
+    }
+
+    private var _isExecuting: Bool = false
+    private(set) override var isExecuting: Bool {
+        get {
+            lockQueue.sync { () -> Bool in
+                _isExecuting
+            }
+        }
+        set {
+            willChangeValue(forKey: "isExecuting")
+            lockQueue.sync(flags: [.barrier]) {
+                _isExecuting = newValue
+            }
+            didChangeValue(forKey: "isExecuting")
+        }
+    }
+
+    private var _isFinished: Bool = false
+    private(set) override var isFinished: Bool {
+        get {
+            lockQueue.sync { () -> Bool in
+                _isFinished
+            }
+        }
+        set {
+            willChangeValue(forKey: "isFinished")
+            lockQueue.sync(flags: [.barrier]) {
+                _isFinished = newValue
+            }
+            didChangeValue(forKey: "isFinished")
+        }
+    }
+
+    override func start() {
+        print("Starting")
+        isFinished = false
+        isExecuting = true
+        main()
+    }
+
+    override func main() {
         guard let url = type.url else {
             completion(.failure(NetworkFetchingError.unableToMakeURL))
+            finish()
             return
         }
 
-        URLSession.shared.dataTask(with: url) {
-            data, _, error in
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, error in
+
             if let error = error {
-                completion(.failure(.serverError(error: error)))
+                self?.completion(.failure(.serverError(error: error)))
+
+                guard let self = self else {
+                    self?.finish()
+                    return
+                }
+
+                let newDelay: Double = self.delayCounter.countDelay()
+
+                print("Retry after \(newDelay)")
+
+                sleep(UInt32(newDelay))
+                self.finish()
+                self.start()
                 return
             }
 
+            self?.delayCounter.resetDelay()
+
             do {
                 guard let data = data else {
-                    completion(.failure(NetworkFetchingError.noResponseData))
+                    self?.completion(.failure(NetworkFetchingError.noResponseData))
+                    self?.finish()
                     return
                 }
 
                 let result = try JSONDecoder().decode(T.self, from: data)
-                completion(.success(result))
+                self?.completion(.success(result))
+                self?.finish()
             } catch {
-                completion(.failure(.parsingError))
+                self?.completion(.failure(.parsingError))
+                self?.finish()
             }
         }.resume()
+    }
+
+    func finish() {
+        isExecuting = false
+        isFinished = true
     }
 }
