@@ -136,14 +136,19 @@ extension PreviewCellView {
     func configure(
         titleText: String?,
         thumbnailLink: String? = nil,
-        imageLoader: ImageLoader? = nil
+        imageLoader: ImageLoader? = nil,
+        animate: Bool = true
     ) {
         self.titleLabel.text = titleText
         guard let link = thumbnailLink, let imageLoader = imageLoader else {
             return
         }
         cancellable = imageLoader.loadImage(thumbnailLink: link).sink { [unowned self] image in
-            self.showImage(image: image)
+            if animate {
+                self.showImage(image: image)
+            } else {
+                self.imageView.image = image
+            }
         }
     }
 }
