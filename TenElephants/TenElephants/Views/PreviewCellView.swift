@@ -5,9 +5,9 @@
 //  Created by Дарья Домрачева on 13.12.2021.
 //
 
+import Combine
 import Foundation
 import UIKit
-import Combine
 
 final class PreviewCellView: UICollectionViewCell {
     private var cancellable: AnyCancellable?
@@ -122,15 +122,15 @@ extension PreviewCellView {
 }
 
 extension PreviewCellView {
-
     private func showImage(image: UIImage?) {
         imageView.alpha = 0.0
         animator?.stopAnimation(false)
         imageView.image = image
         animator = UIViewPropertyAnimator.runningPropertyAnimator(
             withDuration: 0.5, delay: 0, options: .curveLinear, animations: {
-            self.imageView.alpha = 1.0
-        })
+                self.imageView.alpha = 1.0
+            }
+        )
     }
 
     func configure(

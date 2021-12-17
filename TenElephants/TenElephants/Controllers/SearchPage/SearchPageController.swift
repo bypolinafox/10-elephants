@@ -25,7 +25,7 @@ final class SearchPageController: UIViewController {
         static let mealSuggestionCellWidth: CGFloat = 250
         static let sectionSpacing: CGFloat = 10
         static let titleSpacing: CGFloat = 5
-        static let mealSuggestionsHeight: CGFloat = 310
+        static let resultCellHeight: CGFloat = 250
 
         static let blurAnimationDuration: TimeInterval = 0.5
 
@@ -94,7 +94,7 @@ final class SearchPageController: UIViewController {
     )
 
     private lazy var resultDataSource = ResultMealDataSource(
-        cellHeight: Constants.mealSuggestionsHeight,
+        cellHeight: Constants.resultCellHeight,
         insetValue: Constants.sideInsetValue,
         cellID: Constants.resultMealCellID,
         imageLoader: imageLoader,
@@ -203,7 +203,7 @@ final class SearchPageController: UIViewController {
     }
 
     private func search(searchText: String) {
-        guard !searchText.isEmpty else {
+        guard !(searchText.isEmpty && filters.isEmpty) else {
             showRecentMeals()
             return
         }

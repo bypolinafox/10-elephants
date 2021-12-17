@@ -4,8 +4,8 @@
 //
 //  Created by Kirill Denisov on 09.12.2021.
 //
-import UIKit
 import Combine
+import UIKit
 
 final class MealPageController: UIViewController {
     private enum Constants {
@@ -16,6 +16,7 @@ final class MealPageController: UIViewController {
         static let defaultEmoji: String = "😋"
         static let loadingScreenAppearanceDuration: TimeInterval = 0.5
     }
+
     private var cancellable: AnyCancellable? {
         willSet {
             cancellable?.cancel()
@@ -157,6 +158,28 @@ final class MealPageController: UIViewController {
 
     private func loadMealData() {
         if let preloadedMeal = preloadedMeal {
+            guard preloadedMeal.ingredients != nil else {
+                setLoadingScreenAppearance(shouldHide: false, animated: true)
+                dataProvider.fetchMealDetails(by: preloadedMeal.id) { [weak self] result in
+                    guard let self = self else { return }
+                    switch result {
+                    case let .success(items):
+                        guard !items.meals.isEmpty else { return }
+                        self.preloadedMeal = UIMeal(
+                            mealObj: items.meals[0],
+                            dataProvider: self.likeProvider
+                        )
+                        DispatchQueue.main.async {
+                            self.refreshControl.endRefreshing()
+                            self.setLoadingScreenAppearance(shouldHide: true, animated: true)
+                            self.fillMealData(meal: self.preloadedMeal!)
+                        }
+                    case let .failure(error):
+                        print(error.localizedDescription)
+                    }
+                }
+                return
+            }
             fillMealData(meal: preloadedMeal)
             return
         }

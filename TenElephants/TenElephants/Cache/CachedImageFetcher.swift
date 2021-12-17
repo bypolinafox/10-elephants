@@ -5,11 +5,11 @@
 //  Created by Kirill Denisov on 13.12.2021.
 //
 
+import Combine
 import Foundation
 import UIKit
-import Combine
 
-public protocol ImageCacheType: class {
+public protocol ImageCacheType: AnyObject {
     // Returns the image associated with a given url
     func image(for url: URL) -> UIImage?
     // Inserts the image of the specified url in the cache
@@ -19,23 +19,24 @@ public protocol ImageCacheType: class {
     // Removes all images from the cache
     func removeAllImages()
     // Accesses the value associated with the given key for reading and writing
-    subscript(_ url: URL) -> UIImage? { get set }
+    subscript(_: URL) -> UIImage? { get set }
 }
 
 public final class ImageCache: ImageCacheType {
-
     // 1st level cache, that contains encoded images
     private lazy var imageCache: NSCache<AnyObject, AnyObject> = {
         let cache = NSCache<AnyObject, AnyObject>()
         cache.countLimit = config.countLimit
         return cache
     }()
+
     // 2nd level cache, that contains decoded images
     private lazy var decodedImageCache: NSCache<AnyObject, AnyObject> = {
         let cache = NSCache<AnyObject, AnyObject>()
         cache.totalCostLimit = config.memoryLimit
         return cache
     }()
+
     private let lock = NSLock()
     private let config: Config
 
@@ -43,7 +44,10 @@ public final class ImageCache: ImageCacheType {
         public let countLimit: Int
         public let memoryLimit: Int
 
-        public static let defaultConfig = Config(countLimit: 100, memoryLimit: 1024 * 1024 * 100) // 100 MB
+        public static let defaultConfig = Config(
+            countLimit: 100,
+            memoryLimit: 1024 * 1024 * 100
+        ) // 100 MB
     }
 
     public init(config: Config = Config.defaultConfig) {
@@ -59,7 +63,11 @@ public final class ImageCache: ImageCacheType {
         // search for image data
         if let image = imageCache.object(forKey: url as AnyObject) as? UIImage {
             let decodedImage = image.decodedImage()
-            decodedImageCache.setObject(image as AnyObject, forKey: url as AnyObject, cost: decodedImage.diskSize)
+            decodedImageCache.setObject(
+                image as AnyObject,
+                forKey: url as AnyObject,
+                cost: decodedImage.diskSize
+            )
             return decodedImage
         }
         return nil
@@ -71,7 +79,11 @@ public final class ImageCache: ImageCacheType {
 
         lock.lock(); defer { lock.unlock() }
         imageCache.setObject(decompressedImage, forKey: url as AnyObject, cost: 1)
-        decodedImageCache.setObject(image as AnyObject, forKey: url as AnyObject, cost: decompressedImage.diskSize)
+        decodedImageCache.setObject(
+            image as AnyObject,
+            forKey: url as AnyObject,
+            cost: decompressedImage.diskSize
+        )
     }
 
     public func removeImage(for url: URL) {
@@ -88,28 +100,35 @@ public final class ImageCache: ImageCacheType {
 
     public subscript(_ key: URL) -> UIImage? {
         get {
-            return image(for: key)
+            image(for: key)
         }
         set {
-            return insertImage(newValue, for: key)
+            insertImage(newValue, for: key)
         }
     }
 }
 
-fileprivate extension UIImage {
-
-    func decodedImage() -> UIImage {
+extension UIImage {
+    fileprivate func decodedImage() -> UIImage {
         guard let cgImage = cgImage else { return self }
         let size = CGSize(width: cgImage.width, height: cgImage.height)
         let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let context = CGContext(data: nil, width: Int(size.width), height: Int(size.height), bitsPerComponent: 8, bytesPerRow: cgImage.bytesPerRow, space: colorSpace, bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue)
+        let context = CGContext(
+            data: nil,
+            width: Int(size.width),
+            height: Int(size.height),
+            bitsPerComponent: 8,
+            bytesPerRow: cgImage.bytesPerRow,
+            space: colorSpace,
+            bitmapInfo: CGImageAlphaInfo.noneSkipFirst.rawValue
+        )
         context?.draw(cgImage, in: CGRect(origin: .zero, size: size))
         guard let decodedImage = context?.makeImage() else { return self }
         return UIImage(cgImage: decodedImage)
     }
 
     // Rough estimation of how much memory image uses in bytes
-    var diskSize: Int {
+    fileprivate var diskSize: Int {
         guard let cgImage = cgImage else { return 0 }
         return cgImage.bytesPerRow * cgImage.height
     }
@@ -133,9 +152,9 @@ public final class ImageLoader {
             return Just(image).eraseToAnyPublisher()
         }
         return URLSession.shared.dataTaskPublisher(for: url)
-            .map { (data, response) -> UIImage? in return UIImage(data: data) }
-            .catch { error in return Just(nil) }
-            .handleEvents(receiveOutput: {[unowned self] image in
+            .map { data, _ -> UIImage? in UIImage(data: data) }
+            .catch { _ in Just(nil) }
+            .handleEvents(receiveOutput: { [unowned self] image in
                 guard let image = image else { return }
                 self.cache[url] = image
             })
@@ -144,12 +163,13 @@ public final class ImageLoader {
             .receive(on: RunLoop.main)
             .eraseToAnyPublisher()
     }
+
     public func loadImage(thumbnailLink: String) -> AnyPublisher<UIImage?, Never> {
-        return Just(thumbnailLink)
-        .flatMap({ thumbnailLink -> AnyPublisher<UIImage?, Never> in
-            let url = URL(string: thumbnailLink)!
-            return self.loadImage(url: url)
-        })
-        .eraseToAnyPublisher()
+        Just(thumbnailLink)
+            .flatMap { thumbnailLink -> AnyPublisher<UIImage?, Never> in
+                let url = URL(string: thumbnailLink)!
+                return self.loadImage(url: url)
+            }
+            .eraseToAnyPublisher()
     }
 }
