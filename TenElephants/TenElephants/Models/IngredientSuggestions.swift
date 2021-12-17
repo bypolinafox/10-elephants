@@ -24,9 +24,12 @@ extension IngredientSuggestion {
     }
 }
 
-func getEmoji(ingredientName: String) -> String? {
-    ingredientSuggestions[ingredientName.lowercased()]?.emoji
-}
+func getEmoji(ingredientName: String, drinks: Bool = false) -> String? {
+    if drinks {
+        return ingredientSuggestionsCocktail[ingredientName.lowercased()]?.emoji
+    }
+        return ingredientSuggestions[ingredientName.lowercased()]?.emoji
+    }
 
 let ingredientSuggestions: [String: IngredientSuggestion] = [
     "apples": .init("Apple", "🍎"), // id: 488
@@ -79,6 +82,9 @@ let ingredientSuggestions: [String: IngredientSuggestion] = [
     "unsalted butter": .init("Unstalted butter", "🧈"), // id:
     "sea salt": .init("Sea salt", "🧂"), // id:
     "rice": .init("Rice", "🍚"), // id:
+]
+
+let ingredientSuggestionsCocktail: [String: IngredientSuggestion] = [
     "Light rum": .init("Light rum", "🥃"),
     "Applejack": .init("Applejack", "🍎"),
     "Dark rum": .init("Dark rum", "🥃"),

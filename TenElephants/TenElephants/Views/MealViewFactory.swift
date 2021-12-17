@@ -134,7 +134,7 @@ final class MealViewFactory {
         quantityName.font = UIFont.systemFont(ofSize: 15)
 
         let emojiLabel = UILabel()
-        if let emoji = getEmoji(ingredientName: name) {
+        if let emoji = getEmoji(ingredientName: name, drinks: drinks) {
             emojiLabel.text = emoji
         } else {
             emojiLabel.text = (drinks ? Constants.drinkEmojis : Constants.defaultEmojis)
