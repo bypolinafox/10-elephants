@@ -33,6 +33,21 @@ final class TabBarController: UITabBarController {
         self.present(singleMealController, animated: true, completion: nil)
     }
 
+    func openSingleIngredient(ingredient: IngredientUIData) {
+        let singleIngredientController = SingleIngredientPageController(
+            ingredient: ingredient,
+            imageLoader: imageLoader,
+            dataProvider: ingredientsDataProvider
+        )
+
+        singleIngredientController.modalPresentationStyle = .fullScreen
+        singleIngredientController.modalTransitionStyle = .coverVertical
+
+        present(singleIngredientController, animated: true) {
+            print("Presented")
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -62,7 +77,11 @@ final class TabBarController: UITabBarController {
         searchC.tabBarItem = searchItem
 
         let ingredientsC = IngredientsPageController(
-            dataProvider: ingredientsDataProvider
+            dataProvider: ingredientsDataProvider,
+            imageLoader: imageLoader,
+            openSingleIngredient: { [weak self] ingredient in
+                self?.openSingleIngredient(ingredient: ingredient)
+            }
         )
 
         let ingredientsItem = UITabBarItem()

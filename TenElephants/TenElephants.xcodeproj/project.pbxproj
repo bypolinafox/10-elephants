@@ -43,6 +43,7 @@
 		43E8CED92768A54100C3F357 /* MealsDataProviderNetwork.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E8CED82768A54100C3F357 /* MealsDataProviderNetwork.swift */; };
 		43E8CEDB276B7E6300C3F357 /* Cocktails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E8CEDA276B7E6300C3F357 /* Cocktails.swift */; };
 		43E8CEDF276BD31B00C3F357 /* UICocktail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E8CEDE276BD31B00C3F357 /* UICocktail.swift */; };
+		43E8CEE2276CEB3700C3F357 /* SingleIngredientPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43E8CEE1276CEB3700C3F357 /* SingleIngredientPageController.swift */; };
 		DF30420B2766814C0066DBEF /* RoundButtonWithBlur.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF30420A2766814C0066DBEF /* RoundButtonWithBlur.swift */; };
 		DF30420D276687990066DBEF /* LikeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF30420C276687990066DBEF /* LikeButton.swift */; };
 		DF3589192767AA5A002C6221 /* MealSuggestionDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF3589162767AA5A002C6221 /* MealSuggestionDataSource.swift */; };
@@ -108,6 +109,7 @@
 		43E8CED82768A54100C3F357 /* MealsDataProviderNetwork.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealsDataProviderNetwork.swift; sourceTree = "<group>"; };
 		43E8CEDA276B7E6300C3F357 /* Cocktails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cocktails.swift; sourceTree = "<group>"; };
 		43E8CEDE276BD31B00C3F357 /* UICocktail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UICocktail.swift; sourceTree = "<group>"; };
+		43E8CEE1276CEB3700C3F357 /* SingleIngredientPageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleIngredientPageController.swift; sourceTree = "<group>"; };
 		DF30420A2766814C0066DBEF /* RoundButtonWithBlur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundButtonWithBlur.swift; sourceTree = "<group>"; };
 		DF30420C276687990066DBEF /* LikeButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeButton.swift; sourceTree = "<group>"; };
 		DF3589162767AA5A002C6221 /* MealSuggestionDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MealSuggestionDataSource.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				DF3589152767AA4A002C6221 /* SearchPage */,
 				1FDE4AB627621782002879F8 /* MealPageController.swift */,
 				14FD75C2DB755BA7B2605AE5 /* LikePageController.swift */,
+				43E8CEE1276CEB3700C3F357 /* SingleIngredientPageController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -452,6 +455,7 @@
 				43E8CEDB276B7E6300C3F357 /* Cocktails.swift in Sources */,
 				14FD770FF738AD41E178659A /* LikePageController.swift in Sources */,
 				DFFF8F0A276CAB680094AA69 /* CellBackgroundColor.swift in Sources */,
+				43E8CEE2276CEB3700C3F357 /* SingleIngredientPageController.swift in Sources */,
 				14FD7E1D0C8CE63093E664E8 /* UIMeals.swift in Sources */,
 				43E8CED92768A54100C3F357 /* MealsDataProviderNetwork.swift in Sources */,
 				14FD7008E421CB109D5A4261 /* NSMutableArray+Fill+Convert.swift in Sources */,
