@@ -29,7 +29,6 @@ final class IngredientsPageController: UIViewController {
 
     init(
         dataProvider: IngredientsDataProvider,
-        imageLoader: ImageLoader,
         openSingleIngredient: @escaping (IngredientUIData) -> Void
     ) {
         self.dataProvider = dataProvider
@@ -76,8 +75,10 @@ extension IngredientsPageController: UITableViewDelegate {
         }
 
         switch section {
-        case .header: return 1
-        case .elements: return ingredientsData?.ingredients.count ?? 0
+        case .header:
+            return 1
+        case .elements:
+            return ingredientsData?.ingredients.count ?? 0
         }
     }
 

@@ -15,10 +15,10 @@ final class LikePageController: UIViewController {
         return nfv
     }()
 
-    var viewModel: UIMeals
-    let likeProvider: DBDataProvider
-    var imageLoader: ImageLoader
-    let netDataProvider: MealsDataProviderNetwork
+    private var viewModel: UIMeals
+    private let likeProvider: DBDataProvider
+    private let imageLoader: ImageLoader
+    private let mealsDataProvider: MealsDataProvider
 
     private enum Constants {
         static let reuseId: String = "FavCell"
@@ -45,9 +45,9 @@ final class LikePageController: UIViewController {
     init(
         dataProvider: DBDataProvider,
         imageLoader: ImageLoader,
-        networkDataProvider: MealsDataProviderNetwork
+        mealsDataProvider: MealsDataProvider
     ) {
-        netDataProvider = networkDataProvider
+        self.mealsDataProvider = mealsDataProvider
         viewModel = UIMeals(meals: [])
         likeProvider = dataProvider
         self.imageLoader = imageLoader
@@ -63,7 +63,7 @@ final class LikePageController: UIViewController {
         let singleMealController = MealPageController(
             meal: meal,
             imageLoader: imageLoader,
-            dataProvider: netDataProvider,
+            dataProvider: mealsDataProvider,
             likeProvider: likeProvider
         )
 
@@ -82,7 +82,7 @@ final class LikePageController: UIViewController {
         for (index, element) in likeList.enumerated() {
             let id = element
             group.enter()
-            netDataProvider.fetchMealDetails(by: id) { [weak self] result in
+            mealsDataProvider.fetchMealDetails(by: id) { [weak self] result in
                 defer {
                     group.leave()
                 }
@@ -110,7 +110,7 @@ final class LikePageController: UIViewController {
 
     @objc func openSettings() {
         let settingsController = SettingsViewController()
-        self.navigationController?.pushViewController(settingsController, animated: true)
+        navigationController?.pushViewController(settingsController, animated: true)
     }
 
     override func viewDidLoad() {
@@ -119,7 +119,7 @@ final class LikePageController: UIViewController {
         view.addSubview(collectionView)
         view.addSubview(nothingFoundView)
 
-        self.navigationItem.rightBarButtonItem = settingsItem
+        navigationItem.rightBarButtonItem = settingsItem
 
         NSLayoutConstraint.activate([
             nothingFoundView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -139,7 +139,7 @@ final class LikePageController: UIViewController {
         super.viewWillAppear(animated)
         getData(completion: { [self] meals in
 
-            self.nothingFoundView.isHidden = !(meals.count == 0)
+            nothingFoundView.isHidden = !(meals.count == 0)
 
             viewModel = UIMeals(meals: meals)
             collectionView.reloadData()

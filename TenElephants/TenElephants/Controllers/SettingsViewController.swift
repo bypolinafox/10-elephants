@@ -42,7 +42,7 @@ final class SettingsViewController: UIViewController {
         .init("firstIcon", description: "Nice Blue", image: UIImage(named: "firstIcon")!),
         .init("secondIcon", description: "Lovely Pink", image: UIImage(named: "secondIcon")!),
         .init("thirdIcon", description: "Awesome Orange", image: UIImage(named: "thirdIcon")!),
-        .init("fourthIcon", description: "Skethy one", image: UIImage(named: "fourthIcon")!),
+        .init("fourthIcon", description: "Sketchy one", image: UIImage(named: "fourthIcon")!),
     ]
 
     private lazy var iconCollection: UICollectionView = {
@@ -54,8 +54,8 @@ final class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
-        self.title = "Choose an icon"
+        view.backgroundColor = .systemBackground
+        title = "Choose an icon"
 
         view.addSubview(tableView)
         tableView.register(IconTableViewCell.self, forCellReuseIdentifier: Constants.cellID)

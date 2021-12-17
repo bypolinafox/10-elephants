@@ -20,7 +20,7 @@ final class TrendPageController: UIViewController {
         }
     }
 
-    let provider: MealsDataProviderNetwork
+    let mealsDataProvider: MealsDataProvider
     let imageLoader: ImageLoader
     private let openSingleMeal: (Meal) -> Void
 
@@ -53,11 +53,11 @@ final class TrendPageController: UIViewController {
     }
 
     init(
-        networkDataProvider: MealsDataProviderNetwork,
+        mealsDataProvider: MealsDataProvider,
         imageLoader: ImageLoader,
         openSingleMeal: @escaping (Meal) -> Void
     ) {
-        self.provider = networkDataProvider
+        self.mealsDataProvider = mealsDataProvider
         self.imageLoader = imageLoader
         self.openSingleMeal = openSingleMeal
         super.init(nibName: nil, bundle: nil)
@@ -74,14 +74,14 @@ final class TrendPageController: UIViewController {
                 sectionIndex: Int,
                 _: NSCollectionLayoutEnvironment
             ) -> NSCollectionLayoutSection? in
-                guard let section = Section(rawValue: sectionIndex)
-                else { fatalError("No section provided") }
-                switch section {
-                case .horizontal:
-                    return self?.setupHorizontalSection()
-                case .vertical:
-                    return self?.setupVerticalSection()
-                }
+            guard let section = Section(rawValue: sectionIndex)
+            else { fatalError("No section provided") }
+            switch section {
+            case .horizontal:
+                return self?.setupHorizontalSection()
+            case .vertical:
+                return self?.setupVerticalSection()
+            }
         }
         return layout
     }()
@@ -187,7 +187,7 @@ final class TrendPageController: UIViewController {
     }
 
     func fetchData(for section: Section) {
-        provider.fetchRandomPreviewMeals {
+        mealsDataProvider.fetchRandomPreviewMeals {
             switch $0 {
             case let .success(items):
                 DispatchQueue.main.async {
@@ -206,12 +206,12 @@ final class TrendPageController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
-        self.configureLayout()
-        self.fetchData(for: .horizontal)
-        self.fetchData(for: .vertical)
+        view.backgroundColor = .systemBackground
+        configureLayout()
+        fetchData(for: .horizontal)
+        fetchData(for: .vertical)
 
-        self.view.addSubview(collectionView)
+        view.addSubview(collectionView)
     }
 
     override func viewDidLayoutSubviews() {

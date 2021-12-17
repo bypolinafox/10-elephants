@@ -64,9 +64,9 @@ extension PreviewCellView {
     func makeTitleLabel() -> UILabel {
         let label = UILabel(
             frame: CGRect(
-                x: self.frame.width / 2 + Constants.labelGap, y: 0,
-                width: self.frame.width / 2 - 2 * Constants.labelGap,
-                height: self.frame.height
+                x: frame.width / 2 + Constants.labelGap, y: 0,
+                width: frame.width / 2 - 2 * Constants.labelGap,
+                height: frame.height
             )
         )
         label.numberOfLines = 0
@@ -79,8 +79,8 @@ extension PreviewCellView {
         let image = UIImageView(
             frame: CGRect(
                 x: Constants.imageGap, y: Constants.imageGap,
-                width: self.frame.width / 2 - 2 * Constants.imageGap,
-                height: self.frame.height - 2 * Constants.imageGap
+                width: frame.width / 2 - 2 * Constants.imageGap,
+                height: frame.height - 2 * Constants.imageGap
             )
         )
         image.backgroundColor = .systemFill
@@ -114,8 +114,8 @@ extension PreviewCellView {
         let indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
         indicator.style = UIActivityIndicatorView.Style.medium
         indicator.center = CGPoint(
-            x: 0.75 * self.contentView.frame.width,
-            y: self.contentView.center.y
+            x: 0.75 * contentView.frame.width,
+            y: contentView.center.y
         )
         return indicator
     }
@@ -139,15 +139,15 @@ extension PreviewCellView {
         imageLoader: ImageLoader? = nil,
         animate: Bool = true
     ) {
-        self.titleLabel.text = titleText
+        titleLabel.text = titleText
         guard let link = thumbnailLink, let imageLoader = imageLoader else {
             return
         }
-        cancellable = imageLoader.loadImage(thumbnailLink: link).sink { [unowned self] image in
+        cancellable = imageLoader.loadImage(thumbnailLink: link).sink { [weak self] image in
             if animate {
-                self.showImage(image: image)
+                self?.showImage(image: image)
             } else {
-                self.imageView.image = image
+                self?.imageView.image = image
             }
         }
     }

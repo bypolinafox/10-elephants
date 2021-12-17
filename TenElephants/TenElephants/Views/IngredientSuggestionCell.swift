@@ -28,13 +28,13 @@ final class IngredientSuggestionCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.layer.cornerRadius = Constants.cornerRadius
-        self.layer.masksToBounds = true
-        self.backgroundColor = Constants.backgroundColor
-        self.layoutMargins = Constants.edgeInsets
+        layer.cornerRadius = Constants.cornerRadius
+        layer.masksToBounds = true
+        backgroundColor = Constants.backgroundColor
+        layoutMargins = Constants.edgeInsets
 
         ingredientName = makeTitleLabel()
-        self.addSubview(ingredientName)
+        addSubview(ingredientName)
     }
 
     @available(*, unavailable)
@@ -49,11 +49,11 @@ final class IngredientSuggestionCell: UICollectionViewCell {
 
     func setActiveState(isActive: Bool) {
         if isActive {
-            self.backgroundColor = Constants.activeBackgroundColor
+            backgroundColor = Constants.activeBackgroundColor
             ingredientName.textColor = Constants.activeLabelColor
             ingredientName.font = UIFont.systemFont(ofSize: Constants.titleSize, weight: .bold)
         } else {
-            self.backgroundColor = Constants.backgroundColor
+            backgroundColor = Constants.backgroundColor
             ingredientName.textColor = Constants.labelColor
             ingredientName.font = UIFont.systemFont(ofSize: Constants.titleSize, weight: .regular)
         }

@@ -31,16 +31,16 @@ final class LikeButton: UIButton {
     private func updateImage() {
         switch isLiked {
         case true:
-            self.setImage(Constants.fillIcon, for: .normal)
-            self.tintColor = Constants.activeTint
+            setImage(Constants.fillIcon, for: .normal)
+            tintColor = Constants.activeTint
         case false:
-            self.setImage(Constants.contourIcon, for: .normal)
-            self.tintColor = Constants.notActiveTint
+            setImage(Constants.contourIcon, for: .normal)
+            tintColor = Constants.notActiveTint
         }
     }
 
     init() {
-        self.isLiked = false
+        isLiked = false
         super.init(frame: .zero)
         updateImage()
     }

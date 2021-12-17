@@ -5,9 +5,9 @@
 //  Created by Дарья Домрачева on 17.12.2021.
 //
 
+import Combine
 import Foundation
 import UIKit
-import Combine
 
 final class SingleIngredientPageController: UIViewController {
     private enum Constants {
@@ -19,6 +19,7 @@ final class SingleIngredientPageController: UIViewController {
         static let urlLinkBeginning: String = "https://www.themealdb.com/images/ingredients/"
         static let imgFormat: String = ".png"
     }
+
     private var cancellable: AnyCancellable? {
         willSet {
             cancellable?.cancel()
@@ -57,7 +58,7 @@ final class SingleIngredientPageController: UIViewController {
 
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
-        fatalError("Init from coder is not avaible")
+        fatalError("Init from coder is unavailable")
     }
 
     override func viewDidLoad() {
@@ -91,14 +92,14 @@ final class SingleIngredientPageController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.setNeedsStatusBarAppearanceUpdate()
+        setNeedsStatusBarAppearanceUpdate()
     }
 
     // MARK: - setLiked, close, reload
 
     // executes when close button is pressed
     @objc private func close() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
     // MARK: - working with data
@@ -111,10 +112,10 @@ final class SingleIngredientPageController: UIViewController {
     }
 
     private func constructThumbnailLink(title: String) -> String {
-        return "\(Constants.urlLinkBeginning)\(title)\(Constants.imgFormat)"
+        "\(Constants.urlLinkBeginning)\(title)\(Constants.imgFormat)"
     }
 
-    private func fillIngredientData(ingredient: IngredientUIData){
+    private func fillIngredientData(ingredient: IngredientUIData) {
         if let title = ingredient.title {
             let link = constructThumbnailLink(title: title)
             loadImage(link: link)
@@ -134,8 +135,8 @@ final class SingleIngredientPageController: UIViewController {
 
     private func loadImage(link linkOriginal: String) {
         if let link = linkOriginal.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-            cancellable = imageLoader.loadImage(thumbnailLink: link).sink { [unowned self] image in
-                self.ingredientImageView.image = image
+            cancellable = imageLoader.loadImage(thumbnailLink: link).sink { [weak self] image in
+                self?.ingredientImageView.image = image
             }
         }
     }

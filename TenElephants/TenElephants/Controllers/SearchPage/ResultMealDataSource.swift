@@ -13,8 +13,7 @@ final class ResultMealDataSource: NSObject, UICollectionViewDataSource {
     private let sideInsetValue: CGFloat
     private let cellID: String
     private let imageLoader: ImageLoader
-
-    let openMealPageController: (Meal) -> Void
+    private let openMealPageController: (Meal) -> Void
 
     var meals = [Meal]()
 

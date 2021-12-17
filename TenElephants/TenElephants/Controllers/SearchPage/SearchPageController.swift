@@ -49,7 +49,7 @@ final class SearchPageController: UIViewController {
     private lazy var ingredientSuggestionsStack: UIStackView = factory
         .makeIngredientSuggestionStackView()
     private lazy var ingredientSuggestionTitle: UILabel = factory.makeIngredientSuggestionTitle()
-    private lazy var ingregientCollectionView: UICollectionView = factory
+    private lazy var ingredientCollectionView: UICollectionView = factory
         .makeIngredientCollectionView()
     private lazy var resultCollectionView: UICollectionView = factory.makeResultCollectionView()
     private lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: .systemThinMaterial))
@@ -61,7 +61,7 @@ final class SearchPageController: UIViewController {
     )
 
     private let factory = SearchPageViewFactory()
-    private var netDataProvider: MealsDataProviderNetwork
+    private var mealsDataProvider: MealsDataProvider
     private var recentsProvider: RecentsProviderProtocol
     private var imageLoader: ImageLoader
 
@@ -104,13 +104,13 @@ final class SearchPageController: UIViewController {
     )
 
     init(
-        networkDataProvider: MealsDataProviderNetwork,
-        recentProvider: RecentsProviderProtocol,
+        mealsDataProvider: MealsDataProvider,
+        recentsProvider: RecentsProviderProtocol,
         imageLoader: ImageLoader,
         openSingleMeal: @escaping (Meal) -> Void
     ) {
-        self.netDataProvider = networkDataProvider
-        self.recentsProvider = recentProvider
+        self.mealsDataProvider = mealsDataProvider
+        self.recentsProvider = recentsProvider
         self.imageLoader = imageLoader
         self.openSingleMeal = openSingleMeal
         super.init(nibName: nil, bundle: nil)
@@ -146,14 +146,14 @@ final class SearchPageController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        blurView.frame = self.view.frame
+        blurView.frame = view.frame
     }
 
     // MARK: - responding to data changes
 
     private func reloadCollectionViewsData() {
         mealCollectionView.reloadData()
-        ingregientCollectionView.reloadData()
+        ingredientCollectionView.reloadData()
         resultCollectionView.reloadData()
         updateSuggestionLayout()
     }
@@ -215,7 +215,7 @@ final class SearchPageController: UIViewController {
             showRecentMeals()
             return
         }
-        netDataProvider.searchMealByName(name: searchText) { [weak self] result in
+        mealsDataProvider.searchMealByName(name: searchText) { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -239,7 +239,7 @@ final class SearchPageController: UIViewController {
     }
 
     private func searchByIngredients(filters: [String], searchText: String) {
-        netDataProvider.fetchMealListFiltered(by: filters) { [weak self] result in
+        mealsDataProvider.fetchMealListFiltered(by: filters) { [weak self] result in
             guard let self = self else {
                 return
             }
@@ -289,7 +289,7 @@ extension SearchPageController: UISearchBarDelegate {
 
 extension SearchPageController: UIGestureRecognizerDelegate {
     func gestureRecognizer(_: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
-        if touch.view?.isDescendant(of: ingregientCollectionView) == true {
+        if touch.view?.isDescendant(of: ingredientCollectionView) == true {
             return false
         }
         if touch.view?.isDescendant(of: mealCollectionView) == true {
@@ -310,9 +310,9 @@ extension SearchPageController {
             forCellWithReuseIdentifier: Constants.mealCellID
         )
 
-        ingregientCollectionView.dataSource = ingredientDataSource
-        ingregientCollectionView.delegate = ingredientDataSource
-        ingregientCollectionView.register(
+        ingredientCollectionView.dataSource = ingredientDataSource
+        ingredientCollectionView.delegate = ingredientDataSource
+        ingredientCollectionView.register(
             Constants.ingredientCellType,
             forCellWithReuseIdentifier: Constants.ingredientCellID
         )
@@ -335,7 +335,7 @@ extension SearchPageController {
 
         suggestionStackView.addArrangedSubview(ingredientSuggestionsStack)
         ingredientSuggestionsStack.addArrangedSubview(ingredientSuggestionTitle)
-        ingredientSuggestionsStack.addArrangedSubview(ingregientCollectionView)
+        ingredientSuggestionsStack.addArrangedSubview(ingredientCollectionView)
 
         suggestionStackView.addArrangedSubview(mealSuggestionsStack)
         mealSuggestionsStack.addArrangedSubview(mealSuggestionTitle)
@@ -390,7 +390,7 @@ extension SearchPageController {
     }
 
     private func configureMealSuggestions() {
-        self.mealCollectionView.backgroundColor = .clear
+        mealCollectionView.backgroundColor = .clear
         NSLayoutConstraint.activate([
             mealCollectionView.heightAnchor
                 .constraint(equalToConstant: Constants.mealSuggestionHeight),
@@ -410,11 +410,11 @@ extension SearchPageController {
     }
 
     private func configureIngredientSuggestions() {
-        self.ingregientCollectionView.backgroundColor = .clear
+        ingredientCollectionView.backgroundColor = .clear
         NSLayoutConstraint.activate([
-            ingregientCollectionView.heightAnchor
+            ingredientCollectionView.heightAnchor
                 .constraint(equalToConstant: Constants.ingredientHeight),
-            ingregientCollectionView.widthAnchor
+            ingredientCollectionView.widthAnchor
                 .constraint(equalTo: ingredientSuggestionsStack.widthAnchor),
         ])
 
@@ -451,8 +451,8 @@ extension SearchPageController {
                 self.suggestionScrollView.isHidden = true
             })
         case false:
-            self.blurView.isHidden = false
-            self.suggestionScrollView.isHidden = false
+            blurView.isHidden = false
+            suggestionScrollView.isHidden = false
             UIView.animate(withDuration: Constants.blurAnimationDuration, animations: {
                 self.blurView.layer.opacity = 1
                 self.suggestionScrollView.layer.opacity = 1
@@ -488,6 +488,6 @@ extension SearchPageController {
 
 extension UISearchBar {
     var nonOptionalText: String {
-        self.text ?? ""
+        text ?? ""
     }
 }

@@ -48,7 +48,7 @@ final class MealPageController: UIViewController {
     private lazy var loadingScreen = factory.makeLoadingScreen(isHidden: true)
     private let imageContainerView = UIView()
 
-    let refreshControl = UIRefreshControl()
+    private let refreshControl = UIRefreshControl()
 
     // используется в extension UIScrollViewDelegate
     private var previousStatusBarHidden = false
@@ -68,7 +68,7 @@ final class MealPageController: UIViewController {
 
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
-        fatalError("Init from coder is not avaible")
+        fatalError("Init from coder is unavailable")
     }
 
     override func viewDidLoad() {
@@ -107,7 +107,7 @@ final class MealPageController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.setNeedsStatusBarAppearanceUpdate()
+        setNeedsStatusBarAppearanceUpdate()
     }
 
     override func motionBegan(_: UIEvent.EventSubtype, with _: UIEvent?) {
@@ -128,11 +128,11 @@ final class MealPageController: UIViewController {
 
     // executes when close button is pressed
     @objc private func close() {
-        self.dismiss(animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
     @objc private func reload() {
-        self.loadMealData()
+        loadMealData()
     }
 
     private func loadCocktail() {
@@ -204,7 +204,7 @@ final class MealPageController: UIViewController {
     }
 
     private func fillMealData(meal: UIMeal) {
-        self.likeButton.isHidden = false
+        likeButton.isHidden = false
 
         if let link = meal.thumbnailLink {
             loadImage(link: link)
@@ -222,7 +222,7 @@ final class MealPageController: UIViewController {
     }
 
     private func fillDrinkData(drink: UICocktail) {
-        self.likeButton.isHidden = true
+        likeButton.isHidden = true
         if let link = drink.thumbnailLink {
             loadImage(link: link)
         }
@@ -244,8 +244,8 @@ final class MealPageController: UIViewController {
     }
 
     private func loadImage(link: String) {
-        cancellable = imageLoader.loadImage(thumbnailLink: link).sink { [unowned self] image in
-            self.mealImageView.image = image
+        cancellable = imageLoader.loadImage(thumbnailLink: link).sink { [weak self] image in
+            self?.mealImageView.image = image
         }
     }
 

@@ -66,13 +66,6 @@ final class MealViewFactory {
         return imageView
     }
 
-    func getMuliplier(image: UIImage?) -> CGFloat? {
-        guard let image = image else { return nil }
-        let width = image.size.width
-        let height = image.size.height
-        return height / width
-    }
-
     func makeTitleView() -> UIStackView {
         let stackView = UIStackView()
         stackView.distribution = .equalSpacing

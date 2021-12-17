@@ -12,7 +12,7 @@ final class NothingFoundStack: UIStackView {
     private enum Constants {
         static let nothingFoundEmojiLabelFont = UIFont.systemFont(ofSize: 50)
         static let nothingFoundTitleLabelFont = UIFont.systemFont(ofSize: 30, weight: .bold)
-        static let nothingFoundDesriptionLabelFont = UIFont.systemFont(ofSize: 15)
+        static let nothingFoundDescriptionLabelFont = UIFont.systemFont(ofSize: 15)
         static let nothingFoundSpacing: CGFloat = 5
         static let maxWidth: CGFloat = 300
     }
@@ -42,7 +42,7 @@ final class NothingFoundStack: UIStackView {
         titleLabel.text = title
 
         let descLabel = UILabel()
-        descLabel.font = Constants.nothingFoundDesriptionLabelFont
+        descLabel.font = Constants.nothingFoundDescriptionLabelFont
         descLabel.translatesAutoresizingMaskIntoConstraints = false
         descLabel.textAlignment = .center
         descLabel.numberOfLines = 0

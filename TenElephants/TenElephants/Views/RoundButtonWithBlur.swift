@@ -26,15 +26,15 @@ final class RoundButtonWithBlur: UIButton {
         self.type = type
         super.init(frame: .zero)
 
-        self.setTitle(nil, for: .normal)
-        self.backgroundColor = .clear
-        self.setImage(type.icon, for: .normal)
-        self.tintColor = Constants.tintColor
+        setTitle(nil, for: .normal)
+        backgroundColor = .clear
+        setImage(type.icon, for: .normal)
+        tintColor = Constants.tintColor
         blur.isUserInteractionEnabled = false
         blur.layer.masksToBounds = true
         self.insertSubview(blur, at: 0)
-        if let imageView = self.imageView {
-            self.bringSubviewToFront(imageView)
+        if let imageView = imageView {
+            bringSubviewToFront(imageView)
         }
     }
 
@@ -45,7 +45,7 @@ final class RoundButtonWithBlur: UIButton {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        blur.frame = self.bounds
+        blur.frame = bounds
         blur.layer.cornerRadius = blur.frame.width / 2
     }
 }

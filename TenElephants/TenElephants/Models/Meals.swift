@@ -49,24 +49,21 @@ extension Meal: Decodable {
         let commonContainer = try decoder.container(keyedBy: RequiredCodingKeys.self)
 
         // this value should always be present:
-        self.id = try commonContainer.decode(String.self, forKey: .idMeal)
+        id = try commonContainer.decode(String.self, forKey: .idMeal)
 
         // try to get these values, they can be used for preview
-        self.name = try commonContainer.decodeIfPresent(String.self, forKey: .strMeal)
-        self.thumbnailLink = try commonContainer.decodeIfPresent(String.self, forKey: .strMealThumb)
+        name = try commonContainer.decodeIfPresent(String.self, forKey: .strMeal)
+        thumbnailLink = try commonContainer.decodeIfPresent(String.self, forKey: .strMealThumb)
 
         let customContainer = try decoder.container(keyedBy: OptionalCodingKeys.self)
 
         // these values can be missing in preview model
-        self.category = try customContainer.decodeIfPresent(String.self, forKey: .strCategory)
-        self.area = try customContainer.decodeIfPresent(String.self, forKey: .strArea)
-        self.instructions = try customContainer.decodeIfPresent(
-            String.self,
-            forKey: .strInstructions
-        )
-        self.youTubeLink = try customContainer.decodeIfPresent(String.self, forKey: .strYoutube)
+        category = try customContainer.decodeIfPresent(String.self, forKey: .strCategory)
+        area = try customContainer.decodeIfPresent(String.self, forKey: .strArea)
+        instructions = try customContainer.decodeIfPresent(String.self, forKey: .strInstructions)
+        youTubeLink = try customContainer.decodeIfPresent(String.self, forKey: .strYoutube)
 
-        self.tags = try customContainer.decodeIfPresent(String.self, forKey: .strTags).flatMap {
+        tags = try customContainer.decodeIfPresent(String.self, forKey: .strTags).flatMap {
             $0.components(separatedBy: ",")
         }
 
@@ -83,7 +80,7 @@ extension Meal: Decodable {
 
         // assuming return when having only RequiredCodingKeys
         guard !filteredKeys.isEmpty else {
-            self.ingredients = nil
+            ingredients = nil
             return
         }
 
@@ -94,13 +91,13 @@ extension Meal: Decodable {
             let measureKeyName = "strMeasure\(num)"
             guard filteredKeysNames.contains(ingredientKeyName),
                   filteredKeysNames.contains(measureKeyName) else {
-                self.ingredients = nil
+                ingredients = nil
                 assertionFailure("Unexpected data format")
                 return
             }
             if let ingredientKey = GenericCodingKeys(stringValue: ingredientKeyName),
                let measureKey = GenericCodingKeys(stringValue: measureKeyName) {
-                guard let ingrName = try? otherContainer.decode(
+                guard let ingredientName = try? otherContainer.decode(
                     String.self, forKey: ingredientKey
                 ).trimmingCharacters(in: .whitespaces) else {
                     break // found end of ingredient list
@@ -113,22 +110,22 @@ extension Meal: Decodable {
                 }
 
                 // Measure able to be empty (or whitespace) while corresponding ingredient not. id for testing: 53000
-                if ingrName.isEmpty,
+                if ingredientName.isEmpty,
                    measure.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                     break // found end of ingredient list
                 }
 
                 assert(
-                    !ingrName.isEmpty,
+                    !ingredientName.isEmpty,
                     "Inconsistency in data: \(ingredientKeyName) and \(measureKeyName)"
                 )
                 let ingredient = Ingredient(
-                    name: ingrName,
+                    name: ingredientName,
                     measure: measure.isEmpty ? nil : measure
                 )
                 localIngredients.append(ingredient)
             }
         }
-        self.ingredients = localIngredients.isEmpty ? nil : localIngredients
+        ingredients = localIngredients.isEmpty ? nil : localIngredients
     }
 }

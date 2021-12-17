@@ -25,7 +25,7 @@ protocol MealsDataProvider {
         completionHandler: @escaping MealsFetchCompletion
     )
     func fetchMealListFiltered(
-        by ingridients: [String],
+        by ingredients: [String],
         completionHandler: @escaping MealsFetchCompletion
     )
     func fetchLatestMeals(completionHandler: @escaping MealsFetchCompletion)

@@ -17,7 +17,7 @@ final class MealSuggestionDataSource: NSObject, UICollectionViewDataSource {
     private let cellID: String
     private let imageLoader: ImageLoader
 
-    let openMealPageController: (Meal) -> Void
+    private let openMealPageController: (Meal) -> Void
 
     var meals = [Meal]()
 
