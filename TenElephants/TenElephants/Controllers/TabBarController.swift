@@ -100,22 +100,27 @@ final class TabBarController: UITabBarController {
         randomItem.image = UIImage(systemName: "dice")
         randomC.tabBarItem = randomItem
 
+        let personNavC = UINavigationController()
+
         let likeC = LikePageController(
             dataProvider: likeProvider,
             imageLoader: imageLoader,
             networkDataProvider: networkDataProvider
         )
         let likeItem = UITabBarItem()
-        likeItem.title = "Like"
         likeItem.image = UIImage(systemName: "heart")
         likeC.tabBarItem = likeItem
+        likeC.title = "Favourites"
+
+        personNavC.viewControllers = [likeC]
+        personNavC.navigationBar.prefersLargeTitles = true
 
         self.viewControllers = [
             trendC,
             searchC,
             randomC,
             ingredientsC,
-            likeC,
+            personNavC
         ]
     }
 }
