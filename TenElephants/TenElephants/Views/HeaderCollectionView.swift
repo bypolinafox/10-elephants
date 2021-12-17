@@ -9,11 +9,15 @@ import Foundation
 import UIKit
 
 final class HeaderCollectionView: UICollectionReusableView {
+    enum TitleFontStyle {
+        case big
+        case medium
+    }
+
     lazy var label: UILabel = makeTitleLabel()
 
     private enum Constants {
-        static let fontSize: CGFloat = 20
-        static let labelGap: CGFloat = 10
+        static let labelGap: CGFloat = 0
     }
 
     override init(frame: CGRect) {
@@ -43,11 +47,20 @@ extension HeaderCollectionView {
         )
         label.numberOfLines = 0
         label.lineBreakMode = .byWordWrapping
-        label.font = UIFont.systemFont(ofSize: Constants.fontSize, weight: .bold)
         return label
     }
 
-    func setText(_ text: String) {
+    func setTitle(_ text: String, style: TitleFontStyle) {
         label.text = text
+        label.font = style.font
+    }
+}
+
+extension HeaderCollectionView.TitleFontStyle {
+    var font: UIFont {
+        switch self {
+        case .big: return UIFont.systemFont(ofSize: 30, weight: .bold)
+        case .medium: return UIFont.systemFont(ofSize: 20, weight: .bold)
+        }
     }
 }

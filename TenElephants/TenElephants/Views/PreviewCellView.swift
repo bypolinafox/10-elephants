@@ -33,7 +33,7 @@ final class PreviewCellView: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        contentView.backgroundColor = .systemBackground
+        contentView.backgroundColor = .cellBackgroundColor
         contentView.layer.cornerRadius = Constants.cornerRadius
         containerView.addSubview(titleLabel)
         containerView.addSubview(imageView)

@@ -30,8 +30,8 @@ final class TrendPageController: UIViewController {
     }
 
     private enum Constants {
-        static let headerV: String = "This may be interesting for you..."
-        static let headerH: String = "Trending now"
+        static let headerV: String = "Hot recipes"
+        static let headerH: String = "Trends"
         static let reuseIdH: String = "hCell"
         static let reuseIdV: String = "vCell"
         static let reuseHead: String = "headerView"
@@ -44,11 +44,12 @@ final class TrendPageController: UIViewController {
 
         static let interGroupSpacing: CGFloat = 20
         static let itemContentInsets = NSDirectionalEdgeInsets(
-            top: 0.0, leading: 8.0, bottom: 0.0, trailing: 8.0
+            top: 0.0, leading: 0.0, bottom: 0.0, trailing: 16.0
         )
         static let sectionContentInsets = NSDirectionalEdgeInsets(
-            top: 16.0, leading: 0.0, bottom: 16.0, trailing: 0.0
+            top: 1.0, leading: 16.0, bottom: 16.0, trailing: 16.0
         )
+        static let collectionViewTopInset: CGFloat = 30
     }
 
     init(
@@ -87,6 +88,7 @@ final class TrendPageController: UIViewController {
 
     private lazy var collectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: compositionalLayout)
+        view.contentInset.top = Constants.collectionViewTopInset
         return view
     }()
 
@@ -135,7 +137,6 @@ final class TrendPageController: UIViewController {
             heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = Constants.itemContentInsets
 
         // group properties
         let groupSize = NSCollectionLayoutSize(
@@ -312,9 +313,9 @@ extension TrendPageController: UICollectionViewDataSource {
             else { fatalError("No section provided") }
             switch section {
             case .vertical:
-                headerView.setText(Constants.headerV)
+                headerView.setTitle(Constants.headerV, style: .medium)
             case .horizontal:
-                headerView.setText(Constants.headerH)
+                headerView.setTitle(Constants.headerH, style: .big)
             }
             return headerView
         } else {
