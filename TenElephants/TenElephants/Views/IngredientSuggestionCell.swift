@@ -1,5 +1,5 @@
 //
-//  IngridientSuggestionCell.swift
+//  IngredientSuggestionCell.swift
 //  Ten Elephants
 //
 //  Created by Алексей Шерстнёв on 13.12.2021.

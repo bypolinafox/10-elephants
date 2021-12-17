@@ -76,7 +76,7 @@ final class SearchPageController: UIViewController {
         imageFetcher: imageFetcher,
         openSingleMeal: openSingleMeal
     )
-    private lazy var ingridientDataSource = IngredientDataSource(
+    private lazy var ingredientDataSource = IngredientDataSource(
         cellID: Constants.ingredientCellID,
         updateParentFilters: { [weak self] newFilters in
             // we pass it to dataSource so we can respond to touches in CollectionView
@@ -296,8 +296,8 @@ extension SearchPageController {
             forCellWithReuseIdentifier: Constants.mealCellID
         )
 
-        ingregientCollectionView.dataSource = ingridientDataSource
-        ingregientCollectionView.delegate = ingridientDataSource
+        ingregientCollectionView.dataSource = ingredientDataSource
+        ingregientCollectionView.delegate = ingredientDataSource
         ingregientCollectionView.register(
             Constants.ingredientCellType,
             forCellWithReuseIdentifier: Constants.ingredientCellID

@@ -22,6 +22,7 @@ final class TrendPageController: UIViewController {
 
     let provider: MealsDataProviderNetwork
     let imageFetcher: CachedImageFetcher
+    private let openSingleMeal: (Meal) -> Void
 
     enum Section: Int {
         case horizontal
@@ -52,10 +53,12 @@ final class TrendPageController: UIViewController {
 
     init(
         networkDataProvider: MealsDataProviderNetwork,
-        imageFetcher: CachedImageFetcher
+        imageFetcher: CachedImageFetcher,
+        openSingleMeal: @escaping (Meal) -> Void
     ) {
         self.provider = networkDataProvider
         self.imageFetcher = imageFetcher
+        self.openSingleMeal = openSingleMeal
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -177,6 +180,7 @@ final class TrendPageController: UIViewController {
             withReuseIdentifier: Constants.reuseHead
         )
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.contentInsetAdjustmentBehavior = .scrollableAxes
         collectionView.reloadData()
     }
@@ -315,6 +319,27 @@ extension TrendPageController: UICollectionViewDataSource {
             return headerView
         } else {
             return UICollectionReusableView()
+        }
+    }
+}
+
+// MARK: - UICollectionViewDelegate
+
+extension TrendPageController: UICollectionViewDelegate {
+    func collectionView(_: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let section = Section(rawValue: indexPath.section) else {
+            assertionFailure("No section provided")
+            return
+        }
+        switch section {
+        case .horizontal:
+            guard !viewModelH.meals.isEmpty else { return }
+            let item = viewModelH.meals[indexPath.row]
+            openSingleMeal(item)
+        case .vertical:
+            guard !viewModelV.meals.isEmpty else { return }
+            let item = viewModelV.meals[indexPath.row]
+            openSingleMeal(item)
         }
     }
 }
