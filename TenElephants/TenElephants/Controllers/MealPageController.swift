@@ -132,6 +132,7 @@ final class MealPageController: UIViewController {
     }
 
     @objc private func reload() {
+        self.mealImageView.image = nil
         loadMealData()
     }
 
