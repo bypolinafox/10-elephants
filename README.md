@@ -13,7 +13,8 @@
 
 [![build-status](https://github.com/bypolinafox/10-elephants/workflows/Build/badge.svg?branch=main)](https://github.com/bypolinafox/10-elephants/actions)
 [![lint-status](https://github.com/bypolinafox/10-elephants/workflows/SwiftLint/badge.svg?branch=main)](https://github.com/bypolinafox/10-elephants/actions)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4.svg)](CODE_OF_CONDUCT.md)
+[![License: MIT](https://img.shields.io/github/license/bypolinafox/10-elephants)](LICENSE)
 ---
 
 - Поиск по названию/ингредиентам
