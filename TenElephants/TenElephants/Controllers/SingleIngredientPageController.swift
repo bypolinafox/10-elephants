@@ -208,7 +208,8 @@ final class SingleIngredientPageController: UIViewController {
         ingredientImageView.contentMode = .scaleAspectFill
         ingredientImageView.clipsToBounds = true
 
-        let mealImageTopConstraint = ingredientImageView.topAnchor.constraint(equalTo: view.topAnchor)
+        let mealImageTopConstraint = ingredientImageView.topAnchor
+            .constraint(equalTo: view.topAnchor)
         mealImageTopConstraint.priority = .defaultHigh
 
         let mealImageHeightConstraint = ingredientImageView.heightAnchor
@@ -217,7 +218,8 @@ final class SingleIngredientPageController: UIViewController {
 
         NSLayoutConstraint.activate([
             ingredientImageView.leadingAnchor.constraint(equalTo: imageContainerView.leadingAnchor),
-            ingredientImageView.trailingAnchor.constraint(equalTo: imageContainerView.trailingAnchor),
+            ingredientImageView.trailingAnchor
+                .constraint(equalTo: imageContainerView.trailingAnchor),
             ingredientImageView.bottomAnchor.constraint(equalTo: imageContainerView.bottomAnchor),
             mealImageTopConstraint, mealImageHeightConstraint,
         ])

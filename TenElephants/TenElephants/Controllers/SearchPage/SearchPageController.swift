@@ -149,6 +149,13 @@ final class SearchPageController: UIViewController {
         blurView.frame = view.frame
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if !suggestionScrollView.isHidden {
+            searchBar.becomeFirstResponder()
+        }
+    }
+
     // MARK: - responding to data changes
 
     private func reloadCollectionViewsData() {
@@ -345,18 +352,13 @@ extension SearchPageController {
 
     private func configureSearchBar() {
         searchBar.delegate = self
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-        ])
+        navigationItem.titleView = searchBar
     }
 
     private func configureResultCollectionView() {
         resultCollectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            resultCollectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            resultCollectionView.topAnchor.constraint(equalTo: view.topAnchor),
             resultCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             resultCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             resultCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -366,7 +368,7 @@ extension SearchPageController {
     private func configureScrollView() {
         suggestionScrollView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            suggestionScrollView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            suggestionScrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             suggestionScrollView.leftAnchor.constraint(equalTo: view.leftAnchor),
             suggestionScrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
             suggestionScrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),

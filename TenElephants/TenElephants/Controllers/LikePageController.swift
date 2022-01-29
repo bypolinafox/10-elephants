@@ -31,7 +31,12 @@ final class LikePageController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.contentInset = UIEdgeInsets(top: 0, left: Constants.sideInset, bottom: Constants.bottomInset, right: Constants.sideInset)
+        view.contentInset = UIEdgeInsets(
+            top: 0,
+            left: Constants.sideInset,
+            bottom: Constants.bottomInset,
+            right: Constants.sideInset
+        )
         return view
     }()
 
@@ -203,6 +208,9 @@ extension LikePageController: UICollectionViewDelegateFlowLayout {
         layout _: UICollectionViewLayout,
         sizeForItemAt _: IndexPath
     ) -> CGSize {
-        .init(width: self.collectionView.bounds.width - Constants.sideInset * 2, height: Constants.cellHeight)
+        .init(
+            width: self.collectionView.bounds.width - Constants.sideInset * 2,
+            height: Constants.cellHeight
+        )
     }
 }

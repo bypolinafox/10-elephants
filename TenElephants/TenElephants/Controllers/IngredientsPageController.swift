@@ -9,19 +9,11 @@ import Foundation
 import UIKit
 
 final class IngredientsPageController: UIViewController {
-    private enum IngredientsSection: Int {
-        case header = 0
-        case elements = 1
-    }
-
     private enum Constants {
         static let cellId = "IngredientTableCell"
-        static let ingredientsHeaderCellId = "IngredientsHeaderTableCell"
-        static let ingredientCellHeight = 60.0
-        static let headerCellHeight = 70.0
     }
 
-    private lazy var tableView = UITableView(frame: .zero)
+    private lazy var tableView = UITableView(frame: .zero, style: .insetGrouped)
 
     private let dataProvider: IngredientsDataProvider
     private var ingredientsData: IngredientsUIData?
@@ -68,90 +60,37 @@ final class IngredientsPageController: UIViewController {
 }
 
 extension IngredientsPageController: UITableViewDelegate {
-    func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let section = IngredientsSection(rawValue: section) else {
-            assertionFailure("No section provided")
-            return 0
-        }
-
-        switch section {
-        case .header:
-            return 1
-        case .elements:
-            return ingredientsData?.ingredients.count ?? 0
-        }
+    func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+        ingredientsData?.ingredients.count ?? 0
     }
 
     func numberOfSections(in _: UITableView) -> Int {
-        2
-    }
-
-    func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard let section = IngredientsSection(rawValue: indexPath.section) else {
-            assertionFailure("No section provided")
-            return 0.0
-        }
-
-        switch section {
-        case .header:
-            return Constants.headerCellHeight
-        case .elements:
-            return Constants.ingredientCellHeight
-        }
+        1
     }
 }
 
 extension IngredientsPageController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let section = IngredientsSection(rawValue: indexPath.section) else {
-            assertionFailure("No section provided")
-            return UITableViewCell()
+        let reusableCell = tableView.dequeueReusableCell(
+            withIdentifier: Constants.cellId,
+            for: indexPath
+        )
+
+        guard let cell = reusableCell as? IngredientTableCell else {
+            return reusableCell
         }
 
-        switch section {
-        case .header:
-            let reusableCell = tableView.dequeueReusableCell(
-                withIdentifier: Constants.ingredientsHeaderCellId,
-                for: indexPath
+        cell
+            .configure(
+                ingredientData: ingredientsData?
+                    .ingredients[indexPath.row] ??
+                    IngredientUIData(title: nil, type: nil, description: nil)
             )
-
-            guard let cell = reusableCell as? IngredientsHeaderTableCell else {
-                return reusableCell
-            }
-
-            cell.configure()
-            cell.selectionStyle = .none
-
-            return cell
-
-        case .elements:
-            let reusableCell = tableView.dequeueReusableCell(
-                withIdentifier: Constants.cellId,
-                for: indexPath
-            )
-
-            guard let cell = reusableCell as? IngredientTableCell else {
-                return reusableCell
-            }
-
-            cell
-                .configure(
-                    ingredientData: ingredientsData?
-                        .ingredients[indexPath.row] ??
-                        IngredientUIData(title: nil, type: nil, description: nil)
-                )
-            cell.selectionStyle = .none
-
-            return cell
-        }
+        return cell
     }
 
     private func configTableView() {
         tableView.register(IngredientTableCell.self, forCellReuseIdentifier: Constants.cellId)
-        tableView.register(
-            IngredientsHeaderTableCell.self,
-            forCellReuseIdentifier: Constants.ingredientsHeaderCellId
-        )
 
         view.addSubview(tableView)
 
@@ -165,7 +104,6 @@ extension IngredientsPageController: UITableViewDataSource {
         tableView.backgroundColor = .systemBackground
 
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.separatorStyle = .none
 
         tableView.delegate = self
         tableView.dataSource = self
@@ -174,10 +112,7 @@ extension IngredientsPageController: UITableViewDataSource {
     }
 
     func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let section = IngredientsSection(rawValue: indexPath.section),
-              section == .elements else {
-            return
-        }
+        tableView.deselectRow(at: indexPath, animated: true)
         if let ingredient = ingredientsData?.ingredients[indexPath.row] {
             openSingleIngredient(ingredient)
         }

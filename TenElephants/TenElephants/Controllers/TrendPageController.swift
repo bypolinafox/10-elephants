@@ -49,7 +49,7 @@ final class TrendPageController: UIViewController {
         static let sectionContentInsets = NSDirectionalEdgeInsets(
             top: 1.0, leading: 16.0, bottom: 16.0, trailing: 16.0
         )
-        static let collectionViewTopInset: CGFloat = 30
+        static let collectionViewTopInset: CGFloat = 5
     }
 
     init(
@@ -74,14 +74,14 @@ final class TrendPageController: UIViewController {
                 sectionIndex: Int,
                 _: NSCollectionLayoutEnvironment
             ) -> NSCollectionLayoutSection? in
-            guard let section = Section(rawValue: sectionIndex)
-            else { fatalError("No section provided") }
-            switch section {
-            case .horizontal:
-                return self?.setupHorizontalSection()
-            case .vertical:
-                return self?.setupVerticalSection()
-            }
+                guard let section = Section(rawValue: sectionIndex)
+                else { fatalError("No section provided") }
+                switch section {
+                case .horizontal:
+                    return self?.setupHorizontalSection()
+                case .vertical:
+                    return self?.setupVerticalSection()
+                }
         }
         return layout
     }()
@@ -114,15 +114,6 @@ final class TrendPageController: UIViewController {
 
         // section properties
         let section = NSCollectionLayoutSection(group: group)
-        let headerView = NSCollectionLayoutBoundarySupplementaryItem(
-            layoutSize: NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .absolute(44)
-            ),
-            elementKind: UICollectionView.elementKindSectionHeader,
-            alignment: .top
-        )
-        section.boundarySupplementaryItems = [headerView]
 
         section.contentInsets = Constants.sectionContentInsets
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
